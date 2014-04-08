@@ -1,0 +1,47 @@
+﻿@model Node.Cs.Admin.Models.PerfMonItem
+<!DOCTYPE html>
+@helper WriteBlock(Node.Cs.Admin.Models.PerfMonItem item)
+{
+	<li>
+		@item.Name @if (!string.IsNullOrWhiteSpace(item.ShortData))
+						 {
+			@item.ShortData
+						 }
+		@if (item.ChildItems.Count > 0 || item.Data != null)
+	{
+			<ul>
+				@if (item.Data != null)
+		{
+					<li>@item.Data</li>
+		}
+				@foreach (var subitem in item.ChildItems)
+		{
+					@WriteBlock(subitem.Value)
+		}
+			</ul>
+	}
+	</li>
+}
+<html>
+<head>
+	<title>@ViewBag.Title</title>
+	<link href="@Url.Content("~/Content/NodeCsAdmin/tree.css")" rel="stylesheet" type="text/css" />
+	<script src="@Url.Content("~/Scripts/NodeCsAdmin/tree.js")" type="text/javascript"></script>
+</head>
+<body>
+	<a href="javascript:ddtreemenu.flatten('perftree', 'expand')">Expand All</a>
+	<a href="javascript:ddtreemenu.flatten('perftree', 'collapse')">Collapse All</a>
+	<div class="page">
+		<ul id="perftree" class="treeview">
+			@foreach (var item in Model.ChildItems)
+	 {
+				@WriteBlock(item.Value);
+	 }
+		</ul>
+	</div>
+	<script type="text/javascript">
+		//ddtreemenu.createTree(treeid, enablepersist, opt_persist_in_days (default is 1))
+		ddtreemenu.createTree("perftree", true);
+	</script>
+</body>
+</html>

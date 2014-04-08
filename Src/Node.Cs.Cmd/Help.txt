@@ -1,0 +1,16 @@
+﻿-h prints help
+-help prints help
+
+OR
+
+-config "path to nodecs config"
+
+OR
+
+-webpath "path of the web data"
+-binpath "path of the dlls"
+-datadir "App_Data directory"
+
+-threads NumberOfReceivingThreads
+
+-port ListenerPort (valid tcp port)

@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6D916BE6-984A-4C38-A91E-224E1F896E9F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Node.Cs.Lib</RootNamespace>
+    <AssemblyName>Node.Cs.Lib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClassWrapper, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ClassWrapper.1.0.8-beta\lib\net45\ClassWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="ConcurrencyHelpers, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ConcurrencyHelpers.3.2.2\lib\net45\ConcurrencyHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="CoroutineCache, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\CoroutineCache.3.2.2\lib\net45\CoroutineCache.dll</HintPath>
+    </Reference>
+    <Reference Include="ExpressionBuilder, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ExpressionBuilder.2.0.7-beta\lib\net45\ExpressionBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="GenericHelpers, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\GenericHelpers.1.0.3\lib\net45\GenericHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="NetworkHelpers, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NetworkHelpers.3.2.0\lib\net45\NetworkHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UniversalTypeConverter">
+      <HintPath>..\..\packages\UniversalTypeConverter.1.0.2\lib\net40\UniversalTypeConverter.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Contexts\NodeCsHttpSession.cs" />
+    <Compile Include="Contexts\NodeCsStream.cs" />
+    <Compile Include="Conversions\FormSerializer.cs" />
+    <Compile Include="Exceptions\DefaultExceptionManager.cs" />
+    <Compile Include="Loaders\PluginsLoader.cs" />
+    <Compile Include="PathProviders\ResourcePathProvider.cs" />
+    <Compile Include="Utils\CleanUpOnMaxMemoryReached.cs" />
+    <Compile Include="Contexts\ContentUtils\BaseKeyValueStreamConverter.cs" />
+    <Compile Include="Contexts\ContentUtils\BasicStreamConverter.cs" />
+    <Compile Include="Contexts\ContentUtils\IRequestStreamConverter.cs" />
+    <Compile Include="Contexts\ContentUtils\MultipartFormStreamConverter.cs" />
+    <Compile Include="Contexts\ContentUtils\UrlEncodedStreamConverter.cs" />
+    <Compile Include="Contexts\NodeCsContext.cs" />
+    <Compile Include="Contexts\NodeCsHttpFileCollection.cs" />
+    <Compile Include="Contexts\NodeCsRequest.cs" />
+    <Compile Include="Contexts\NodeCsResponse.cs" />
+    <Compile Include="Controllers\BasicControllersFactory.cs" />
+    <Compile Include="Controllers\ControllersFactoryHandler.cs" />
+    <Compile Include="Controllers\ControllerWrapperDescriptor.cs" />
+    <Compile Include="Controllers\ControllerWrapperInstance.cs" />
+    <Compile Include="Conversions\JsonSerializer.cs" />
+    <Compile Include="Conversions\XmlSerializer.cs" />
+    <Compile Include="ExtensionHandler.cs" />
+    <Compile Include="FakeInitializer.cs" />
+    <Compile Include="Loaders\HandlersLoaders.cs" />
+    <Compile Include="NodeCsFile.cs" />
+    <Compile Include="NodeCsRunner.cs" />
+    <Compile Include="NodeCsServer.Controllers.cs" />
+    <Compile Include="NodeCsServer.cs" />
+    <Compile Include="NodeCsServer.Handlers.cs" />
+    <Compile Include="PathProviders\FileSystemPathProvider.cs" />
+    <Compile Include="PathProviders\GlobalPathProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Static\StaticHandler.cs" />
+    <Compile Include="Utils\ByteMatch.cs" />
+    <Compile Include="Utils\InMemorySessionStorage.cs" />
+    <Compile Include="Utils\OnHttpListenerReceivedCoroutine.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Node.Cs.Authorization\Node.Cs.Authorization.csproj">
+      <Project>{3b3846ac-c89f-4245-817a-4672c279210c}</Project>
+      <Name>Node.Cs.Authorization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Node.Cs.Commons\Node.Cs.Commons.csproj">
+      <Project>{f568cfc1-c20e-4b38-a587-2bf5d2cc07d8}</Project>
+      <Name>Node.Cs.Commons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Node.Cs.Routing\Node.Cs.Routing.csproj">
+      <Project>{71e96713-d20a-4ccc-82a5-856cbfa885cf}</Project>
+      <Name>Node.Cs.Routing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Node.Cs.Lib.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <Compile Include="NodeCsServer.RequestHandler.cs" />
+    <Compile Include="NodeCsServer.Assemblies.cs" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Contexts\Mocks\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

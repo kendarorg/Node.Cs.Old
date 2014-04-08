@@ -1,0 +1,175 @@
+﻿Notes:
+http://technet.microsoft.com/en-us/library/dd349797.aspx TCP Optimization
+
+/// * Remove static methods loading from the ClassWrapper
+/// * Add the timeout for security cookies inside the node.config
+/// * Simplify the configuration (Something similar...or directly the App.Config)
+/// * Kill startNode.bat
+/// * Added debug flag
+/// * Passing and recognizing post/put data
+/// * Specify the verbs through attributes on controllers
+/// * Select the action based on method name OR action specified on the attribute
+/// * Parsing POST/PUT data
+/// * Filters through attributes
+/// * Basic Authentication support
+/// * Custom authentication provider
+/// * Automatic Server Recycle
+/// * OnHttpListenerReceived moved totally on a coroutine
+/// * Cookies management
+/// * Sessions management
+/// * Verify the FileSystemPathProvider file refreshing
+/// * Handle exception inside handlers
+/// * Filters through global configuration
+/// * Partial, urls and actionHelper configured! Layouts working 
+/// * Standard Helpers classes (UrlHelper etc.) for the Razor plugin
+/// * Handle HttpCodeResponses
+/// * Passing JSON data and XML Data (remember the IConversionService) (and update controllers.md)
+/// * Prepare a basic authentication source (through a simple database server...or file system)
+/// * var dirName = HttpContext.Current.Server.MapPath("~/App_Data/" + dataName);
+/// * Minimal data types validations for models...with the ModelState is Valid
+/// * ValidationSummary and ValidationMessage inside HtmlHelper
+/// * Form authentication
+/// * Added some basic logging
+/// * Passing the ViewBag from controller to the view!!!
+/// * Add ViewStart search for chstml
+/// * Base classes for IController and IApiController (to manage api calls)
+/// * Add App_start
+
+MvcMusicStore Needed
+-----------------------------------
+/// * ActionName to implement
+/// * DisplayNameAttribute
+/// * NodeCsPrincipal add IsInRole
+/// * ScaffoldColumnAttribute
+/// * EditorForModel
+/// * StoreController::PartialView
+/// * UrlHelper.Action(string action, string controller,dynamic data =null) with REAL dynamic using routes
+/// * HtmlHelper.RenderAction with REAL dynamic using routes
+/// * HtmlHelper.ActionLink(string title, string action, string controller, dynamic routeValues) with REAL dynamic using routes
+/// * RouteService.ResolveFromParams not working in action links!!
+/// * RenderAction, problem finding the right output stream to write on
+/// * Entity Framework integration
+/// * IEnumerable inside the model
+/// * DropDownFor
+/// * Two Params LabelFor
+/// * FormAction without params preserving address
+/// * LabelFor...with IEnumerable
+/// * Missing redirect after added an item to cart
+/// * Redirect -before- controller action on authenticate.
+/// * ChildActionOnly
+/// * Store Edit with only one title
+/// * Working Checkout
+/// * Copy style from original musicstore
+/// * Max length in strings 
+/// * Remove Order Details
+/// * ?jquery.validate.unobtrusive included 
+/// * ?jquery.validate.unobtrusive.min included 
+/// * Verify the first storage of the cookie when just logged in with something into the cart
+/// * Verify the first storage of the cookie when just logged in with empty cart
+/// * Culture (for coonversion)
+/// * Clean cache through command line
+/// * Colors in logger
+/// * MvcMusicStore
+/// * Add redirect managment inside the actionfilters
+/// * Verify the redirect behaviour inside the authorization filters
+/// * DynamicProxy and defining the models...
+
+Public relationships
+-----------------------------------
+http://blogs.lessthandot.com/index.php/webdev/serverprogramming/aspnet/upgrading-from-mvc3-to-mvc4/
+
+Regressions
+-----------------------------------
+
+For first release
+-----------------------------------
+* Documentation
+* Logging level from configuration
+
+Must be ASAP
+-----------------------------------
+* Simple Deployment script
+* 0 Downtime Recycle/restart
+* Dll loading optimized...
+
+Weirdness
+-----------------------------------
+* IResponse PartialView(string action, object model) RESOLVE THE VIEW!!!
+* Remove the NetworkHelpers package
+* Define the model inside the CSHTML
+* Working return URL
+* BindAttribute to implement
+
+Would be nice
+----------------------------------
+* Disconnect all through command line
+* WindowService
+* TEmporary bin cache with AddDllDir
+* Handle dot and square brackets in forms declartions for form urlencoded queries etc
+* HandleError with Error.cshtml...
+* Add  App_end, Session_start, Session_End, Request_Start, Request_end
+* Integration with Castle Windsor
+* WebSocket implementation
+* Routing specified directly through controller attributes
+* NTLM and Digest authentication
+* Verify the FileSystemPathProvider file refreshing ONLY ONCE??? :O
+* Add Layout search for cshtml
+* Add view folder setting for razor module
+
+
+
+amespace System.Web.Mvc {
+    using System;
+    using System.Web.Mvc.Resources;
+
+    public class HandleErrorInfo {
+
+        public HandleErrorInfo(Exception exception, string controllerName, string actionName) {
+            if (exception == null) {
+                throw new ArgumentNullException("exception");
+            }
+            if (String.IsNullOrEmpty(controllerName)) {
+                throw new ArgumentException(MvcResources.Common_NullOrEmpty, "controllerName");
+            }
+            if (string.IsNullOrEmpty(actionName)) {
+                throw new ArgumentException(MvcResources.Common_NullOrEmpty, "actionName");
+            }
+
+            Exception = exception;
+            ControllerName = controllerName;
+            ActionName = actionName;
+        }
+
+        public string ActionName {
+            get;
+            private set;
+        }
+
+        public string ControllerName {
+            get;
+            private set;
+        }
+
+        public Exception Exception {
+            get;
+            private set;
+        }
+
+    }
+}
+
+
+
+Starting
+2014-03-19T21:10:12 ERROR Exception during request to: http://localhost:8080/
+
+System.Net.HttpListenerException (0x80004005): È stata tentata un'operazione su una connessione di rete inesistente
+   in System.Net.HttpResponseStream.Dispose(Boolean disposing)
+   in System.IO.Stream.Close()
+   in System.Net.HttpListenerResponse.Dispose(Boolean disposing)
+   in System.Net.HttpListenerResponse.System.IDisposable.Dispose()
+   in System.Net.HttpListenerResponse.Close()
+   in Node.Cs.Lib.Contexts.NodeCsResponse.Close()
+   in Node.Cs.Razor.RazorHandler.<Run>d__a.MoveNext()
+   in ConcurrencyHelpers.Coroutines.CoroutineStack.CalculateMoveNext()
+   in ConcurrencyHelpers.Coroutines.CoroutineThread.StartThread()

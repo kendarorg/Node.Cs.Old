@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+	<TemplateData>
+		<Name>Node.Cs.Project.Template</Name>
+		<Description>Node.Cs.Project.Template</Description>
+		<Icon>Node.Cs.Project.Template.ico</Icon>
+		<ProjectType>CSharp</ProjectType>
+		<RequiredFrameworkVersion>4.5</RequiredFrameworkVersion>
+		<SortOrder>1000</SortOrder>
+		<TemplateID>c0c18132-4e16-460e-a674-d69c2daa8cde</TemplateID>
+		<CreateNewFolder>true</CreateNewFolder>
+		<DefaultName>Node.Cs.Project.Template</DefaultName>
+		<ProvideDefaultName>true</ProvideDefaultName>
+	</TemplateData>
+	<TemplateContent>
+		<Project File="ProjectTemplate.csproj" ReplaceParameters="true">
+			<Folder Name="Template\App_Bin" TargetFolderName="App_Bin">
+				<ProjectItem TargetFileName="Empty.txt">Empty.txt</ProjectItem>
+			</Folder>
+			<Folder Name="Template\App_Data" TargetFolderName="App_Data">
+				<ProjectItem TargetFileName="Empty.txt">Empty.txt</ProjectItem>
+			</Folder>
+
+			<Folder Name="Template\Views" TargetFolderName="Views">
+				<Folder Name="Home" TargetFolderName="Home">
+					<ProjectItem TargetFileName="index.cshtml">index.cshtml</ProjectItem>
+					<ProjectItem TargetFileName="about.cshtml">about.cshtml</ProjectItem>
+				</Folder>
+
+				<Folder Name="Shared" TargetFolderName="Shared">
+					<ProjectItem TargetFileName="_Layout.cshtml">_Layout.cshtml</ProjectItem>
+					<ProjectItem TargetFileName="_LogOnPartial.cshtml">_LogOnPartial.cshtml</ProjectItem>
+					<ProjectItem ReplaceParameters="true" TargetFileName="Error.cshtml">Error.cshtml</ProjectItem>
+				</Folder>
+
+
+				<Folder Name="Account" TargetFolderName="Account">
+					<ProjectItem ReplaceParameters="true" TargetFileName="Register.cshtml">Register.cshtml</ProjectItem>
+					<ProjectItem ReplaceParameters="true" TargetFileName="LogOn.cshtml">LogOn.cshtml</ProjectItem>
+					<ProjectItem TargetFileName="ChangePasswordSuccess.cshtml">ChangePasswordSuccess.cshtml</ProjectItem>
+					<ProjectItem ReplaceParameters="true" TargetFileName="ChangePassword.cshtml">ChangePassword.cshtml</ProjectItem>
+				</Folder>
+
+				<ProjectItem TargetFileName="_ViewStart.cshtml">_ViewStart.cshtml</ProjectItem>
+			</Folder>
+
+			<Folder Name="Template\Scripts" TargetFolderName="Scripts">
+				<ProjectItem TargetFileName="jquery.validate.unobtrusive.js">jquery.validate.unobtrusive.js</ProjectItem>
+				<ProjectItem TargetFileName="jquery.validate.unobtrusive.min.js">jquery.validate.unobtrusive.min.js</ProjectItem>
+			</Folder>
+
+
+			<Folder Name="Template\Content" TargetFolderName="Content">
+				<ProjectItem TargetFileName="site.css">site.css</ProjectItem>
+			</Folder>
+
+
+			<Folder Name="Template\Controllers" TargetFolderName="Controllers">
+				<ProjectItem ReplaceParameters="true" TargetFileName="HomeController.cs">HomeController.cs</ProjectItem>
+				<ProjectItem ReplaceParameters="true" TargetFileName="AccountController.cs">AccountController.cs</ProjectItem>
+			</Folder>
+			<Folder Name="Template\Models" TargetFolderName="Models">
+				<ProjectItem ReplaceParameters="true" TargetFileName="AccountDbContext.cs">AccountDbContext.cs</ProjectItem>
+				<ProjectItem ReplaceParameters="true" TargetFileName="AccountModels.cs">AccountModels.cs</ProjectItem>
+			</Folder>
+			<Folder Name="Template\Properties" TargetFolderName="Properties">
+				<ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+			</Folder>
+
+			<ProjectItem ReplaceParameters="true" TargetFileName="GlobalNodeCs.cs" OpenInEditor="true">GlobalNodeCs.cs</ProjectItem>
+
+			<ProjectItem ReplaceParameters="true" TargetFileName="node.config">node.config</ProjectItem>
+			<ProjectItem TargetFileName="packages.config">packages.config</ProjectItem>
+
+			<ProjectItem TargetFileName="web.config">web.config</ProjectItem>
+		</Project>
+	</TemplateContent>
+</VSTemplate>
