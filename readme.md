@@ -1,10 +1,4 @@
-## Node.Cs Music Store Sample
-
-This is the porting on Node.Cs (http://www.kendar.org/?p=/dotnet/nodecs) of
-the Mvc Music Store (https://mvcmusicstore.codeplex.com/) sample application.
-
-This had been created to demonstrate how simple would be the porting and 
-how flexible would be the new web server.
+## Node.Cs Server
 
 ### Introduction
 
