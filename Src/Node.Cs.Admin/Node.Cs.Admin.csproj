@@ -34,7 +34,7 @@
   <ItemGroup>
     <Reference Include="ConcurrencyHelpers, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ConcurrencyHelpers.3.2.2\lib\net45\ConcurrencyHelpers.dll</HintPath>
+      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.0\lib\net45\ConcurrencyHelpers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -75,6 +75,10 @@
     <ProjectReference Include="..\Node.Cs.Lib\Node.Cs.Lib.csproj">
       <Project>{6D916BE6-984A-4C38-A91E-224E1F896E9F}</Project>
       <Name>Node.Cs.Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Node.Cs.MVC\Node.Cs.MVC.csproj">
+      <Project>{DFEC3272-E13B-4E6E-B68F-65FAD88ED082}</Project>
+      <Name>Node.Cs.MVC</Name>
     </ProjectReference>
     <ProjectReference Include="..\Node.Cs.Razor\Node.Cs.Razor.csproj">
       <Project>{6235c442-7e28-48bd-a3f2-b3e073e8c1eb}</Project>

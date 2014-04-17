@@ -285,7 +285,7 @@ namespace Node.Cs.Razor.Helpers
 			var value = _classWrapper.GetObject(name);
 			string stringValue = value == null ? string.Empty : value.ToString();
 			var dataType = DataType.Text;
-			var doScaffolding = true;
+			
 			foreach (var attr in attributes)
 			{
 				var disp = attr as DataTypeAttribute;

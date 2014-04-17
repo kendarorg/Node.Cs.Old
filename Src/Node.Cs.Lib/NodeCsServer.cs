@@ -30,6 +30,7 @@ using ConcurrencyHelpers.Monitor;
 using ConcurrencyHelpers.Utils;
 using NetworkHelpers.Coroutines;
 using Node.Cs.Authorization;
+using Node.Cs.Lib.Controllers;
 using Node.Cs.Lib.Conversions;
 using Node.Cs.Lib.Exceptions;
 using Node.Cs.Lib.Filters;
@@ -43,8 +44,10 @@ using System.Data.Common;
 
 namespace Node.Cs.Lib
 {
-	public partial class NodeCsServer
+	public partial class NodeCsServer : INodeCsServer
 	{
+		private HandlersLoader _handlersLoader;
+
 		public const String NodeCsCache = "Node.Cs.Lib.NodeCsServer";
 		public const String SessionCache = "Node.Cs.Lib.NodeCsServer.SessionCache";
 
@@ -62,16 +65,16 @@ namespace Node.Cs.Lib
 		private CounterInt64 _connectionsCount;
 		private ClassWrapper.ClassWrapper _globalInitializer;
 
-
-
-
 		public static NodeCsServer Instance { get; private set; }
 
 		public NodeCsServer(NodeCsSettings settings, string rootDir)
 		{
+			GlobalVars.NodeCsServer = this;
 			CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 			Instance = this;
 			GlobalVars.Settings = settings;
+			
+			GlobalVars.ResponseHandlers = new ResponseHandlersFactory();
 
 			AppDomain.CurrentDomain.AssemblyResolve += OnAssemblyResolve;
 
@@ -93,8 +96,8 @@ namespace Node.Cs.Lib
 			InitializeProviders(); LoadApplication(GlobalVars.Settings.Application, GlobalVars.Settings.Paths.BinPaths, rootDir);
 
 			_connectionsCount = new CounterInt64();
-			_memoryCache = new CoroutineMemoryCache(new TimeSpan(0, 0, 0, 5));
-			_pages = new AsyncLockFreeDictionary<string, PageDescriptor>(new Dictionary<string, PageDescriptor>());
+			_memoryCache = new CoroutineMemoryCache(new TimeSpan(0, 0, 0, 60));
+			
 			GlobalVars.PathProvider = new GlobalPathProvider();
 			GlobalVars.PathProvider.Initialize(null, null);
 
@@ -111,6 +114,7 @@ namespace Node.Cs.Lib
 
 		public void Start()
 		{
+			_memoryCache.CycleMaxMs = 5;
 			_memoryCache.Start();
 			GlobalVars.RoutingService = new RoutingService();
 			//To reorder
@@ -128,14 +132,14 @@ namespace Node.Cs.Lib
 
 
 
-			ExtensionHandler = new ExtensionHandler(_memoryCache, _handlersLoader);
+			GlobalVars.ExtensionHandler = new ExtensionHandler(_memoryCache, _handlersLoader);
 			_utilityThread = new CoroutineThread[GlobalVars.Settings.Threading.ThreadNumber];
 			for (int i = 0; i < GlobalVars.Settings.Threading.ThreadNumber; i++)
 			{
 				_utilityThread[i] = new CoroutineThread(2);
 				_utilityThread[i].Start();
 			}
-			ExtensionHandler.InitializeHandlers();
+			GlobalVars.ExtensionHandler.InitializeHandlers();
 
 
 
@@ -163,39 +167,6 @@ namespace Node.Cs.Lib
 			IsRunning = false;
 		}
 
-		internal PageDescriptor GetFilePath(string localPath)
-		{
-			localPath = PathCleanser.WebToFilePath(localPath);
-			if (_pages.ContainsKey(localPath))
-			{
-				return _pages[localPath];
-			}
-			var de = GlobalVars.PathProvider.DirectoryExists(localPath);
-			if (de)
-			{
-				var rpp = GlobalVars.PathProvider.GetProviderForFileNamed(localPath + "/index");
-				var fn = rpp.GetFileNamed(localPath + "/index");
-				var pd = new PageDescriptor
-								 {
-									 PathProvider = rpp,
-									 RealPath = fn
-								 };
-				_pages.Add(localPath, pd);
-				return pd;
-			}
-			var pp = GlobalVars.PathProvider.GetProviderForFile(localPath);
-			if (pp != null)
-			{
-				var pd = new PageDescriptor
-								 {
-									 PathProvider = pp,
-									 RealPath = localPath
-								 };
-				_pages.Add(localPath, pd);
-				return pd;
-			}
-			return null;
-		}
 
 		private void InitializeConversionService()
 		{

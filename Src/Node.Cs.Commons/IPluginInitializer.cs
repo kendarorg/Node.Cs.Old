@@ -13,6 +13,7 @@
 // ===========================================================
 
 
+using Node.Cs.Lib.Controllers;
 using Node.Cs.Lib.PathProviders;
 using Node.Cs.Lib.Routing;
 
@@ -22,5 +23,6 @@ namespace Node.Cs.Lib
 	{
 		void Initialize(IRoutingService routingService);
 		void Initialize(IGlobalPathProvider globalPathProvider);
+		void Initialize(IResponseHandlersFactory responseHandlersFactory);
 	}
 }

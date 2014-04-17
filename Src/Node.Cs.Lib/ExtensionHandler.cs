@@ -36,7 +36,7 @@ using Node.Cs.Lib.Controllers;
 
 namespace Node.Cs.Lib
 {
-	internal class ExtensionHandler
+	internal class ExtensionHandler : IExtensionHandler
 	{
 		private readonly CoroutineMemoryCache _memoryCache;
 		private readonly IGlobalPathProvider _pathProvider;
@@ -45,9 +45,15 @@ namespace Node.Cs.Lib
 
 		private readonly IGlobalExceptionManager _globalExceptionManager;
 		private readonly Func<HttpContextBase, PageDescriptor, ICoroutine> _defaultHandler;
-		public ReadOnlyCollection<string> Extensions { get; private set; }
+
+		public ReadOnlyCollection<string> Extensions
+		{
+			get { return _extensions; }
+		}
+
 		private readonly AsyncLockFreeDictionary<string, Func<HttpContextBase, PageDescriptor, ICoroutine>> _couroutineHandlers;
 		private readonly Dictionary<string, bool> _sessionCapable = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
+		private ReadOnlyCollection<string> _extensions;
 
 		public ExtensionHandler(CoroutineMemoryCache memoryCache,
 			HandlersLoader handlersLoader)
@@ -120,7 +126,7 @@ namespace Node.Cs.Lib
 				}
 			}
 			Thread.Sleep(2 * _couroutineHandlers.Timer.Period);
-			Extensions = new ReadOnlyCollection<string>(_couroutineHandlers.Keys.ToArray());
+			_extensions = new ReadOnlyCollection<string>(_couroutineHandlers.Keys.ToArray());
 		}
 
 		public ICoroutine CreateInstance(HttpContextBase context, PageDescriptor foundedPath)

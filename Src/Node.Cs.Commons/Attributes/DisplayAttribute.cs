@@ -21,9 +21,5 @@ namespace Node.Cs.Lib.Attributes
 	public class DisplayAttribute : Attribute
 	{
 		public string Name { get; set; }
-
-		public DisplayAttribute()
-		{
-		}
 	}
 }

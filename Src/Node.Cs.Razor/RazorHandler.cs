@@ -24,8 +24,10 @@ using ConcurrencyHelpers.Coroutines;
 using Node.Cs.Lib;
 using Node.Cs.Lib.Contexts;
 using Node.Cs.Lib.Controllers;
+using Node.Cs.Lib.Exceptions;
 using Node.Cs.Lib.Handlers;
 using Node.Cs.Lib.Loggers;
+using Node.Cs.Lib.OnReceive;
 using Node.Cs.Lib.PathProviders;
 using Node.Cs.Lib.Utils;
 using Node.Cs.Razor.Helpers;
@@ -128,6 +130,10 @@ namespace Node.Cs.Razor
 				{
 					var rh = RunRenderAction(item);
 					yield return InvokeCoroutineAndWait(rh);
+					if (rh.RazorResource == null)
+					{
+						throw new NodeCsException("Page not found '{0}'.",404,_context.Request.Url.ToString());
+					}
 					ResultContent = ResultContent.Replace(item.Key, rh.RazorResource.ResultContent);
 				}
 			}
@@ -136,6 +142,7 @@ namespace Node.Cs.Razor
 			{
 				byte[] buffer = encoding.GetBytes(ResultContent);
 				var output = _context.Response.OutputStream;
+				//TODO: Chunked  ((NodeCsResponse) _context.Response).SetContentLength(buffer.Length);
 				yield return InvokeTaskAndWait(output.WriteAsync(buffer, 0, buffer.Length));
 				_context.Response.Close();
 			}
@@ -239,9 +246,12 @@ namespace Node.Cs.Razor
 			var guid = item.Key;
 			var link = GlobalVars.RoutingService.ResolveFromParams(rad.Params);
 			((NodeCsRequest)_context.Request).ForceUrl(new Uri("http://localhost" + link));
+
+
+			
 			var rh = new OnRazorReceivedCoroutine(_context);
 			rh.ViewData = ViewData;
-			rh.Initialize(null, null);
+			rh.Initialize(new RazorContextManager(_context), new SessionManager(),null, null);
 			return rh;
 		}
 

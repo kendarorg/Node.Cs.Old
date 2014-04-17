@@ -54,7 +54,6 @@
     <None Include="nodecs\usage\controllers.md" />
     <None Include="nodecs\usage\security.md" />
     <None Include="nodecs\usage\settings.md" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="nodecs\eventdriven.png" />
@@ -68,9 +67,6 @@
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

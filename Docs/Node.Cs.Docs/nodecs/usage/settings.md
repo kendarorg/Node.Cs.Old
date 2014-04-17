@@ -3,6 +3,8 @@ title=node.config
 description=Configuration and node.config
 )-->
 
+<!--include(shared/breadcrumb.php)-->
+
 ## {Title}
 
 Here the explanation of -every- part of the node.config.. excluded the security section 

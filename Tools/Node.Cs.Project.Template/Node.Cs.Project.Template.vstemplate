@@ -14,65 +14,111 @@
 	</TemplateData>
 	<TemplateContent>
 		<Project File="ProjectTemplate.csproj" ReplaceParameters="true">
-			<Folder Name="Template\App_Bin" TargetFolderName="App_Bin">
-				<ProjectItem TargetFileName="Empty.txt">Empty.txt</ProjectItem>
-			</Folder>
-			<Folder Name="Template\App_Data" TargetFolderName="App_Data">
-				<ProjectItem TargetFileName="Empty.txt">Empty.txt</ProjectItem>
-			</Folder>
-
-			<Folder Name="Template\Views" TargetFolderName="Views">
-				<Folder Name="Home" TargetFolderName="Home">
-					<ProjectItem TargetFileName="index.cshtml">index.cshtml</ProjectItem>
-					<ProjectItem TargetFileName="about.cshtml">about.cshtml</ProjectItem>
-				</Folder>
-
-				<Folder Name="Shared" TargetFolderName="Shared">
-					<ProjectItem TargetFileName="_Layout.cshtml">_Layout.cshtml</ProjectItem>
-					<ProjectItem TargetFileName="_LogOnPartial.cshtml">_LogOnPartial.cshtml</ProjectItem>
-					<ProjectItem ReplaceParameters="true" TargetFileName="Error.cshtml">Error.cshtml</ProjectItem>
-				</Folder>
+			<ProjectItem ReplaceParameters="true">packages.config</ProjectItem>
+			<ProjectItem ReplaceParameters="true">node.config</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Views\Account\ChangePassword.cshtml</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Views\Account\ChangePasswordSuccess.cshtml</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Views\Account\LogOn.cshtml</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Views\Account\Register.cshtml</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Views\Home\About.cshtml</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Views\Home\Index.cshtml</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Views\Shared\Error.cshtml</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Views\Shared\_Layout.cshtml</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Views\Shared\_LogOnPartial.cshtml</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Views\_ViewStart.cshtml</ProjectItem>
+			<ProjectItem ReplaceParameters="true">web.config</ProjectItem>
 
 
-				<Folder Name="Account" TargetFolderName="Account">
-					<ProjectItem ReplaceParameters="true" TargetFileName="Register.cshtml">Register.cshtml</ProjectItem>
-					<ProjectItem ReplaceParameters="true" TargetFileName="LogOn.cshtml">LogOn.cshtml</ProjectItem>
-					<ProjectItem TargetFileName="ChangePasswordSuccess.cshtml">ChangePasswordSuccess.cshtml</ProjectItem>
-					<ProjectItem ReplaceParameters="true" TargetFileName="ChangePassword.cshtml">ChangePassword.cshtml</ProjectItem>
-				</Folder>
+			<ProjectItem ReplaceParameters="true">Scripts\jquery.validate-vsdoc.js</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Scripts\jquery.validate.js</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Scripts\jquery.validate.min.js</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Scripts\jquery.validate.unobtrusive.js</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Scripts\jquery.validate.unobtrusive.min.js</ProjectItem>
 
-				<ProjectItem TargetFileName="_ViewStart.cshtml">_ViewStart.cshtml</ProjectItem>
-			</Folder>
+			<ProjectItem ReplaceParameters="true">Scripts\jquery-2.1.0.intellisense.js</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Scripts\jquery-2.1.0.js</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Scripts\jquery-2.1.0.min.js</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Scripts\jquery-2.1.0.min.map</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Scripts\jquery-ui-1.10.4.js</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Scripts\jquery-ui-1.10.4.min.js</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Scripts\modernizr-2.7.2.js</ProjectItem>
+			
+			<ProjectItem ReplaceParameters="true">App_Bin\Empty.txt</ProjectItem>
+			<ProjectItem ReplaceParameters="true">App_Data\Empty.txt</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\Site.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\animated-overlay.gif</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\ui-icons_222222_256x240.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\ui-icons_2e83ff_256x240.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\ui-icons_454545_256x240.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\ui-icons_888888_256x240.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\images\ui-icons_cd0a0a_256x240.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery-ui.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.accordion.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.all.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.autocomplete.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.base.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.button.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.core.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.datepicker.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.dialog.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.menu.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.progressbar.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.resizable.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.selectable.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.slider.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.spinner.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.tabs.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.theme.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\jquery.ui.tooltip.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\animated-overlay.gif</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\ui-icons_222222_256x240.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\ui-icons_454545_256x240.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\ui-icons_888888_256x240.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery-ui.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.accordion.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.autocomplete.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.button.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.core.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.datepicker.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.dialog.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.menu.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.progressbar.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.resizable.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.selectable.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.slider.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.spinner.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.tabs.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.theme.min.css</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Content\themes\base\minified\jquery.ui.tooltip.min.css</ProjectItem>
 
-			<Folder Name="Template\Scripts" TargetFolderName="Scripts">
-				<ProjectItem TargetFileName="jquery.validate.unobtrusive.js">jquery.validate.unobtrusive.js</ProjectItem>
-				<ProjectItem TargetFileName="jquery.validate.unobtrusive.min.js">jquery.validate.unobtrusive.min.js</ProjectItem>
-			</Folder>
 
 
-			<Folder Name="Template\Content" TargetFolderName="Content">
-				<ProjectItem TargetFileName="site.css">site.css</ProjectItem>
-			</Folder>
 
-
-			<Folder Name="Template\Controllers" TargetFolderName="Controllers">
-				<ProjectItem ReplaceParameters="true" TargetFileName="HomeController.cs">HomeController.cs</ProjectItem>
-				<ProjectItem ReplaceParameters="true" TargetFileName="AccountController.cs">AccountController.cs</ProjectItem>
-			</Folder>
-			<Folder Name="Template\Models" TargetFolderName="Models">
-				<ProjectItem ReplaceParameters="true" TargetFileName="AccountDbContext.cs">AccountDbContext.cs</ProjectItem>
-				<ProjectItem ReplaceParameters="true" TargetFileName="AccountModels.cs">AccountModels.cs</ProjectItem>
-			</Folder>
-			<Folder Name="Template\Properties" TargetFolderName="Properties">
-				<ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
-			</Folder>
-
-			<ProjectItem ReplaceParameters="true" TargetFileName="GlobalNodeCs.cs" OpenInEditor="true">GlobalNodeCs.cs</ProjectItem>
-
-			<ProjectItem ReplaceParameters="true" TargetFileName="node.config">node.config</ProjectItem>
-			<ProjectItem TargetFileName="packages.config">packages.config</ProjectItem>
-
-			<ProjectItem TargetFileName="web.config">web.config</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Controllers\AccountController.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true">GlobalNodeCs.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Models\AccountDbContext.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Models\AccountModels.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Properties\AssemblyInfo.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true">Controllers\HomeController.cs</ProjectItem>
+			<ProjectItem ReplaceParameters="true" TargetFileName="Properties\AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
 		</Project>
 	</TemplateContent>
 </VSTemplate>

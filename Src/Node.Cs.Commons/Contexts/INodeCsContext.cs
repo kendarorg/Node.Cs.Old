@@ -13,12 +13,21 @@
 // ===========================================================
 
 
+using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Web;
 
 namespace Node.Cs.Lib.Contexts
 {
 	public interface INodeCsContext
 	{
 		Dictionary<string, object> RouteParams { get; set; }
+		HttpResponseBase Response { get; }
+		HttpRequestBase Request { get;  }
+		HttpSessionStateBase Session { get;  }
+		Dictionary<string, object> SessionData { get;  }
+		void Initialize(HttpListenerContext context, int sessionTimeoutSeconds, Guid runId);
+		void UpdateSessionCookie();
 	}
 }

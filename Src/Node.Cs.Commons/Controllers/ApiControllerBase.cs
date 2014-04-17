@@ -24,11 +24,17 @@ using Node.Cs.Lib.Utils;
 
 namespace Node.Cs.Lib.Controllers
 {
-	public abstract class ApiControllerBase : IController
+	public abstract class ApiControllerBase : MainControllerBase
+	{
+		
+	}
+
+	public abstract class MainControllerBase : IController
 	{
 		public ModelStateDictionary ModelState { get; set; }
 
 		private HttpContextBase _context;
+
 		public HttpContextBase HttpContext
 		{
 			get
@@ -56,7 +62,7 @@ namespace Node.Cs.Lib.Controllers
 			return res;
 		}
 
-		public IResponse XmlResponse(string obj, string contentType = null, Encoding encoding = null)
+		public IResponse XmlResponse(object obj, string contentType = null, Encoding encoding = null)
 		{
 			var res = new XmlResponse();
 			res.Initialize(obj, contentType, encoding);

@@ -14,14 +14,12 @@
 
 
 using System;
-using System.Collections.Generic;
 using ConcurrencyHelpers.Caching;
 using Node.Cs.Lib.Handlers;
 using Node.Cs.Lib.PathProviders;
 using Node.Cs.RazorTemplate;
 using RazorEngine.Configuration;
 using RazorEngine.Templating;
-using Node.Cs.Lib.Utils;
 
 namespace Node.Cs.Razor
 {
@@ -29,7 +27,7 @@ namespace Node.Cs.Razor
 	{
 		private CoroutineMemoryCache _memoryCache;
 		internal static TemplateService TemplateService { get; private set; }
-		
+
 		public void Initialize(IGlobalPathProvider pathProvider, CoroutineMemoryCache memoryCache)
 		{
 			_memoryCache = memoryCache;

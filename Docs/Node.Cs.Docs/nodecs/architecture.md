@@ -3,6 +3,8 @@ title=Node.Cs Architecture
 description=Node.Cs Architecture.
 )-->
 
+<!--include(shared/breadcrumb.php)-->
+
 ## {Title}
 
 The whole Node.Cs architecture is heavily based on the concpets already defined for Node.js.

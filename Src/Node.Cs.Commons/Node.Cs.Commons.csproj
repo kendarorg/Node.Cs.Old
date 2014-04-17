@@ -32,21 +32,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ClassWrapper, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ClassWrapper.1.0.8-beta\lib\net45\ClassWrapper.dll</HintPath>
+    <Reference Include="ClassWrapper">
+      <HintPath>..\..\packages\ClassWrapper.2.1.0\lib\net45\ClassWrapper.dll</HintPath>
     </Reference>
     <Reference Include="ConcurrencyHelpers, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ConcurrencyHelpers.3.2.2\lib\net45\ConcurrencyHelpers.dll</HintPath>
+      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.0\lib\net45\ConcurrencyHelpers.dll</HintPath>
     </Reference>
     <Reference Include="CoroutineCache, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\CoroutineCache.3.2.2\lib\net45\CoroutineCache.dll</HintPath>
+      <HintPath>..\..\packages\CoroutineCache.3.3.0\lib\net45\CoroutineCache.dll</HintPath>
     </Reference>
-    <Reference Include="ExpressionBuilder, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ExpressionBuilder.2.0.7-beta\lib\net45\ExpressionBuilder.dll</HintPath>
+    <Reference Include="ExpressionBuilder">
+      <HintPath>..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -82,23 +83,36 @@
     <Compile Include="Authorization\IAuthenticationDataProvider.cs" />
     <Compile Include="Contexts\FormCollection.cs" />
     <Compile Include="Contexts\INodeCsContext.cs" />
+    <Compile Include="Contexts\INodeCsSession.cs" />
     <Compile Include="Controllers\ApiControllerBase.cs" />
     <Compile Include="Controllers\ByteResponse.cs" />
-    <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\DataResponse.cs" />
+    <Compile Include="Controllers\HttpCodeResponse.cs" />
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Controllers\IControllersFactory.cs" />
+    <Compile Include="Controllers\IControllerWrapperInstance.cs" />
     <Compile Include="Controllers\IResponse.cs" />
+    <Compile Include="Controllers\IResponseHandler.cs" />
+    <Compile Include="Controllers\IResponseHandlersFactory.cs" />
+    <Compile Include="Controllers\IViewResponse.cs" />
+    <Compile Include="Controllers\JsonResponse.cs" />
     <Compile Include="Controllers\ModelStateDictionary.cs" />
+    <Compile Include="Controllers\NotFoundResponse.cs" />
     <Compile Include="Controllers\NullResponse.cs" />
+    <Compile Include="Controllers\RedirectResponse.cs" />
     <Compile Include="Controllers\StepResponse.cs" />
+    <Compile Include="Controllers\StringResponse.cs" />
     <Compile Include="Controllers\UrlHelper.cs" />
-    <Compile Include="Controllers\ViewResponse.cs" />
+    <Compile Include="Controllers\XmlResponse.cs" />
     <Compile Include="Filters\FilterBase.cs" />
     <Compile Include="Filters\IFilter.cs" />
     <Compile Include="GlobalVars.cs" />
+    <Compile Include="Handlers\IExtensionHandler.cs" />
     <Compile Include="Handlers\IResourceHandler.cs" />
     <Compile Include="Handlers\IResourceHandlerInitializer.cs" />
+    <Compile Include="IControllersFactoryHandler.cs" />
     <Compile Include="IGlobalNodeCs.cs" />
+    <Compile Include="INodeCsServer.cs" />
     <Compile Include="IPluginInitializer.cs" />
     <Compile Include="Loggers\ConsoleLogger.cs" />
     <Compile Include="Loggers\FileLogger.cs" />
@@ -136,6 +150,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

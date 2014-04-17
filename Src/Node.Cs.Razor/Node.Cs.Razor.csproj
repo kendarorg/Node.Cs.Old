@@ -32,25 +32,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ClassWrapper, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ClassWrapper.1.0.8-beta\lib\net45\ClassWrapper.dll</HintPath>
+    <Reference Include="ClassWrapper">
+      <HintPath>..\..\packages\ClassWrapper.2.1.0\lib\net45\ClassWrapper.dll</HintPath>
     </Reference>
     <Reference Include="ConcurrencyHelpers, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ConcurrencyHelpers.3.2.2\lib\net45\ConcurrencyHelpers.dll</HintPath>
+      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.0\lib\net45\ConcurrencyHelpers.dll</HintPath>
     </Reference>
     <Reference Include="CoroutineCache, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\CoroutineCache.3.2.2\lib\net45\CoroutineCache.dll</HintPath>
+      <HintPath>..\..\packages\CoroutineCache.3.3.0\lib\net45\CoroutineCache.dll</HintPath>
     </Reference>
-    <Reference Include="ExpressionBuilder, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ExpressionBuilder.2.0.7-beta\lib\net45\ExpressionBuilder.dll</HintPath>
+    <Reference Include="ExpressionBuilder">
+      <HintPath>..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
     </Reference>
-    <Reference Include="NetworkHelpers, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NetworkHelpers.3.2.0\lib\net45\NetworkHelpers.dll</HintPath>
+    <Reference Include="NetworkHelpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NetworkHelpers.4.0.1\lib\net45\NetworkHelpers.dll</HintPath>
     </Reference>
     <Reference Include="RazorEngine">
       <HintPath>..\..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
@@ -60,7 +57,7 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.1.1\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -79,6 +76,7 @@
     <Compile Include="NodeCsTemplateBase.cs" />
     <Compile Include="NodeCsTemplateService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RazorContextManager.cs" />
     <Compile Include="RazorEngineResolver.cs" />
     <Compile Include="RazorHandler.cs" />
     <Compile Include="RazorInitializer.cs" />

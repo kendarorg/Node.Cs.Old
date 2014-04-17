@@ -64,6 +64,7 @@ namespace Node.Cs.Lib.Contexts
 
 		private int _sessionTimeout;
 
+
 		public void Initialize(HttpListenerContext context, int sessionTimeout, Guid runGuid)
 		{
 			_sessionTimeout = sessionTimeout;
@@ -72,6 +73,15 @@ namespace Node.Cs.Lib.Contexts
 			_user = _context.User;
 			_response = new NodeCsResponse(_context.Response);
 			_request = new NodeCsRequest(_context.Request, this);
+			if (_context.Request.ContentType != null)
+			{
+				_response.ContentType = _context.Request.ContentType;
+			}
+			if (_context.Request.AcceptTypes != null && _context.Request.AcceptTypes.Length > 1)
+			{
+				_response.ContentType = _context.Request.AcceptTypes[0];
+			}
+			//TODO: Chunked _context.Response.SendChunked = false;
 
 			var sessionCookie = _request.Cookies[NODECS_SESSIONID];
 
@@ -106,7 +116,7 @@ namespace Node.Cs.Lib.Contexts
 			}
 		}
 
-		internal Dictionary<string, object> SessionData
+		public Dictionary<string, object> SessionData
 		{
 			get
 			{

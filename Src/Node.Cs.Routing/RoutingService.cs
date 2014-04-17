@@ -182,7 +182,6 @@ namespace Node.Cs.Lib.Routing
 			var mr = new List<MatchingRoute>();
 			for (int i = 0; i < _routeDefinitions.Count; i++)
 			{
-				string tmpUrl;
 				var routeDefinition = _routeDefinitions[i];
 				var weigth = IsMatching(routeDefinition, pars);
 				mr.Add(new MatchingRoute { Definition = routeDefinition, Weight = weigth });
@@ -241,21 +240,24 @@ namespace Node.Cs.Lib.Routing
 
 		private string CreateRoute(MatchingRoute match, Dictionary<string, object> pars)
 		{
-			var routeParamsUsed = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			var routeParamsUsed = new HashSet<string>();
 			var routeDefinition = match.Definition;
 			var routeSplitted = new List<string>();
+			var parsKeys = new List<string>(pars.Keys);
 
-			foreach (var par in routeDefinition.Url)
+			for (int i = 0; i < routeDefinition.Url.Count; i++)
 			{
+				var par = routeDefinition.Url[i];
+				var name = par.Name.ToLowerInvariant();
 				if (!par.IsParameter)
 				{
-					routeSplitted.Add(par.Name);
+					routeSplitted.Add(name);
 				}
 				else
 				{
-					if (pars.ContainsKey(par.Name))
+					if (pars.ContainsKey(name))
 					{
-						routeParamsUsed.Add(par.Name);
+						routeParamsUsed.Add(name);
 						routeSplitted.Add(pars[par.Name].ToString());
 					}
 					else
@@ -269,11 +271,12 @@ namespace Node.Cs.Lib.Routing
 				}
 			}
 			var routeMissing = new List<string>();
-			foreach(var par in pars)
+			for(var i=0;i<parsKeys.Count;i++)
 			{
-				if (!routeParamsUsed.Contains(par.Key))
+				var parKey = parsKeys[i];
+				if (!routeParamsUsed.Contains(parKey))
 				{
-					routeMissing.Add(string.Format("{0}={1}",HttpUtility.UrlEncode(par.Key),HttpUtility.UrlEncode(par.Value.ToString())));
+					routeMissing.Add(string.Format("{0}={1}", HttpUtility.UrlEncode(parKey), HttpUtility.UrlEncode(pars[parKey].ToString())));
 				}
 			}
 			var url = "/" + string.Join("/", routeSplitted);

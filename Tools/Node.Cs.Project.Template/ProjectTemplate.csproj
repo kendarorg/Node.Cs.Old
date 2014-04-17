@@ -35,15 +35,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClassWrapper">
-      <HintPath>..\packages\ClassWrapper.1.0.8-beta\lib\net45\ClassWrapper.dll</HintPath>
+      <HintPath>..\packages\ClassWrapper.2.1.0\lib\net45\ClassWrapper.dll</HintPath>
     </Reference>
     <Reference Include="ConcurrencyHelpers, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ConcurrencyHelpers.3.2.2\lib\net45\ConcurrencyHelpers.dll</HintPath>
+      <HintPath>..\packages\ConcurrencyHelpers.3.3.0\lib\net45\ConcurrencyHelpers.dll</HintPath>
     </Reference>
     <Reference Include="CoroutineCache, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\CoroutineCache.3.2.2\lib\net45\CoroutineCache.dll</HintPath>
+      <HintPath>..\packages\CoroutineCache.3.3.0\lib\net45\CoroutineCache.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
@@ -52,35 +50,51 @@
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="ExpressionBuilder">
-      <HintPath>..\packages\ExpressionBuilder.2.0.7-beta\lib\net45\ExpressionBuilder.dll</HintPath>
+      <HintPath>..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
     </Reference>
     <Reference Include="GenericHelpers, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\GenericHelpers.1.0.3\lib\net45\GenericHelpers.dll</HintPath>
     </Reference>
-    <Reference Include="NetworkHelpers">
-      <HintPath>..\packages\NetworkHelpers.3.2.0\lib\net45\NetworkHelpers.dll</HintPath>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Node.Cs.Authorization">
-      <HintPath>..\packages\Node.Cs.Lib.1.1.0\lib\net45\Node.Cs.Authorization.dll</HintPath>
+    <Reference Include="NetworkHelpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NetworkHelpers.4.0.1\lib\net45\NetworkHelpers.dll</HintPath>
     </Reference>
-    <Reference Include="Node.Cs.Cmd">
-      <HintPath>..\packages\Node.Cs.Cmd.1.1.0\lib\net45\Node.Cs.Cmd.exe</HintPath>
+    <Reference Include="Node.Cs.Authorization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Node.Cs.Lib.1.2.0\lib\net45\Node.Cs.Authorization.dll</HintPath>
     </Reference>
-    <Reference Include="Node.Cs.Commons">
-      <HintPath>..\packages\Node.Cs.Commons.1.1.0\lib\net45\Node.Cs.Commons.dll</HintPath>
+    <Reference Include="Node.Cs.Cmd, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Node.Cs.Cmd.1.2.0\lib\net45\Node.Cs.Cmd.exe</HintPath>
     </Reference>
-    <Reference Include="Node.Cs.EntityFramework">
-      <HintPath>..\packages\Node.Cs.EntityFramework.1.1.0\lib\net45\Node.Cs.EntityFramework.dll</HintPath>
+    <Reference Include="Node.Cs.Commons, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Node.Cs.Commons.1.2.0\lib\net45\Node.Cs.Commons.dll</HintPath>
     </Reference>
-    <Reference Include="Node.Cs.Lib">
-      <HintPath>..\packages\Node.Cs.Lib.1.1.0\lib\net45\Node.Cs.Lib.dll</HintPath>
+    <Reference Include="Node.Cs.EntityFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Node.Cs.EntityFramework.1.2.0\lib\net45\Node.Cs.EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Node.Cs.Razor">
-      <HintPath>..\packages\Node.Cs.Razor.1.1.0\lib\net45\Node.Cs.Razor.dll</HintPath>
+    <Reference Include="Node.Cs.Lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Node.Cs.Lib.1.2.0\lib\net45\Node.Cs.Lib.dll</HintPath>
     </Reference>
-    <Reference Include="Node.Cs.Routing">
-      <HintPath>..\packages\Node.Cs.Lib.1.1.0\lib\net45\Node.Cs.Routing.dll</HintPath>
+    <Reference Include="Node.Cs.MVC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Node.Cs.MVC.1.2.1\lib\net45\Node.Cs.MVC.dll</HintPath>
+    </Reference>
+    <Reference Include="Node.Cs.Razor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Node.Cs.Razor.1.2.0\lib\net45\Node.Cs.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Node.Cs.Routing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Node.Cs.Lib.1.2.0\lib\net45\Node.Cs.Routing.dll</HintPath>
     </Reference>
     <Reference Include="RazorEngine">
       <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
@@ -94,9 +108,29 @@
     <Reference Include="System.Web" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20505.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.1\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -115,6 +149,7 @@
   <ItemGroup>
     <None Include="node.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
     <None Include="Views\Account\ChangePassword.cshtml" />
@@ -130,6 +165,9 @@
     <None Include="web.config">
       <SubType>Designer</SubType>
     </None>    
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
 		<Content Include="App_Bin\Empty.txt" />
@@ -205,9 +243,6 @@
 		<Content Include="Scripts\jquery-2.1.0.min.js" />
 		<Content Include="Scripts\jquery-ui-1.10.4.js" />
 		<Content Include="Scripts\jquery-ui-1.10.4.min.js" />
-		<Content Include="Scripts\jquery.validate-vsdoc.js" />
-		<Content Include="Scripts\jquery.validate.js" />
-		<Content Include="Scripts\jquery.validate.min.js" />
 		<Content Include="Scripts\modernizr-2.7.2.js" />
 	</ItemGroup>
   <ItemGroup />

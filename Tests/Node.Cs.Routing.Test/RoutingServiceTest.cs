@@ -36,7 +36,7 @@ namespace Node.Cs.Routing.Test
 			var result = rs.Resolve(ctx.Request.Url.LocalPath, ctx);
 			Assert.IsNotNull(result);
 
-			Assert.AreEqual(2, result.Parameters.Count);
+			Assert.AreEqual(3, result.Parameters.Count);
 			Assert.IsTrue(result.Parameters.ContainsKey("controller"));
 			Assert.AreEqual("Home", result.Parameters["controller"]);
 			Assert.IsTrue(result.Parameters.ContainsKey("action"));

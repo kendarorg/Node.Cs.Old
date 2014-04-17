@@ -3,6 +3,8 @@ title=Razor Pages and Helpers
 description=Razor Pages and Helpers. Node.Cs.Razor Plugin.
 )-->
 
+<!--include(shared/breadcrumb.php)-->
+
 ## {Title}
 
 ### Prerequisites

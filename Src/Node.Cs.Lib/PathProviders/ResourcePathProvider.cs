@@ -97,7 +97,6 @@ namespace Node.Cs.Lib.PathProviders
 		{
 			relativePath = relativePath.Replace("/", "\\").Trim('\\');
 			var data = _dataFiles[relativePath];
-			Thread.Sleep(100);
 			yield return Step.DataStep(data);
 		}
 

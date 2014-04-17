@@ -21,10 +21,5 @@ namespace Node.Cs.Lib.Attributes
 	public class BindAttribute : Attribute
 	{
 		public string Exclude { get; set; }
-
-		public BindAttribute()
-		{
-			
-		}
 	}
 }

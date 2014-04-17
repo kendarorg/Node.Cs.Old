@@ -2,8 +2,10 @@
 title=Node.Cs
 description=Node.Js like C# implementation.
 filters=children;includefile
-children_required=installation;netdiffrences;usage/controllers;usage/attributes;usage/security;usage/settings;plugins/entityframework;plugins/razor;plugins/admin;
+children_required=installation;netdiffrences;architecture;usage/controllers;usage/attributes;usage/security;usage/settings;plugins/entityframework;plugins/razor;plugins/admin
 )-->
+
+<!--include(shared/breadcrumb.php)-->
 
 ## {Title}
 
@@ -14,6 +16,8 @@ disqus form at the end of the page or with this site contact form. Without your 
 selfish development needs!
 
 The sample can be downloaded from [NodeCsMusicStore repository on Github](https://github.com/endaroza/NodeCsMusicStore)
+
+<!--include(shared/childrensmall.php)-->
 
 ### Introduction
 
@@ -74,7 +78,7 @@ written by the author of IlSpy).
 
 ### Features
 
-#### Release 2.0.0
+#### Release 1.1.0
 
 * Core
 	* Easy porting from existing MVC controllers
@@ -113,12 +117,22 @@ written by the author of IlSpy).
 	* Support for RenderPartial and RenderAction
 	* Support for ChildOnly actions
 
+#### Release 1.2.0
+
+* Bugs
+	* Css mime not set
+	* XmlResponse accepted only strings
+* Quality
+	* Improved testability (splitting everything)
+	* Totally changed the network-related section to support websocket
+* General
+	* Visual Studio Template now has all jquery/css included..
 
 ### Milestones
 
 Feel free to ask (with an explanation) to change my priorities! All these are more or less indipendents between them
 
-* Release 2.5
+* Release 2.0
 	* Logging level by configuration
 	* Routing through controllers attributes
 	* WebSocket
@@ -136,8 +150,6 @@ Feel free to ask (with an explanation) to change my priorities! All these are mo
 	* ... more to come
 
 Enjoy!
-
-<!--include(shared/children.php)-->
 
 ### Credits
 

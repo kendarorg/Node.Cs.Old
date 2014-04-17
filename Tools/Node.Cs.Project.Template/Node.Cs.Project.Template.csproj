@@ -4,6 +4,8 @@
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -46,42 +48,191 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClassWrapper">
+      <HintPath>..\..\packages\ClassWrapper.2.1.0\lib\net45\ClassWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="ConcurrencyHelpers, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.0\lib\net45\ConcurrencyHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="CoroutineCache, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\CoroutineCache.3.3.0\lib\net45\CoroutineCache.dll</HintPath>
+    </Reference>
+    <Reference Include="ExpressionBuilder">
+      <HintPath>..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.CoreUtility">
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="NetworkHelpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NetworkHelpers.4.0.1\lib\net45\NetworkHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Node.Cs.Authorization">
+      <HintPath>..\..\packages\Node.Cs.Lib.1.2.0\lib\net45\Node.Cs.Authorization.dll</HintPath>
+    </Reference>
+    <Reference Include="Node.Cs.Cmd">
+      <HintPath>..\..\packages\Node.Cs.Cmd.1.2.0\lib\net45\Node.Cs.Cmd.exe</HintPath>
+    </Reference>
+    <Reference Include="Node.Cs.Commons, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Node.Cs.Commons.1.2.0\lib\net45\Node.Cs.Commons.dll</HintPath>
+    </Reference>
+    <Reference Include="Node.Cs.EntityFramework">
+      <HintPath>..\..\packages\Node.Cs.EntityFramework.1.2.0\lib\net45\Node.Cs.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Node.Cs.Lib">
+      <HintPath>..\..\packages\Node.Cs.Lib.1.2.0\lib\net45\Node.Cs.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="Node.Cs.MVC">
+      <HintPath>..\..\packages\Node.Cs.MVC.1.2.1\lib\net45\Node.Cs.MVC.dll</HintPath>
+    </Reference>
+    <Reference Include="Node.Cs.Razor">
+      <HintPath>..\..\packages\Node.Cs.Razor.1.2.0\lib\net45\Node.Cs.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Node.Cs.Routing">
+      <HintPath>..\..\packages\Node.Cs.Lib.1.2.0\lib\net45\Node.Cs.Routing.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.4.0.20505.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Template\Models\AccountDbContext.cs" />
-    <Content Include="Template\Controllers\AccountController.cs" />
-    <Content Include="Template\Controllers\HomeController.cs" />
-    <Content Include="Template\Models\AccountModels.cs" />
-    <Content Include="GlobalNodeCs.cs" />
+    <None Include="Content\themes\base\images\animated-overlay.gif" />
+    <None Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <None Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <None Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <None Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <None Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <None Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <None Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <None Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <None Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <None Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <None Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <None Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <None Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <None Include="Content\themes\base\jquery-ui.css" />
+    <None Include="Content\themes\base\jquery.ui.accordion.css" />
+    <None Include="Content\themes\base\jquery.ui.all.css" />
+    <None Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <None Include="Content\themes\base\jquery.ui.base.css" />
+    <None Include="Content\themes\base\jquery.ui.button.css" />
+    <None Include="Content\themes\base\jquery.ui.core.css" />
+    <None Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <None Include="Content\themes\base\jquery.ui.dialog.css" />
+    <None Include="Content\themes\base\jquery.ui.menu.css" />
+    <None Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <None Include="Content\themes\base\jquery.ui.resizable.css" />
+    <None Include="Content\themes\base\jquery.ui.selectable.css" />
+    <None Include="Content\themes\base\jquery.ui.slider.css" />
+    <None Include="Content\themes\base\jquery.ui.spinner.css" />
+    <None Include="Content\themes\base\jquery.ui.tabs.css" />
+    <None Include="Content\themes\base\jquery.ui.theme.css" />
+    <None Include="Content\themes\base\jquery.ui.tooltip.css" />
+    <None Include="Content\themes\base\minified\images\animated-overlay.gif" />
+    <None Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <None Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <None Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <None Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <None Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <None Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <None Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <None Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <None Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <None Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <None Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <None Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <None Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <None Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.menu.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.spinner.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <None Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <None Include="Scripts\jquery-2.1.0.intellisense.js" />
+    <None Include="Scripts\jquery-2.1.0.js" />
+    <None Include="Scripts\jquery-2.1.0.min.js" />
+    <None Include="Scripts\jquery-ui-1.10.4.js" />
+    <None Include="Scripts\jquery-ui-1.10.4.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <None Include="Scripts\jquery.validate.js" />
+    <None Include="Scripts\jquery.validate.min.js" />
+    <None Include="Models\AccountDbContext.cs" />
+    <None Include="Controllers\AccountController.cs" />
+    <None Include="Controllers\HomeController.cs" />
+    <None Include="Models\AccountModels.cs" />
+    <None Include="GlobalNodeCs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Template\Properties\AssemblyInfo.cs" />
-    <Content Include="sample.config" />
-    <Content Include="packages.config" />
-    <Content Include="node.config" />
+    <None Include="AssemblyInfo.cs" />
+    <None Include="sample.config" />
+    <None Include="packages.config" />
+    <None Include="node.config" />
     <None Include="ProjectTemplate.csproj">
       <SubType>Designer</SubType>
     </None>
     <None Include="Node.Cs.Project.Template.ico" />
-    <Content Include="Template\Views\Account\ChangePassword.cshtml" />
-    <Content Include="Template\Views\Account\ChangePasswordSuccess.cshtml" />
-    <Content Include="Template\Views\Account\LogOn.cshtml" />
-    <Content Include="Template\Views\Account\Register.cshtml" />
-    <Content Include="Template\Views\Home\About.cshtml" />
-    <Content Include="Template\Views\Home\Index.cshtml" />
-    <Content Include="Template\Views\Shared\Error.cshtml" />
-    <Content Include="Template\Views\Shared\_Layout.cshtml" />
-    <Content Include="Template\Views\Shared\_LogOnPartial.cshtml" />
-    <Content Include="Template\Views\_ViewStart.cshtml" />
-    <Content Include="web.config" />
+    <None Include="Scripts\modernizr-2.7.2.js" />
+    <None Include="Views\Account\ChangePassword.cshtml" />
+    <None Include="Views\Account\ChangePasswordSuccess.cshtml" />
+    <None Include="Views\Account\LogOn.cshtml" />
+    <None Include="Views\Account\Register.cshtml" />
+    <None Include="Views\Home\About.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_LogOnPartial.cshtml" />
+    <None Include="Views\_ViewStart.cshtml" />
+    <None Include="web.config" />
+    <None Include="Scripts\jquery-2.1.0.min.map" />
   </ItemGroup>
   <ItemGroup>
     <VSTemplate Include="Node.Cs.Project.Template.vstemplate">
@@ -89,16 +240,23 @@
     </VSTemplate>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Readme.txt" />
-    <Content Include="Template\App_Bin\Empty.txt" />
-    <Content Include="Template\App_Data\Empty.txt" />
-    <Content Include="Template\Content\Site.css" />
-    <Content Include="Template\Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Template\Scripts\jquery.validate.unobtrusive.min.js" />
+    <None Include="Readme.txt" />
+    <None Include="App_Bin\Empty.txt" />
+    <None Include="App_Data\Empty.txt" />
+    <None Include="Content\Site.css" />
+    <None Include="Scripts\jquery.validate.unobtrusive.js" />
+    <None Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

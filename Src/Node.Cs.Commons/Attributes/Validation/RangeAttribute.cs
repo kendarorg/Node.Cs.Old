@@ -22,6 +22,15 @@ namespace Node.Cs.Lib.Attributes.Validation
 		private readonly object _min;
 		private readonly object _max;
 
+		public object Min
+		{
+			get { return _min; }
+		}
+		public object Max
+		{
+			get { return _max; }
+		}
+
 		public RangeAttribute(object min, object max = null)
 		{
 			_min = min;
@@ -33,20 +42,49 @@ namespace Node.Cs.Lib.Attributes.Validation
 			if (value == null) return false;
 
 			var partial = false;
-			if (_min is Int32) partial = Convert.ToInt32(value) >= (Int32)_min;
-			else if (_min is Decimal) partial = Convert.ToDecimal(value) >= (Decimal)_min;
-			else if (_min is Int64) partial = Convert.ToInt64(value) >= (Int64)_min;
-			else if (_min is Double) partial = Convert.ToDouble(value) >= (Double)_min;
-			else if (_min is Single) partial = Convert.ToSingle(value) >= (Single)_min;
+			var typeName = _min.GetType().Name;
+			switch (typeName)
+			{
+				case ("Int32"):
+					partial = Convert.ToInt32(value) >= (Int32)_min;
+					break;
+				case ("Decimal"):
+					partial = Convert.ToDecimal(value) >= (Decimal)_min;
+					break;
+				case ("Int64"):
+					partial = Convert.ToInt64(value) >= (Int64)_min;
+					break;
+				case ("Double"):
+					partial = Convert.ToDouble(value) >= (Double)_min;
+					break;
+				case ("Single"):
+					partial = Convert.ToSingle(value) >= (Single)_min;
+					break;
+			}
 
 			if (!partial) return false;
 			if (_max == null) return true;
 
-			if (_max is Int32) partial = Convert.ToInt32(value) <= (Int32)_max;
-			else if (_max is Decimal) partial = Convert.ToDecimal(value) <= (Decimal)_max;
-			else if (_max is Int64) partial = Convert.ToInt64(value) <= (Int64)_max;
-			else if (_max is Double) partial = Convert.ToDouble(value) <= (Double)_max;
-			else if (_max is Single) partial = Convert.ToSingle(value) <= (Single)_max;
+			typeName = _max.GetType().Name;
+			switch (typeName)
+			{
+				case ("Int32"):
+					partial = Convert.ToInt32(value) <= (Int32)_max;
+					break;
+				case ("Decimal"):
+					partial = Convert.ToDecimal(value) <= (Decimal)_max;
+					break;
+				case ("Int64"):
+					partial = Convert.ToInt64(value) <= (Int64)_max;
+					break;
+				case ("Double"):
+					partial = Convert.ToDouble(value) <= (Double)_max;
+					break;
+				case ("Single"):
+					partial = Convert.ToSingle(value) <= (Single)_max;
+					break;
+			}
+
 			return partial;
 		}
 	}

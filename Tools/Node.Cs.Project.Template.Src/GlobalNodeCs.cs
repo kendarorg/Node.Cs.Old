@@ -56,6 +56,8 @@ namespace Node.Cs.Project.Template.Src
 		{
 			EfInitializer.InitializeConnectionString("AccountsDb");
 			Database.SetInitializer(new CreateDatabaseIfNotExists<AccountDbContext>());
+			var ctx = new AccountDbContext();
+			ctx.Database.Initialize(true);
 		}
 
 		// ReSharper disable once InconsistentNaming

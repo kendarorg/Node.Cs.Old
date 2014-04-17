@@ -33,5 +33,11 @@ namespace Node.Cs.Admin
 			resourcesPathProvider.Initialize("Node.Cs.Admin", globalPathProvider);
 			globalPathProvider.LoadPathProvider(resourcesPathProvider);
 		}
+
+
+		public void Initialize(Lib.Controllers.IResponseHandlersFactory responseHandlersFactory)
+		{
+			
+		}
 	}
 }

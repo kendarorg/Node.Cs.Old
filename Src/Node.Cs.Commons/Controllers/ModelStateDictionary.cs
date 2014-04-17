@@ -23,12 +23,15 @@ namespace Node.Cs.Lib.Controllers
 {
 	public class ModelStateDictionary
 	{
-		private Dictionary<string, List<string>> _messages;
+		private readonly Dictionary<string, List<string>> _messages;
+
 		public ModelStateDictionary()
 		{
 			_messages = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
 		}
-		public bool IsValid { get { return _messages.Count()==0; } }
+
+		// ReSharper disable once UseMethodAny.2
+		public bool IsValid { get { return _messages.Count() == 0; } }
 
 		public void AddModelError(string field, string message)
 		{

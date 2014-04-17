@@ -3,6 +3,8 @@ title=Attributes and filters
 description=Attributes and filters.
 )-->
 
+<!--include(shared/breadcrumb.php)-->
+
 ## {Title}
 
 Several attributes are taken from the standard Asp.NET MVC

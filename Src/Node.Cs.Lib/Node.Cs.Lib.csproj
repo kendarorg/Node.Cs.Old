@@ -32,29 +32,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ClassWrapper, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ClassWrapper.1.0.8-beta\lib\net45\ClassWrapper.dll</HintPath>
+    <Reference Include="ClassWrapper">
+      <HintPath>..\..\packages\ClassWrapper.2.1.0\lib\net45\ClassWrapper.dll</HintPath>
     </Reference>
     <Reference Include="ConcurrencyHelpers, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ConcurrencyHelpers.3.2.2\lib\net45\ConcurrencyHelpers.dll</HintPath>
+      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.0\lib\net45\ConcurrencyHelpers.dll</HintPath>
     </Reference>
     <Reference Include="CoroutineCache, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\CoroutineCache.3.2.2\lib\net45\CoroutineCache.dll</HintPath>
+      <HintPath>..\..\packages\CoroutineCache.3.3.0\lib\net45\CoroutineCache.dll</HintPath>
     </Reference>
-    <Reference Include="ExpressionBuilder, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ExpressionBuilder.2.0.7-beta\lib\net45\ExpressionBuilder.dll</HintPath>
+    <Reference Include="ExpressionBuilder">
+      <HintPath>..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
     </Reference>
     <Reference Include="GenericHelpers, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\GenericHelpers.1.0.3\lib\net45\GenericHelpers.dll</HintPath>
     </Reference>
-    <Reference Include="NetworkHelpers, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NetworkHelpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NetworkHelpers.3.2.0\lib\net45\NetworkHelpers.dll</HintPath>
+      <HintPath>..\..\packages\NetworkHelpers.4.0.1\lib\net45\NetworkHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -73,9 +73,13 @@
   <ItemGroup>
     <Compile Include="Contexts\NodeCsHttpSession.cs" />
     <Compile Include="Contexts\NodeCsStream.cs" />
+    <Compile Include="Controllers\ResponseHandlersFactory.cs" />
     <Compile Include="Conversions\FormSerializer.cs" />
     <Compile Include="Exceptions\DefaultExceptionManager.cs" />
+    <Compile Include="ForTest\ListenerContainer.cs" />
     <Compile Include="Loaders\PluginsLoader.cs" />
+    <Compile Include="OnReceive\ContextManager.cs" />
+    <Compile Include="OnReceive\SessionManager.cs" />
     <Compile Include="PathProviders\ResourcePathProvider.cs" />
     <Compile Include="Utils\CleanUpOnMaxMemoryReached.cs" />
     <Compile Include="Contexts\ContentUtils\BaseKeyValueStreamConverter.cs" />
@@ -96,11 +100,10 @@
     <Compile Include="ExtensionHandler.cs" />
     <Compile Include="FakeInitializer.cs" />
     <Compile Include="Loaders\HandlersLoaders.cs" />
-    <Compile Include="NodeCsFile.cs" />
+    <Compile Include="Contexts\NodeCsFile.cs" />
     <Compile Include="NodeCsRunner.cs" />
     <Compile Include="NodeCsServer.Controllers.cs" />
     <Compile Include="NodeCsServer.cs" />
-    <Compile Include="NodeCsServer.Handlers.cs" />
     <Compile Include="PathProviders\FileSystemPathProvider.cs" />
     <Compile Include="PathProviders\GlobalPathProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -131,9 +134,7 @@
     <Compile Include="NodeCsServer.Assemblies.cs" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Contexts\Mocks\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

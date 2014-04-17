@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 using Node.Cs.Lib.Settings;
 
 namespace Node.Cs.Lib.Utils
@@ -52,21 +53,19 @@ namespace Node.Cs.Lib.Utils
 			var dirName = Path.Combine(NodeCsSettings.Settings.Paths.DataDir, dataName);
 			Directory.CreateDirectory(dirName);
 			var fileName = Path.Combine(dirName, id + ".json");
-			var jss = new JavaScriptSerializer();
-			var fileData = jss.Serialize(data);
+			var fileData = JsonConvert.SerializeObject(data);
 			File.WriteAllText(fileName, fileData);
 		}
 
 		public static IEnumerable<T> ReadData<T>(string dataName)
 		{
 			var dirName = Path.Combine(NodeCsSettings.Settings.Paths.DataDir, dataName);
-			var jss = new JavaScriptSerializer();
 			if (!Directory.Exists(dirName)) yield break;
 
 			foreach (var file in Directory.GetFiles(dirName, "*.json"))
 			{
 				var text = File.ReadAllText(file);
-				yield return jss.Deserialize<T>(text);
+				yield return JsonConvert.DeserializeObject<T>(text);
 			}
 		}
 	}

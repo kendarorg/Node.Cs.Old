@@ -3,6 +3,8 @@ title=Entity Framework Plugin
 description=Node.Cs.EntityFramework, Entity Framework Plugin.
 )-->
 
+<!--include(shared/breadcrumb.php)-->
+
 ## {Title}
 
 ### Prerequisites

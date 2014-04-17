@@ -178,6 +178,7 @@ namespace Node.Cs.Lib.Contexts
 			{
 				PerfMon.SetMetric(PerfMonConst.NodeCs_Network_ClosedConnections, 1);
 				_closed = true;
+				GlobalVars.OpenedConnections--;
 				try
 				{
 					_response.Close();
@@ -193,6 +194,11 @@ namespace Node.Cs.Lib.Contexts
 		{
 			Restart();
 			_response.Redirect(url);
+		}
+
+		public void SetContentLength(int p)
+		{
+			_response.ContentLength64 = p;
 		}
 	}
 }

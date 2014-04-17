@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using ConcurrencyHelpers.Caching;
 using ConcurrencyHelpers.Coroutines;
@@ -43,7 +44,7 @@ namespace Node.Cs.Lib.Static
 		}
 		static StaticHandler()
 		{
-			
+
 			_textFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 			{
 				".html",".htm"
@@ -58,7 +59,7 @@ namespace Node.Cs.Lib.Static
 		public void Initialize(HttpContextBase context, PageDescriptor filePath, CoroutineMemoryCache memoryCache,
 			IGlobalExceptionManager globalExceptionManager, IGlobalPathProvider globalPathProvider)
 		{
-			
+
 			_context = context;
 			_pageDescriptor = filePath;
 			_memoryCache = memoryCache;
@@ -105,6 +106,18 @@ namespace Node.Cs.Lib.Static
 				{
 					var stringData = foundedItem.Data as string;
 					byteData = Encoding.UTF8.GetBytes(stringData);
+				}
+				var ext = Path.GetExtension(localPath);
+				if (string.IsNullOrWhiteSpace(ext))
+				{
+					ext = Path.GetExtension(_context.Request.Url.ToString());
+				}
+				if (!string.IsNullOrWhiteSpace(ext))
+				{
+					if (string.Compare(ext, ".css", true, CultureInfo.InvariantCulture) == 0)
+					{
+						_context.Response.ContentType = "text/css";
+					}
 				}
 				yield return InvokeTaskAndWait(output.WriteAsync(byteData, trim, byteData.Length - trim));
 			}

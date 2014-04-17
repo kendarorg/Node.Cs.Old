@@ -31,10 +31,12 @@ namespace Node.Cs.Cmd
 			var executableCodeBase = Assembly.GetExecutingAssembly().CodeBase.Replace("file:///", "");
 			if (clp.Has("h") || clp.Has("h"))
 			{
+				Console.ForegroundColor = ConsoleColor.Gray;
 				clp.ShowHelp();
 				return;
 			}
 			NodeCsRunner.StartServer(args, executableCodeBase, help);
+			Console.ForegroundColor = ConsoleColor.Gray;
 			Console.WriteLine("Type 'stop' to terminate.");
 			Console.WriteLine("Type 'recycle' to recycle.");
 			Console.WriteLine("Type 'cleancache' to reset the cache content.");

@@ -173,3 +173,19 @@ System.Net.HttpListenerException (0x80004005): È stata tentata un'operazione su
    in Node.Cs.Razor.RazorHandler.<Run>d__a.MoveNext()
    in ConcurrencyHelpers.Coroutines.CoroutineStack.CalculateMoveNext()
    in ConcurrencyHelpers.Coroutines.CoroutineThread.StartThread()
+
+
+
+C:\Projects\KendarGit\Node.Cs\Node.Cs\Src\Node.Cs.Commons\Controllers\ControllerBase.cs(89):			return new ViewResponse(view, model, ViewBag);
+  C:\Projects\KendarGit\Node.Cs\Node.Cs\Src\Node.Cs.Commons\Controllers\ControllerBase.cs(113):			return new PartialViewResponse(view, model, ViewBag);
+  C:\Projects\KendarGit\Node.Cs\Node.Cs\Src\Node.Cs.Commons\Controllers\PartialViewResponse.cs(3):	public class PartialViewResponse : ViewResponse
+  C:\Projects\KendarGit\Node.Cs\Node.Cs\Src\Node.Cs.Commons\Controllers\PartialViewResponse.cs(5):		public PartialViewResponse(string view, object model, object viewBag = null) :
+  C:\Projects\KendarGit\Node.Cs\Node.Cs\Src\Node.Cs.Commons\Controllers\ViewResponse.cs(21):	public class ViewResponse : IResponse
+  C:\Projects\KendarGit\Node.Cs\Node.Cs\Src\Node.Cs.Commons\Controllers\ViewResponse.cs(29):		public ViewResponse(string view, object model, dynamic viewBag = null)
+  C:\Projects\KendarGit\Node.Cs\Node.Cs\Src\Node.Cs.Lib\NodeCsServer.Controllers.cs(128):				var resultView = result.RawData as ViewResponse;
+  C:\Projects\KendarGit\Node.Cs\Node.Cs\Src\Node.Cs.Lib\Utils\OnHttpListenerReceivedCoroutine.cs(140):					if (result is ViewResponse)
+  C:\Projects\KendarGit\Node.Cs\Node.Cs\Src\Node.Cs.Lib\Utils\OnHttpListenerReceivedCoroutine.cs(143):						var viewResponse = result as ViewResponse;
+  C:\Projects\KendarGit\Node.Cs\Node.Cs\Src\Node.Cs.Lib\Utils\OnHttpListenerReceivedCoroutine.cs(144):						ViewData = viewResponse.ViewData;
+  C:\Projects\KendarGit\Node.Cs\Node.Cs\Src\Node.Cs.Lib\Utils\OnHttpListenerReceivedCoroutine.cs(145):						yield return HandleResult(result, _context, viewResponse.ViewBag, viewResponse.ModelState);
+  C:\Projects\KendarGit\Node.Cs\Node.Cs\Src\Node.Cs.Lib\Utils\OnHttpListenerReceivedCoroutine.cs(350):			var viewResult = result as ViewResponse;
+  Matching lines: 12    Matching files: 5    Total files searched: 457

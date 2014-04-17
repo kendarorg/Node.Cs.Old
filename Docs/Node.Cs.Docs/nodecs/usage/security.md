@@ -3,6 +3,8 @@ title=Security and authorization
 description=Security and authorization.
 )-->
 
+<!--include(shared/breadcrumb.php)-->
+
 ## {Title}
 
 The Node.Cs server offer two types of authentication methods, all compatible with the standard

@@ -13,15 +13,8 @@
 // ===========================================================
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using ClassWrapper;
+using System.Web;
 using ConcurrencyHelpers.Coroutines;
-using Node.Cs.Lib;
 using Node.Cs.Lib.Contexts;
 using Node.Cs.Lib.Utils;
 
@@ -37,17 +30,6 @@ namespace Node.Cs.Razor.Helpers
 			_context = context;
 		}
 		protected override bool IsChildRequest { get { return true; } }
-
-		protected override Step InitializeContext(NodeCsContext context)
-		{
-			return Step.Current;
-		}
-
-		protected override NodeCsContext AssignContext(NodeCsContext context)
-		{
-			return _context;
-		}
-
 
 		protected override Step CallHandlerInstance(ICoroutine handlerInstance)
 		{

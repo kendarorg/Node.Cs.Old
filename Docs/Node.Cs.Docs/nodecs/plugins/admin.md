@@ -3,6 +3,8 @@ title=Admin Plugin
 description=Node.Cs.Admin, Entity Framework Plugin.
 )-->
 
+<!--include(shared/breadcrumb.php)-->
+
 ## {Title}
 
 ### Prerequisites

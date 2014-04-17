@@ -56,6 +56,7 @@ namespace Node.Cs.Lib.Loaders
 			var initializerInstance = (IPluginInitializer)Activator.CreateInstance(initializer);
 			initializerInstance.Initialize(_routingService);
 			initializerInstance.Initialize(_globalPathProvider);
+			initializerInstance.Initialize(GlobalVars.ResponseHandlers);
 			_plugins.Add(initializerInstance);
 		}
 

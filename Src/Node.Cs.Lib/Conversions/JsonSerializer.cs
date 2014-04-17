@@ -13,15 +13,12 @@
 // ===========================================================
 
 
-using Node.Cs.Lib.Utils;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using System.Web.Script.Serialization;
+using Newtonsoft.Json;
+using Node.Cs.Lib.Utils;
 
 namespace Node.Cs.Lib.Conversions
 {
@@ -31,15 +28,13 @@ namespace Node.Cs.Lib.Conversions
 		{
 			var reader = new StreamReader(request.InputStream);
 			var stringContent = reader.ReadToEnd();
-			var jsSerializer = new JavaScriptSerializer();
-			return jsSerializer.Deserialize(stringContent,t);
+			return JsonConvert.DeserializeObject(stringContent,t);
 		}
 
 		public byte[] Serialize(Type t, object src, Encoding encoding = null)
 		{
 			encoding = encoding ?? Encoding.UTF8;
-			var jsSerializer = new JavaScriptSerializer();
-			var serialized = jsSerializer.Serialize(src);
+			var serialized = JsonConvert.SerializeObject(src);
 			return encoding.GetBytes(serialized);
 		}
 	}

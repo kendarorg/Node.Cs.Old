@@ -22,8 +22,11 @@ namespace Node.Cs.Lib.Attributes.Validation
 	{
 		private readonly Regex _regex;
 
+		public string Pattern { get; private set; }
+
 		public RegularExpressionAttribute(string pattern)
 		{
+			Pattern = pattern;
 			_regex = new Regex(pattern);
 		}
 

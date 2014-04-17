@@ -3,6 +3,8 @@ title=Node.Cs Mvc Controllers Usage
 description=Node.Cs Mvc Controllers Usage.
 )-->
 
+<!--include(shared/breadcrumb.php)-->
+
 ## {Title}
 
 The MVC controllers in Node.Cs are exactly like the standard .Net Mvc contorllers.

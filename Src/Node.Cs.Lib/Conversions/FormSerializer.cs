@@ -13,14 +13,12 @@
 // ===========================================================
 
 
-using Node.Cs.Lib.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using System.Web.Script.Serialization;
+using Newtonsoft.Json;
+using Node.Cs.Lib.Utils;
 
 namespace Node.Cs.Lib.Conversions
 {
@@ -29,8 +27,7 @@ namespace Node.Cs.Lib.Conversions
 		public object Deserialize(Type t, HttpRequestBase request, Encoding encoding = null)
 		{
 			var jsonFromRequest = MakeJsonFromRequestParams(request);
-			var jsSerializer = new JavaScriptSerializer();
-			return jsSerializer.Deserialize(jsonFromRequest, t);
+			return JsonConvert.DeserializeObject(jsonFromRequest, t);
 		}
 
 		public byte[] Serialize(Type t, object src, Encoding encoding = null)

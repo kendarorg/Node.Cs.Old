@@ -34,13 +34,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ClassWrapper, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ClassWrapper.1.0.8-beta\lib\net45\ClassWrapper.dll</HintPath>
+    <Reference Include="ClassWrapper">
+      <HintPath>..\..\packages\ClassWrapper.2.1.0\lib\net45\ClassWrapper.dll</HintPath>
     </Reference>
-    <Reference Include="ExpressionBuilder, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ExpressionBuilder.2.0.7-beta\lib\net45\ExpressionBuilder.dll</HintPath>
+    <Reference Include="ExpressionBuilder">
+      <HintPath>..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
     </Reference>
     <Reference Include="GenericHelpers, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

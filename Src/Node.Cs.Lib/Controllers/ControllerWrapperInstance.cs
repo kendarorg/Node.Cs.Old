@@ -14,13 +14,11 @@
 
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using ClassWrapper;
 
 namespace Node.Cs.Lib.Controllers
 {
-	public class ControllerWrapperInstance
+	public class ControllerWrapperInstance : IControllerWrapperInstance
 	{
 		private readonly ControllerWrapperDescriptor _cd;
 		public ClassWrapper.ClassWrapper Instance { get; private set; }

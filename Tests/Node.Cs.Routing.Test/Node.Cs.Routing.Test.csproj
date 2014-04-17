@@ -40,6 +40,13 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ConcurrencyHelpers, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.0\lib\net45\ConcurrencyHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="CoroutineCache">
+      <HintPath>..\..\packages\CoroutineCache.3.3.0\lib\net45\CoroutineCache.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
     </Reference>
@@ -71,6 +78,10 @@
     <ProjectReference Include="..\..\Src\Node.Cs.Commons\Node.Cs.Commons.csproj">
       <Project>{f568cfc1-c20e-4b38-a587-2bf5d2cc07d8}</Project>
       <Name>Node.Cs.Commons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Node.Cs.MVC\Node.Cs.MVC.csproj">
+      <Project>{DFEC3272-E13B-4E6E-B68F-65FAD88ED082}</Project>
+      <Name>Node.Cs.MVC</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Src\Node.Cs.Routing\Node.Cs.Routing.csproj">
       <Project>{71E96713-D20A-4CCC-82A5-856CBFA885CF}</Project>

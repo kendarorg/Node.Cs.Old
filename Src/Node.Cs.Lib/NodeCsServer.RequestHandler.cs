@@ -13,11 +13,16 @@
 // ===========================================================
 
 
+using System.Text;
+using System.Threading.Tasks;
 using ConcurrencyHelpers.Coroutines;
 using ConcurrencyHelpers.Monitor;
 using NetworkHelpers;
+using NetworkHelpers.Commons;
 using NetworkHelpers.Coroutines;
 using NetworkHelpers.Http;
+using Node.Cs.Lib.ForTest;
+using Node.Cs.Lib.OnReceive;
 using Node.Cs.Lib.Utils;
 using System;
 using System.Threading;
@@ -28,28 +33,34 @@ namespace Node.Cs.Lib
 	{
 		private void InitializeHttpListener()
 		{
-			var acceptor = new HttpCoroutineAcceptor();
-			_server = new CoroutineNetwork(() =>
-			{
-				var httpListener = new HttpCoroutineListener();
-				httpListener.OnReceived += OnHttpListenerReceived;
-				return httpListener;
-			}, acceptor, GlobalVars.Settings.Listener.GetPrefix())
-			{
-				MaxConcurrentlyRunningClients = MaxExecutingReqeuest,
-				MaxConcurrentConnections = MaxConcurrentConnections
-			};
-			
-			_server.Start();
+			//var acceptor = new HttpCoroutineAcceptor();
+			_server = new CoroutineHttpNetwork(
+				10000,
+				new string[] { GlobalVars.Settings.Listener.GetPrefix() },
+				MaxConcurrentConnections);
+			_server.Received += OnHttpListenerReceived;
+
+			_server.StartServer();
 		}
 
-		private void OnHttpListenerReceived(object sender, IncomingDataReceivedEventArgs e)
+		private static byte[] _serverBusy = Encoding.UTF8.GetBytes("Server Busy.");
+		private void OnHttpListenerReceived(object sender, ReceivedEventArgs e)
 		{
+
 			PerfMon.SetMetric(PerfMonConst.NodeCs_Network_OpenedConnections, 1);
-			var listener = sender as HttpCoroutineListenerClient;
+			if (GlobalVars.OpenedConnections >= GlobalVars.Settings.Threading.MaxConcurrentConnections)
+			{
+				var rl = e.Request as ConnectionHttp;
+				rl.Context.Response.StatusCode = 503;
+				rl.Context.Response.Close(_serverBusy, false);
+				return;
+			}
+			GlobalVars.OpenedConnections++;
+			var listener = e.Request as ConnectionHttp;
 			if (listener == null) return;
 			var onReceived = new OnHttpListenerReceivedCoroutine();
-			onReceived.Initialize(this, listener);
+			var listenerContainer = new ListenerContainer(listener);
+			onReceived.Initialize(new ContextManager(listenerContainer), new SessionManager(), this, listenerContainer);
 			var chosenThread = _connectionsCount.Value % GlobalVars.Settings.Threading.ThreadNumber;
 			_utilityThread[chosenThread].AddCoroutine(onReceived);
 		}

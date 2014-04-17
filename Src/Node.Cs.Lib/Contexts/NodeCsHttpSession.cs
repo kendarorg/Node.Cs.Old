@@ -19,7 +19,7 @@ using System.Web;
 
 namespace Node.Cs.Lib.Contexts
 {
-	public class NodeCsHttpSession : HttpSessionStateBase
+	public class NodeCsHttpSession : HttpSessionStateBase, INodeCsSession
 	{
 		private readonly Dictionary<string, object> _sessionData = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 		private string _sessionId;
@@ -32,7 +32,7 @@ namespace Node.Cs.Lib.Contexts
 			get { return _sessionId; }
 		}
 
-		internal Dictionary<string, object> SessionData
+		public Dictionary<string, object> SessionData
 		{
 			get
 			{

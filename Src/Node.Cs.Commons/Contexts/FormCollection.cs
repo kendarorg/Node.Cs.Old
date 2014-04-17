@@ -23,7 +23,8 @@ namespace Node.Cs.Lib.Contexts
 		{
 			foreach (var itemKey in src.AllKeys)
 			{
-				Add(itemKey,src[itemKey]);
+				// ReSharper disable once DoNotCallOverridableMethodsInConstructor
+				Add(itemKey, src[itemKey]);
 			}
 		}
 	}

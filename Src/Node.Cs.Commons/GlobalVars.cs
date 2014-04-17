@@ -13,23 +13,23 @@
 // ===========================================================
 
 
+using System.Collections.Generic;
+using ConcurrencyHelpers.Utils;
 using Node.Cs.Authorization;
 using Node.Cs.Lib.Controllers;
 using Node.Cs.Lib.Filters;
+using Node.Cs.Lib.Handlers;
 using Node.Cs.Lib.PathProviders;
 using Node.Cs.Lib.Routing;
 using Node.Cs.Lib.Settings;
 using Node.Cs.Lib.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Node.Cs.Lib
 {
 	public static class GlobalVars
 	{
+		private static CounterInt64 _openedConnections = new CounterInt64();
+
 		static GlobalVars()
 		{
 			GlobalFilters = new List<FilterBase>();
@@ -45,5 +45,15 @@ namespace Node.Cs.Lib
 		public static string ApplicationLocation { get; set; }
 		public static IControllersFactory ControllersFactory { get; set; }
 		public static IGlobalPathProvider PathProvider { get; set; }
+		public static IResponseHandlersFactory ResponseHandlers { get; set; }
+		public static IExtensionHandler ExtensionHandler { get; set; }
+		public static IControllersFactoryHandler ControllersFactoryHandler { get; set; }
+		public static INodeCsServer NodeCsServer { get; set; }
+
+		public static long OpenedConnections
+		{
+			get { return _openedConnections.Value; }
+			set { _openedConnections.Value = value; }
+		}
 	}
 }

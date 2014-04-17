@@ -13,25 +13,24 @@
 // ===========================================================
 
 
-using ClassWrapper;
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using ClassWrapper;
 using Node.Cs.Lib.Exceptions;
 using Node.Cs.Lib.Utils;
 
 namespace Node.Cs.Lib.Controllers
 {
-	public class ControllersFactoryHandler
+	public class ControllersFactoryHandler:IControllersFactoryHandler
 	{
-		private static IControllersFactory _controllerFactory;
-		private readonly static Dictionary<Type, ControllerWrapperDescriptor> _controllerDescriptors = new Dictionary<Type, ControllerWrapperDescriptor>();
+		private  IControllersFactory _controllerFactory;
+		private readonly  Dictionary<Type, ControllerWrapperDescriptor> _controllerDescriptors = new Dictionary<Type, ControllerWrapperDescriptor>();
+		private readonly  HashSet<string> _sessionSuppoert = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
 		public void Initialize(string controllersFactoryClassFullName)
 		{
 			var type = Type.GetType(controllersFactoryClassFullName);
-			if (type == null) throw new NodeCsException("IControllersFactory '{0}' not found",controllersFactoryClassFullName);
+			if (type == null) throw new NodeCsException("IControllersFactory '{0}' not found", controllersFactoryClassFullName);
 
 			//This is called once, so no problem with activator
 			_controllerFactory = (IControllersFactory)Activator.CreateInstance(type);
@@ -46,10 +45,23 @@ namespace Node.Cs.Lib.Controllers
 			InitializeDescriptors(types);
 		}
 
+
+		public bool SupportSession(string name)
+		{
+			return _sessionSuppoert.Contains(name);
+		}
+
+
+
 		private void InitializeDescriptors(IEnumerable<Type> types)
 		{
 			foreach (var type in types)
 			{
+				if (!typeof(ApiControllerBase).IsAssignableFrom(type))
+				{
+					var clName = type.Name;
+					_sessionSuppoert.Add(clName);
+				}
 				var cld = new ClassWrapperDescriptor(type, true);
 				cld.Load();
 				_controllerDescriptors.Add(type, new ControllerWrapperDescriptor(cld));
@@ -73,12 +85,12 @@ namespace Node.Cs.Lib.Controllers
 			}
 		}
 
-		public static ControllerWrapperDescriptor GetContainer(Type type)
+		public  ControllerWrapperDescriptor GetContainer(Type type)
 		{
 			return _controllerDescriptors[type];
 		}
 
-		public static ControllerWrapperInstance Create(string name)
+		public  object Create(string name)
 		{
 			var classInstance = _controllerFactory.Create(name);
 			if (classInstance == null) return null;
@@ -86,7 +98,7 @@ namespace Node.Cs.Lib.Controllers
 			return descriptor.CreateWrapper(classInstance);
 		}
 
-		internal static void Release(IController controller)
+		public  void Release(IController controller)
 		{
 			_controllerFactory.Release(controller);
 		}
