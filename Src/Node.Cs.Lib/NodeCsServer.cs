@@ -15,32 +15,26 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using ClassWrapper;
 using ConcurrencyHelpers.Caching;
-using ConcurrencyHelpers.Containers.Asyncs;
 using ConcurrencyHelpers.Coroutines;
 using ConcurrencyHelpers.Interfaces;
 using ConcurrencyHelpers.Monitor;
 using ConcurrencyHelpers.Utils;
 using NetworkHelpers.Coroutines;
-using Node.Cs.Authorization;
 using Node.Cs.Lib.Controllers;
 using Node.Cs.Lib.Conversions;
 using Node.Cs.Lib.Exceptions;
-using Node.Cs.Lib.Filters;
 using Node.Cs.Lib.Loaders;
 using Node.Cs.Lib.Loggers;
 using Node.Cs.Lib.PathProviders;
 using Node.Cs.Lib.Routing;
 using Node.Cs.Lib.Settings;
 using Node.Cs.Lib.Utils;
-using System.Data.Common;
 
 namespace Node.Cs.Lib
 {
@@ -55,7 +49,6 @@ namespace Node.Cs.Lib
 		private readonly CoroutineMemoryCache _memoryCache;
 		private CoroutineNetwork _server;
 		private CoroutineThread[] _utilityThread;
-		private readonly AsyncLockFreeDictionary<string, PageDescriptor> _pages;
 
 		public bool PrecompilePages { get; set; }
 		public int MaxConcurrentConnections { get; set; }
@@ -73,7 +66,7 @@ namespace Node.Cs.Lib
 			CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 			Instance = this;
 			GlobalVars.Settings = settings;
-			
+
 			GlobalVars.ResponseHandlers = new ResponseHandlersFactory();
 
 			AppDomain.CurrentDomain.AssemblyResolve += OnAssemblyResolve;
@@ -97,7 +90,7 @@ namespace Node.Cs.Lib
 
 			_connectionsCount = new CounterInt64();
 			_memoryCache = new CoroutineMemoryCache(new TimeSpan(0, 0, 0, 60));
-			
+
 			GlobalVars.PathProvider = new GlobalPathProvider();
 			GlobalVars.PathProvider.Initialize(null, null);
 
@@ -106,7 +99,6 @@ namespace Node.Cs.Lib
 			MaxConcurrentConnections = GlobalVars.Settings.Threading.MaxConcurrentConnections;
 		}
 
-		private Assembly _applicationAsm;
 		private SystemTimer _perfMonTimer;
 		private long _totalTerminatedCoroutines;
 		private long _totalStartedCoroutines;
@@ -134,8 +126,12 @@ namespace Node.Cs.Lib
 
 			GlobalVars.ExtensionHandler = new ExtensionHandler(_memoryCache, _handlersLoader);
 			_utilityThread = new CoroutineThread[GlobalVars.Settings.Threading.ThreadNumber];
+			var processorsCount = Environment.ProcessorCount;
+			
 			for (int i = 0; i < GlobalVars.Settings.Threading.ThreadNumber; i++)
 			{
+				var affinity = i%processorsCount;
+				var realAffinity = 1<<affinity;
 				_utilityThread[i] = new CoroutineThread(2);
 				_utilityThread[i].Start();
 			}
@@ -150,7 +146,7 @@ namespace Node.Cs.Lib
 			//Checked
 			InitializeSessionStorage();
 			InitializeConversionService();
-			InvokeApplication_Start();
+			InvokeApplicationStart();
 			InitializeControllersFactory();
 
 			InitializeHttpListener();
@@ -203,7 +199,7 @@ namespace Node.Cs.Lib
 			GlobalVars.ExceptionManager.Initialize(GlobalVars.Settings);
 		}
 
-		private void InvokeApplication_Start()
+		private void InvokeApplicationStart()
 		{
 			if (_globalInitializer.ContainsMethod("Application_Start"))
 			{
@@ -232,7 +228,9 @@ namespace Node.Cs.Lib
 			PerfMon.Start(runTimes);
 			var dir = Path.Combine(RootDir, "PerfMon");
 			Directory.CreateDirectory(dir);
+			// ReSharper disable once UnusedVariable
 			var pfServer = new FilePerfMonService(dir);
+
 
 			PerfMon.AddMonitor(PerfMonConst.NodeCs_Cache_CacheItemsCount, new ValueCounterMetric(false));
 			PerfMon.AddMonitor(PerfMonConst.NodeCs_Threading_StartedCoroutines, new ValueCounterMetric());
@@ -274,6 +272,7 @@ namespace Node.Cs.Lib
 				long totalRunningCoroutines = 0;
 				foreach (var th in _utilityThread)
 				{
+					if(th==null) continue;
 					totalStartedCoroutines += th.StartedCoroutines;
 					totalTerminatedCoroutines += th.TerminatedCoroutines;
 					totalRunningCoroutines += (totalStartedCoroutines - totalStartedCoroutines);
@@ -299,7 +298,7 @@ namespace Node.Cs.Lib
 					for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
 					{
 						var item = dataSet.Tables[0].Rows[i];
-						if (string.Compare(item[2].ToString(), provider.InvariantName, true) == 0)
+						if (String.Compare(item[2].ToString(), provider.InvariantName, StringComparison.OrdinalIgnoreCase) == 0)
 						{
 							dataSet.Tables[0].Rows.Remove(item);
 						}

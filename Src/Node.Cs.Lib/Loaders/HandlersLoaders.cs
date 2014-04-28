@@ -34,7 +34,7 @@ namespace Node.Cs.Lib.Loaders
 		private readonly Type _initializerType;
 		private readonly IGlobalPathProvider _pathProvider;
 		private readonly CoroutineMemoryCache _memoryCache;
-		private Dictionary<string, Type> _handlers;
+		private readonly Dictionary<string, Type> _handlers;
 
 		public HandlersLoader(string entryAssemblyLocation,CoroutineMemoryCache memoryCache )
 		{

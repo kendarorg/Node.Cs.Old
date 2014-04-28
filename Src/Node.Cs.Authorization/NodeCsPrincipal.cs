@@ -22,7 +22,7 @@ namespace Node.Cs.Authorization
 	public class NodeCsPrincipal : IPrincipal
 	{
 		private readonly HashSet<string> _roles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-		public NodeCsPrincipal(IIdentity identity, string[] roles)
+		public NodeCsPrincipal(IIdentity identity, IEnumerable<string> roles)
 		{
 			Identity = identity;
 			foreach (var role in roles)

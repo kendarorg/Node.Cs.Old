@@ -15,25 +15,22 @@
 
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Security.Policy;
 using System.Security.Principal;
-using Node.Cs.Razor;
+using System.Web;
+using Node.Cs.Lib.Controllers;
 using Node.Cs.Razor.Helpers;
 using Node.Cs.Razor.Rendering;
 using RazorEngine.Templating;
-using System.Web;
-using Node.Cs.Lib.Controllers;
 
 
-namespace Node.Cs.RazorTemplate
+namespace Node.Cs.Razor
 {
 	public interface INodeCsTemplateBase<T> : ITemplate<T>
 	{
 		HttpContextBase Context { get; }
 	}
 
-	[RequireNamespaces("Node.Cs.RazorTemplate")]
+	[RequireNamespaces("Node.Cs.Razor")]
 	public abstract class WebConfigNodeCsTemplateBase : TemplateBase
 	{
 		private HttpContextBase _context;
@@ -134,7 +131,7 @@ namespace Node.Cs.RazorTemplate
 		}
 	}
 
-	[RequireNamespaces("Node.Cs.RazorTemplate")]
+	[RequireNamespaces("Node.Cs.Razor")]
 	public abstract class NodeCsTemplateBase<T> : TemplateBase<T>, INodeCsTemplateBase<T>
 	{
 		private HttpContextBase _context;

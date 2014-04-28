@@ -15,6 +15,7 @@
 
 using System.Collections.Generic;
 using Node.Cs.Lib.Controllers;
+using Node.Cs.MVC.Controllers;
 
 namespace Node.Cs.Project.Template.Src.Controllers
 {

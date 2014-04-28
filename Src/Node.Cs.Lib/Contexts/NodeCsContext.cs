@@ -46,6 +46,11 @@ namespace Node.Cs.Lib.Contexts
 		{
 		}
 
+		public NodeCsContext(NodeCsRequest request)
+		{
+			_request = request;
+		}
+
 		public HttpListenerContext ListenerContext { get { return _context; } }
 		public override HttpRequestBase Request { get { return _request; } }
 		public override HttpResponseBase Response { get { return _response; } }
@@ -73,6 +78,7 @@ namespace Node.Cs.Lib.Contexts
 			_user = _context.User;
 			_response = new NodeCsResponse(_context.Response);
 			_request = new NodeCsRequest(_context.Request, this);
+			_request.Initialize();
 			if (_context.Request.ContentType != null)
 			{
 				_response.ContentType = _context.Request.ContentType;

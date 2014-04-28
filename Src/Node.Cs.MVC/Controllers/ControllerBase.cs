@@ -17,10 +17,12 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Web;
+using Node.Cs.Lib;
 using Node.Cs.Lib.Contexts;
+using Node.Cs.Lib.Controllers;
 using Node.Cs.Lib.Utils;
 
-namespace Node.Cs.Lib.Controllers
+namespace Node.Cs.MVC.Controllers
 {
 	public abstract class ControllerBase : MainControllerBase
 	{
@@ -101,6 +103,11 @@ namespace Node.Cs.Lib.Controllers
 			if (context == null) return NotFound(HttpContext.Request.Url.AbsoluteUri);
 
 			var action = (string)context.RouteParams["action"];
+			if (model is string)
+			{
+				action = model.ToString();
+				model = null;
+			}
 			return PartialView(action, model);
 		}
 
@@ -109,7 +116,8 @@ namespace Node.Cs.Lib.Controllers
 			var context = HttpContext as INodeCsContext;
 			if (context == null) return NotFound(HttpContext.Request.Url.AbsoluteUri);
 
-			var controller = context.RouteParams["controller"];
+			var controller = // context.RouteParams["controller"];
+				this.GetType().Name.Replace("Controller", "");
 			var view = string.Format("~/Views/{0}/{1}", controller, action);
 			return new PartialViewResponse(view, model, ViewBag);
 		}

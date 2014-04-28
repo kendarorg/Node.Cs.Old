@@ -19,6 +19,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters;
+using System.Text;
 using System.Web.UI.WebControls;
 using ClassWrapper;
 using Node.Cs.Lib.Attributes;
@@ -285,7 +286,7 @@ namespace Node.Cs.Razor.Helpers
 			var value = _classWrapper.GetObject(name);
 			string stringValue = value == null ? string.Empty : value.ToString();
 			var dataType = DataType.Text;
-			
+
 			foreach (var attr in attributes)
 			{
 				var disp = attr as DataTypeAttribute;
@@ -306,10 +307,9 @@ namespace Node.Cs.Razor.Helpers
 				}
 			}
 
-
 			var label = "<div class='editor-label'>" + LabelFor(name) + "</div>";
-			var startField = "<div class='editor-field'>";
-			var endField = "</div>";
+			const string startField = "<div class='editor-field'>";
+			const string endField = "</div>";
 			switch (dataType)
 			{
 				case (DataType.Upload):
@@ -373,6 +373,7 @@ namespace Node.Cs.Razor.Helpers
 					starting = false;
 				}
 				var value = pinfovalue.Invoke(item, new object[] { }).ToString();
+				// ReSharper disable once RedundantToStringCall
 				var text = value.ToString();
 				if (sl.DataTextField != sl.DataValueField)
 				{

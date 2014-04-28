@@ -16,6 +16,7 @@
 using System.Collections.Generic;
 using System.Web;
 using Node.Cs.Lib.Controllers;
+using Node.Cs.MVC.Controllers;
 
 namespace Node.Cs.Routing.Test
 {

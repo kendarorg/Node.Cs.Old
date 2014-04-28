@@ -14,18 +14,13 @@
 
 
 using System.Text;
-using System.Threading.Tasks;
 using ConcurrencyHelpers.Coroutines;
 using ConcurrencyHelpers.Monitor;
-using NetworkHelpers;
 using NetworkHelpers.Commons;
-using NetworkHelpers.Coroutines;
 using NetworkHelpers.Http;
 using Node.Cs.Lib.ForTest;
 using Node.Cs.Lib.OnReceive;
 using Node.Cs.Lib.Utils;
-using System;
-using System.Threading;
 
 namespace Node.Cs.Lib
 {
@@ -36,14 +31,19 @@ namespace Node.Cs.Lib
 			//var acceptor = new HttpCoroutineAcceptor();
 			_server = new CoroutineHttpNetwork(
 				10000,
-				new string[] { GlobalVars.Settings.Listener.GetPrefix() },
+				new [] { GlobalVars.Settings.Listener.GetPrefix() },
 				MaxConcurrentConnections);
 			_server.Received += OnHttpListenerReceived;
-
+			_server.Refuse += OnRefused;
 			_server.StartServer();
 		}
 
-		private static byte[] _serverBusy = Encoding.UTF8.GetBytes("Server Busy.");
+		private void OnRefused(object sender, RefuseEventArgs e)
+		{
+			
+		}
+
+		private static readonly byte[] _serverBusy = Encoding.UTF8.GetBytes("Server Busy.");
 		private void OnHttpListenerReceived(object sender, ReceivedEventArgs e)
 		{
 
@@ -60,7 +60,8 @@ namespace Node.Cs.Lib
 			if (listener == null) return;
 			var onReceived = new OnHttpListenerReceivedCoroutine();
 			var listenerContainer = new ListenerContainer(listener);
-			onReceived.Initialize(new ContextManager(listenerContainer), new SessionManager(), this, listenerContainer);
+			var pagesManager = new PagesManager();
+			onReceived.Initialize(new ContextManager(listenerContainer), new SessionManager(), this, pagesManager);
 			var chosenThread = _connectionsCount.Value % GlobalVars.Settings.Threading.ThreadNumber;
 			_utilityThread[chosenThread].AddCoroutine(onReceived);
 		}

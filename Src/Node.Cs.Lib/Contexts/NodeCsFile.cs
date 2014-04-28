@@ -13,22 +13,17 @@
 // ===========================================================
 
 
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
-namespace Node.Cs.Lib
+namespace Node.Cs.Lib.Contexts
 {
 	internal class NodeCsFile : HttpPostedFileBase
 	{
 		private readonly string _fileName;
 		private readonly MemoryStream _stream;
 		private readonly string _contentType;
-		private int _length;
+		private readonly int _length;
 
 		public NodeCsFile(string fileName, MemoryStream stream, string contentType)
 		{

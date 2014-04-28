@@ -25,12 +25,14 @@ namespace Node.Cs.Lib.Handlers
 	public interface IResourceHandler
 	{
 		void Initialize(HttpContextBase context, PageDescriptor filePath, CoroutineMemoryCache memoryCache,
-		IGlobalExceptionManager globalExceptionManager,IGlobalPathProvider globalPathProvider);
+		IGlobalExceptionManager globalExceptionManager,IGlobalPathProvider globalPathProvider,bool isChildRequest);
 		object Model { get; set; }
 		bool IsSessionCapable { get; }
 		dynamic ViewBag { get; set; }
 
 		ModelStateDictionary ModelState { get; set; }
 		Dictionary<string, object> ViewData { get; set; }
+
+		System.Text.StringBuilder StringBuilder { get; set; }
 	}
 }

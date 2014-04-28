@@ -99,7 +99,7 @@ namespace Node.Cs.Lib.Settings
 			for (int i = 0; i < ConnectionStrings.Count; i++)
 			{
 				var cs = ConnectionStrings[i];
-				if (string.Compare(cs.Name, name, true) == 0)
+				if (String.Compare(cs.Name, name, StringComparison.OrdinalIgnoreCase) == 0)
 				{
 					return cs;
 				}

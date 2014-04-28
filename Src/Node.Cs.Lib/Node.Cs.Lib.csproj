@@ -37,10 +37,10 @@
     </Reference>
     <Reference Include="ConcurrencyHelpers, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.0\lib\net45\ConcurrencyHelpers.dll</HintPath>
+      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.6\lib\net45\ConcurrencyHelpers.dll</HintPath>
     </Reference>
     <Reference Include="CoroutineCache, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CoroutineCache.3.3.0\lib\net45\CoroutineCache.dll</HintPath>
+      <HintPath>..\..\packages\CoroutineCache.3.3.6\lib\net45\CoroutineCache.dll</HintPath>
     </Reference>
     <Reference Include="ExpressionBuilder">
       <HintPath>..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
@@ -51,10 +51,10 @@
     </Reference>
     <Reference Include="NetworkHelpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NetworkHelpers.4.0.1\lib\net45\NetworkHelpers.dll</HintPath>
+      <HintPath>..\..\packages\NetworkHelpers.4.0.2\lib\net45\NetworkHelpers.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -79,7 +79,16 @@
     <Compile Include="ForTest\ListenerContainer.cs" />
     <Compile Include="Loaders\PluginsLoader.cs" />
     <Compile Include="OnReceive\ContextManager.cs" />
+    <Compile Include="OnReceive\ControllersManager.cs" />
+    <Compile Include="OnReceive\HttpCodesManager.cs" />
+    <Compile Include="OnReceive\IContextManager.cs" />
+    <Compile Include="OnReceive\IControllersManagerCoroutine.cs" />
+    <Compile Include="OnReceive\IHttpCodesManager.cs" />
+    <Compile Include="OnReceive\ISessionManager.cs" />
+    <Compile Include="OnReceive\IViewsManagerCoroutine.cs" />
+    <Compile Include="OnReceive\PagesManager.cs" />
     <Compile Include="OnReceive\SessionManager.cs" />
+    <Compile Include="OnReceive\ViewsManager.cs" />
     <Compile Include="PathProviders\ResourcePathProvider.cs" />
     <Compile Include="Utils\CleanUpOnMaxMemoryReached.cs" />
     <Compile Include="Contexts\ContentUtils\BaseKeyValueStreamConverter.cs" />
@@ -109,6 +118,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Static\StaticHandler.cs" />
     <Compile Include="Utils\ByteMatch.cs" />
+    <Compile Include="Utils\ConcurrentDictionarySessionStorage.cs" />
+    <Compile Include="Utils\MemoryCacheSessionStorage.cs" />
     <Compile Include="Utils\InMemorySessionStorage.cs" />
     <Compile Include="Utils\OnHttpListenerReceivedCoroutine.cs" />
   </ItemGroup>

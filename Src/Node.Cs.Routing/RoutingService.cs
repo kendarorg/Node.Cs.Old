@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Web;
 using Node.Cs.Lib.Exceptions;
 using Node.Cs.Lib.Utils;
+using System.Text;
 
 namespace Node.Cs.Lib.Routing
 {
@@ -180,21 +181,25 @@ namespace Node.Cs.Lib.Routing
 		public string ResolveFromParams(Dictionary<string, object> pars)
 		{
 			var mr = new List<MatchingRoute>();
+			var parKeys = new List<string>(pars.Keys);
 			for (int i = 0; i < _routeDefinitions.Count; i++)
 			{
 				var routeDefinition = _routeDefinitions[i];
-				var weigth = IsMatching(routeDefinition, pars);
+				var weigth = IsMatching(routeDefinition, pars, parKeys);
 				mr.Add(new MatchingRoute { Definition = routeDefinition, Weight = weigth });
 			}
 			if (mr.Count == 0) return null;
 			var max = int.MinValue;
 			var maxRoute = -1;
+			var hashRoute = new HashSet<string>();
+			var routeSplitted = new StringBuilder();
+			var routeMissing = new StringBuilder();
 			for (int index = 0; index < mr.Count; index++)
 			{
 				var match = mr[index];
 				if (match.Weight > max)
 				{
-					var route = CreateRoute(match, pars);
+					var route = CreateRoute(match, pars, parKeys, hashRoute, routeSplitted, routeMissing);
 					if (route != null)
 					{
 						match.Route = route;
@@ -210,15 +215,15 @@ namespace Node.Cs.Lib.Routing
 			return null;
 		}
 
-		private int IsMatching(RouteDefinition routeDefinition, Dictionary<string, object> pars)
+		private int IsMatching(RouteDefinition routeDefinition, Dictionary<string, object> pars, List<string> keys)
 		{
 			int weight = 0;
-			var keys = routeDefinition.Parameters.Keys;
-			foreach (var key in keys)
+			for (int i = 0; i < keys.Count; i++)
 			{
-				var pardef = routeDefinition.Parameters[key];
+				var key = keys[i];
 				if (!pars.ContainsKey(key))
 				{
+					var pardef = routeDefinition.Parameters[key];
 					if (!pardef.Optional)
 					{
 						return 0;
@@ -238,27 +243,32 @@ namespace Node.Cs.Lib.Routing
 
 
 
-		private string CreateRoute(MatchingRoute match, Dictionary<string, object> pars)
+		private string CreateRoute(MatchingRoute match, Dictionary<string, object> pars,
+			List<string> parsKeys, HashSet<string> routeParamsUsed, StringBuilder routeSplitted,
+			StringBuilder routeMissing)
 		{
-			var routeParamsUsed = new HashSet<string>();
+			routeMissing.Clear();
+			routeSplitted.Clear();
+			routeParamsUsed.Clear();
+			routeSplitted.Clear();
 			var routeDefinition = match.Definition;
-			var routeSplitted = new List<string>();
-			var parsKeys = new List<string>(pars.Keys);
 
 			for (int i = 0; i < routeDefinition.Url.Count; i++)
 			{
 				var par = routeDefinition.Url[i];
-				var name = par.Name.ToLowerInvariant();
+				var name = par.LowerRoute;
 				if (!par.IsParameter)
 				{
-					routeSplitted.Add(name);
+					routeSplitted.Append("/");
+					routeSplitted.Append(name);
 				}
 				else
 				{
 					if (pars.ContainsKey(name))
 					{
+						routeSplitted.Append("/");
+						routeSplitted.Append(pars[par.Name].ToString());
 						routeParamsUsed.Add(name);
-						routeSplitted.Add(pars[par.Name].ToString());
 					}
 					else
 					{
@@ -270,21 +280,27 @@ namespace Node.Cs.Lib.Routing
 					}
 				}
 			}
-			var routeMissing = new List<string>();
-			for(var i=0;i<parsKeys.Count;i++)
+			routeMissing.Clear();
+			var hasRoute = false;
+			for (var i = 0; i < parsKeys.Count; i++)
 			{
 				var parKey = parsKeys[i];
 				if (!routeParamsUsed.Contains(parKey))
 				{
-					routeMissing.Add(string.Format("{0}={1}", HttpUtility.UrlEncode(parKey), HttpUtility.UrlEncode(pars[parKey].ToString())));
+					if (hasRoute) routeMissing.Append("&");
+					routeMissing.Append(HttpUtility.UrlEncode(parKey))
+						.Append("=")
+						.Append(HttpUtility.UrlEncode(pars[parKey].ToString()));
+					hasRoute = true;
 				}
 			}
-			var url = "/" + string.Join("/", routeSplitted);
-			if (routeMissing.Count > 0)
+			//var url = "/" + string.Join("/", routeSplitted);
+			if (routeMissing.Length > 0)
 			{
-				url += "?" + string.Join("&", routeMissing);
+				routeSplitted.Append("?");
+				routeSplitted.Append(routeMissing);
 			}
-			return url;
+			return routeSplitted.ToString();
 		}
 	}
 }

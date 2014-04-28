@@ -13,14 +13,9 @@
 // ===========================================================
 
 
-using Node.Cs.Lib.Utils;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+using Node.Cs.Lib.Utils;
 
 namespace Node.Cs.Lib.Contexts.ContentUtils
 {
@@ -44,7 +39,7 @@ namespace Node.Cs.Lib.Contexts.ContentUtils
 		private const string FILENAME = "filename=";
 		private const string NAME = "name=";
 
-		private List<MultipartFileDescriptor> _files = new List<MultipartFileDescriptor>();
+		private readonly List<MultipartFileDescriptor> _files = new List<MultipartFileDescriptor>();
 		public IEnumerable<MultipartFileDescriptor> Files { get { return _files; } }
 
 		private byte[] _boundaryBytes;
@@ -78,6 +73,7 @@ namespace Node.Cs.Lib.Contexts.ContentUtils
 			InitializeFixedParts();
 
 			var bytesBlockStart = -1;
+			// ReSharper disable once TooWideLocalVariableScope
 			var bytesBlockEnd = 0;
 			foreach (var match in ByteMatch.Matches(_content, _boundaryBytes))
 			{

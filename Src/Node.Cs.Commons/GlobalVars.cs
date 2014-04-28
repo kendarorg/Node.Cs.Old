@@ -28,7 +28,7 @@ namespace Node.Cs.Lib
 {
 	public static class GlobalVars
 	{
-		private static CounterInt64 _openedConnections = new CounterInt64();
+		private static readonly CounterInt64 _openedConnections = new CounterInt64();
 
 		static GlobalVars()
 		{

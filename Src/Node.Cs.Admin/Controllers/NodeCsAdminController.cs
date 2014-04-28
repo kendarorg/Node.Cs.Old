@@ -18,6 +18,7 @@ using ConcurrencyHelpers.Monitor;
 using Node.Cs.Admin.Attributes;
 using Node.Cs.Admin.Models;
 using Node.Cs.Lib.Controllers;
+using Node.Cs.MVC.Controllers;
 
 namespace Node.Cs.Admin.Controllers
 {
@@ -32,7 +33,7 @@ namespace Node.Cs.Admin.Controllers
 
 		private PerfMonItem SetupPerfMonTree()
 		{
-			var root = new PerfMonItem() { Name = "Root" };
+			var root = new PerfMonItem { Name = "Root" };
 			var data = PerfMon.Data;
 
 			foreach (var item in data)
@@ -76,6 +77,7 @@ namespace Node.Cs.Admin.Controllers
 					vm.Max < 0 ? -1 : vm.Max,
 					vm.Max < 0 ? -1 : vm.Avg,
 					vm.StartTimestamp.ToString("yyyy/MM/dd-HH:mm:ss"));
+// ReSharper disable once SpecifyACultureInStringConversionExplicitly
 				current.ShortData = vm.Avg.ToString();
 			}
 			var re = item as RunAndExcutionCounterMetric;

@@ -13,17 +13,15 @@
 // ===========================================================
 
 
-using ClassWrapper;
-using Node.Cs.Lib.Exceptions;
-using Node.Cs.Lib.Loggers;
-using Node.Cs.Lib.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using ClassWrapper;
+using Node.Cs.Lib.Exceptions;
+using Node.Cs.Lib.Loggers;
+using Node.Cs.Lib.Utils;
 
 namespace Node.Cs.Lib
 {
@@ -38,8 +36,10 @@ namespace Node.Cs.Lib
 			{
 				strTempAssmbPath = path;
 				if (!strTempAssmbPath.EndsWith("\\")) strTempAssmbPath += "\\";
+				// ReSharper disable once StringIndexOfIsCultureSpecific.1
 				if (args.Name.IndexOf(",") > 0)
 				{
+					// ReSharper disable once StringIndexOfIsCultureSpecific.1
 					strTempAssmbPath += args.Name.Substring(0, args.Name.IndexOf(",")) + ".dll";
 				}
 				else
@@ -63,7 +63,7 @@ namespace Node.Cs.Lib
 			return null;
 		}
 
-		private void LoadApplication(string applicationDll, List<string> list, string rootDir)
+		private void LoadApplication(string applicationDll, IEnumerable<string> list, string rootDir)
 		{
 			var tempBinPaths = new List<string>();
 			tempBinPaths.Add(rootDir);
@@ -79,7 +79,6 @@ namespace Node.Cs.Lib
 					var bytes = File.ReadAllBytes(realPath);
 					var preexistingAsm = NodeCsAssembliesManager.GetIfExists(applicationDll + ".dll");
 					var asm = preexistingAsm ?? Assembly.LoadFile(realPath);
-					_applicationAsm = asm;
 					var nodeCsInitializerType = asm.GetTypes().FirstOrDefault(t => t.Name == "GlobalNodeCs");
 					if (nodeCsInitializerType == null)
 					{

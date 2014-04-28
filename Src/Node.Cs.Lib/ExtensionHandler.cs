@@ -44,14 +44,14 @@ namespace Node.Cs.Lib
 		private readonly List<HandlerDefinition> _definitions;
 
 		private readonly IGlobalExceptionManager _globalExceptionManager;
-		private readonly Func<HttpContextBase, PageDescriptor, ICoroutine> _defaultHandler;
+		private readonly Func<HttpContextBase, PageDescriptor,bool, ICoroutine> _defaultHandler;
 
 		public ReadOnlyCollection<string> Extensions
 		{
 			get { return _extensions; }
 		}
 
-		private readonly AsyncLockFreeDictionary<string, Func<HttpContextBase, PageDescriptor, ICoroutine>> _couroutineHandlers;
+		private readonly AsyncLockFreeDictionary<string, Func<HttpContextBase, PageDescriptor,bool, ICoroutine>> _couroutineHandlers;
 		private readonly Dictionary<string, bool> _sessionCapable = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
 		private ReadOnlyCollection<string> _extensions;
 
@@ -65,21 +65,22 @@ namespace Node.Cs.Lib
 			_pathProvider = GlobalVars.PathProvider;
 			_handlersLoader = handlersLoader;
 
-			_defaultHandler = (a, b) =>
+			_defaultHandler = (a, b,c) =>
 							  {
 								  var result = new StaticHandler();
-								  result.Initialize(a, b, _memoryCache, _globalExceptionManager, GlobalVars.PathProvider);
+								  result.Initialize(a, b, _memoryCache, _globalExceptionManager, GlobalVars.PathProvider,c);
 								  return result;
 							  };
 			// ReSharper disable once IteratorMethodResultIsIgnored
 			_memoryCache.CreateArea(StaticHandler.StaticHandlerCache);
 			_memoryCache.AddCoroutine(new CleanUpOnMaxMemoryReached(_memoryCache, StaticHandler.StaticHandlerCache));
 
-			_couroutineHandlers = new AsyncLockFreeDictionary<string, Func<HttpContextBase, PageDescriptor, ICoroutine>>(new Dictionary<string, Func<HttpContextBase, PageDescriptor, ICoroutine>>());
+			_couroutineHandlers = new AsyncLockFreeDictionary<string, Func<HttpContextBase, PageDescriptor,bool, ICoroutine>>(
+				new Dictionary<string, Func<HttpContextBase, PageDescriptor,bool, ICoroutine>>());
 
 		}
 
-		private void RegisterExtensionHandler(string extension, Func<HttpContextBase, PageDescriptor, ICoroutine> coroutineFactory, bool isSessionCapable)
+		private void RegisterExtensionHandler(string extension, Func<HttpContextBase, PageDescriptor,bool, ICoroutine> coroutineFactory, bool isSessionCapable)
 		{
 			_couroutineHandlers.Add(extension, coroutineFactory);
 			_sessionCapable.Add(extension, isSessionCapable);
@@ -90,7 +91,7 @@ namespace Node.Cs.Lib
 			return _sessionCapable[extension];
 		}
 
-		public Func<HttpContextBase, PageDescriptor, ICoroutine> GetHandler(string extension)
+		public Func<HttpContextBase, PageDescriptor,bool, ICoroutine> GetHandler(string extension)
 		{
 			var handler = _defaultHandler;
 			if (_couroutineHandlers.ContainsKey(extension))
@@ -117,10 +118,10 @@ namespace Node.Cs.Lib
 						.Returns("result");
 					var lambda = function.ToLambda<Func<ICoroutine>>();
 					var utilityHandler = (IResourceHandler)lambda();
-					RegisterExtensionHandler("." + ext, (a, b) =>
+					RegisterExtensionHandler("." + ext, (a, b,c) =>
 														{
 															var result = (IResourceHandler)lambda();
-															result.Initialize(a, b, _memoryCache, _globalExceptionManager, _pathProvider);
+															result.Initialize(a, b, _memoryCache, _globalExceptionManager, _pathProvider,c);
 															return (ICoroutine)result;
 														}, utilityHandler.IsSessionCapable);
 				}
@@ -129,7 +130,7 @@ namespace Node.Cs.Lib
 			_extensions = new ReadOnlyCollection<string>(_couroutineHandlers.Keys.ToArray());
 		}
 
-		public ICoroutine CreateInstance(HttpContextBase context, PageDescriptor foundedPath)
+		public ICoroutine CreateInstance(HttpContextBase context, PageDescriptor foundedPath,bool isChildRequest)
 		{
 			var ext = Path.GetExtension(foundedPath.RealPath);
 			if (ext == null)
@@ -138,7 +139,7 @@ namespace Node.Cs.Lib
 			}
 			var extension = ext.ToLowerInvariant();
 			var handlerFactory = GetHandler(extension);
-			return handlerFactory(context, foundedPath);
+			return handlerFactory(context, foundedPath, isChildRequest);
 		}
 	}
 }

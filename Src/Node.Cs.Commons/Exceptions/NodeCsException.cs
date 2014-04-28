@@ -17,6 +17,7 @@ using System;
 
 namespace Node.Cs.Lib.Exceptions
 {
+	[Serializable]
 	public class NodeCsException : Exception
 	{
 		private readonly int _httpCode = 500;

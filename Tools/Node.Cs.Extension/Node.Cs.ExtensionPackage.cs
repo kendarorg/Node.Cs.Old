@@ -13,15 +13,9 @@
 // ===========================================================
 
 
-using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using System.ComponentModel.Design;
-using Microsoft.Win32;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 
 namespace Kendar.Node_Cs_Extension
@@ -43,7 +37,7 @@ namespace Kendar.Node_Cs_Extension
     // in the Help/About dialog of Visual Studio.
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [Guid(GuidList.guidNode_Cs_ExtensionPkgString)]
-    public sealed class Node_Cs_ExtensionPackage : Package
+    public sealed class NodeCsExtensionPackage : Package
     {
         /// <summary>
         /// Default constructor of the package.
@@ -52,7 +46,7 @@ namespace Kendar.Node_Cs_Extension
         /// not sited yet inside Visual Studio environment. The place to do all the other 
         /// initialization is the Initialize method.
         /// </summary>
-        public Node_Cs_ExtensionPackage()
+        public NodeCsExtensionPackage()
         {
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
         }

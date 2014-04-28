@@ -17,7 +17,6 @@ using System;
 using ConcurrencyHelpers.Caching;
 using Node.Cs.Lib.Handlers;
 using Node.Cs.Lib.PathProviders;
-using Node.Cs.RazorTemplate;
 using RazorEngine.Configuration;
 using RazorEngine.Templating;
 
@@ -43,7 +42,7 @@ namespace Node.Cs.Razor
 				Debug = true,
 			};
 
-			templateConfig.Namespaces.Add("Node.Cs.RazorTemplate");
+			templateConfig.Namespaces.Add("Node.Cs.Razor");
 
 			TemplateService = new TemplateService(templateConfig);
 			RazorEngine.Razor.SetTemplateService(TemplateService);

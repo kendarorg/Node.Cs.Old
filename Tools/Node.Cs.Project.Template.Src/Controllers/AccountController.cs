@@ -19,6 +19,7 @@ using Node.Cs.Authorization;
 using Node.Cs.Lib;
 using Node.Cs.Lib.Attributes;
 using Node.Cs.Lib.Controllers;
+using Node.Cs.MVC.Controllers;
 using Node.Cs.Project.Template.Src.Models;
 
 namespace Node.Cs.Project.Template.Src.Controllers

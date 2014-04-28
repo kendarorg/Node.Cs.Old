@@ -38,12 +38,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ConcurrencyHelpers, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.0\lib\net45\ConcurrencyHelpers.dll</HintPath>
+      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.6\lib\net45\ConcurrencyHelpers.dll</HintPath>
     </Reference>
     <Reference Include="CoroutineCache, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\CoroutineCache.3.3.0\lib\net45\CoroutineCache.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\packages\CoroutineCache.3.3.6\lib\net45\CoroutineCache.dll</HintPath>
     </Reference>
     <Reference Include="GenericHelpers, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -54,7 +53,8 @@
     </Reference>
     <Reference Include="NetworkHelpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\NetworkHelpers.4.0.1\lib\net45\NetworkHelpers.dll</HintPath>
+      <HintPath>..\..\packages\NetworkHelpers.4.0.2\lib\net45\NetworkHelpers.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Web" />
@@ -73,16 +73,27 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Bases\BaseCoroutineTest.cs" />
     <Compile Include="Bases\OnHttpListenerReceivedTestBase.cs" />
-    <Compile Include="OnHttpListenerReceivedControllerTest.cs" />
+    <Compile Include="Mocks\ContextManagerMock.cs" />
+    <Compile Include="Mocks\MockCoroutine.cs" />
+    <Compile Include="Mocks\MockExtensionHandler.cs" />
+    <Compile Include="Mocks\MockResponse.cs" />
+    <Compile Include="Mocks\MockResponseHandler.cs" />
+    <Compile Include="Mocks\TestCmController.cs" />
+    <Compile Include="Olds\OnHttpListenerReceivedControllerTest.cs" />
     <Compile Include="Mocks\MockContext.cs" />
     <Compile Include="Mocks\MockFilter.cs" />
     <Compile Include="Mocks\MockGlobalPathProvider.cs" />
     <Compile Include="Mocks\MockHandler.cs" />
     <Compile Include="NodeCsSettingsTest.cs" />
     <Compile Include="Mocks\OnHttpListenerReceivedCoroutineForTest.cs" />
+    <Compile Include="OnHttpListenerReceivedCoroutineTest.cs" />
+    <Compile Include="OnReceive\ContextManagerTest.cs" />
+    <Compile Include="OnReceive\ControllersManagerTest.cs" />
+    <Compile Include="OnReceive\ControllersManagerInvokeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="OnHttpListenerReceivedTest.cs" />
+    <Compile Include="Olds\OnHttpListenerReceivedTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Src\Node.Cs.Commons\Node.Cs.Commons.csproj">

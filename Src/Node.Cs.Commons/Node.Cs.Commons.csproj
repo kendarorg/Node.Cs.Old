@@ -35,19 +35,19 @@
     <Reference Include="ClassWrapper">
       <HintPath>..\..\packages\ClassWrapper.2.1.0\lib\net45\ClassWrapper.dll</HintPath>
     </Reference>
-    <Reference Include="ConcurrencyHelpers, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.0\lib\net45\ConcurrencyHelpers.dll</HintPath>
+    <Reference Include="ConcurrencyHelpers">
+      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.6\lib\net45\ConcurrencyHelpers.dll</HintPath>
     </Reference>
     <Reference Include="CoroutineCache, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\CoroutineCache.3.3.0\lib\net45\CoroutineCache.dll</HintPath>
+      <HintPath>..\..\packages\CoroutineCache.3.3.6\lib\net45\CoroutineCache.dll</HintPath>
     </Reference>
     <Reference Include="ExpressionBuilder">
       <HintPath>..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -110,6 +110,7 @@
     <Compile Include="Handlers\IExtensionHandler.cs" />
     <Compile Include="Handlers\IResourceHandler.cs" />
     <Compile Include="Handlers\IResourceHandlerInitializer.cs" />
+    <Compile Include="HttpSender.cs" />
     <Compile Include="IControllersFactoryHandler.cs" />
     <Compile Include="IGlobalNodeCs.cs" />
     <Compile Include="INodeCsServer.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Utils\IGlobalExceptionManager.cs" />
     <Compile Include="Utils\JsonDataService.cs" />
     <Compile Include="Utils\LambdaHelper.cs" />
+    <Compile Include="Utils\MimeResolver.cs" />
     <Compile Include="Utils\NodeCsAssembliesManager.cs" />
     <Compile Include="Utils\EncodingWrapper.cs" />
     <Compile Include="Utils\PathCleanser.cs" />

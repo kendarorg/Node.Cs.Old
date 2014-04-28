@@ -13,10 +13,12 @@
 // ===========================================================
 
 
+using System;
 using System.Collections.Specialized;
 
 namespace Node.Cs.Lib.Contexts
 {
+	[Serializable]
 	public class FormCollection : NameValueCollection
 	{
 		public FormCollection(NameValueCollection src)

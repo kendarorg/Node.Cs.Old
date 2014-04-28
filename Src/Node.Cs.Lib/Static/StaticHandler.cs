@@ -25,6 +25,7 @@ using System.Web;
 using Node.Cs.Lib.Utils;
 using System.IO;
 using Node.Cs.Lib.Controllers;
+using Node.Cs.Lib.Contexts;
 
 namespace Node.Cs.Lib.Static
 {
@@ -57,7 +58,7 @@ namespace Node.Cs.Lib.Static
 		}
 
 		public void Initialize(HttpContextBase context, PageDescriptor filePath, CoroutineMemoryCache memoryCache,
-			IGlobalExceptionManager globalExceptionManager, IGlobalPathProvider globalPathProvider)
+			IGlobalExceptionManager globalExceptionManager, IGlobalPathProvider globalPathProvider, bool isChildRequest)
 		{
 
 			_context = context;
@@ -90,10 +91,13 @@ namespace Node.Cs.Lib.Static
 			Container result = new Container();
 			if (_pageDescriptor.PathProvider.IsFileChanged(_pageDescriptor.RealPath))
 			{
-				yield return InvokeLocalAndWait(() => _memoryCache.AddOrReplaceAndGet(localPath, () => ReadCacheData(), NodeCsServer.NodeCsCache), result);
+				yield return
+					InvokeLocalAndWait(
+						() => _memoryCache.AddOrReplaceAndGet(localPath, () => ReadCacheData(), NodeCsServer.NodeCsCache), result);
 			}
 
-			yield return InvokeLocalAndWait(() => _memoryCache.AddOrGet(localPath, () => ReadCacheData(), NodeCsServer.NodeCsCache), result);
+			yield return
+				InvokeLocalAndWait(() => _memoryCache.AddOrGet(localPath, () => ReadCacheData(), NodeCsServer.NodeCsCache), result);
 			var foundedItem = result.RawData as CacheItem;
 
 			_context.Response.ContentEncoding = new EncodingWrapper(_context.Request.ContentEncoding);
@@ -101,7 +105,7 @@ namespace Node.Cs.Lib.Static
 			if (foundedItem != null)
 			{
 				var byteData = foundedItem.Data as byte[];
-				var trim = 0;
+
 				if (byteData == null)
 				{
 					var stringData = foundedItem.Data as string;
@@ -112,16 +116,21 @@ namespace Node.Cs.Lib.Static
 				{
 					ext = Path.GetExtension(_context.Request.Url.ToString());
 				}
-				if (!string.IsNullOrWhiteSpace(ext))
-				{
-					if (string.Compare(ext, ".css", true, CultureInfo.InvariantCulture) == 0)
-					{
-						_context.Response.ContentType = "text/css";
-					}
-				}
-				yield return InvokeTaskAndWait(output.WriteAsync(byteData, trim, byteData.Length - trim));
+				_context.Response.ContentType = MimeResolver.Resolve(ext);
+				((NodeCsResponse) _context.Response).SetContentLength(byteData.Length);
+#if !TESTHTTP
+				yield return InvokeTaskAndWait(output.WriteAsync(byteData, 0, byteData.Length));
+#else
+				HttpSender.Send(output, byteData, true);
+#endif
 			}
+			else
+			{
+				output.Close();
+			}
+#if !TESTHTTP
 			output.Close();
+#endif
 			ShouldTerminate = true;
 		}
 
@@ -144,5 +153,8 @@ namespace Node.Cs.Lib.Static
 
 
 		public Dictionary<string, object> ViewData { get; set; }
+
+
+		public StringBuilder StringBuilder { get; set; }
 	}
 }

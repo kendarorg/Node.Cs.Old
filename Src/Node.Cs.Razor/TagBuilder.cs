@@ -14,6 +14,7 @@
 
 
 using System.Collections.Generic;
+using System.Text;
 
 namespace Node.Cs.Razor
 {
@@ -21,23 +22,33 @@ namespace Node.Cs.Razor
 	{
 		public static string StartTag(string tagname, Dictionary<string, object> attributes = null, bool selfClosed = false)
 		{
-			var result = "<" + tagname + " ";
+			var strbu = new StringBuilder();
+			strbu.Append("<")
+				.Append(tagname)
+				.Append(" ");
+
 			if (attributes != null)
 			{
 				foreach (var kvp in attributes)
 				{
-					result += " " + kvp.Key;
+					strbu.Append(" ")
+						.Append(kvp.Key);
 					if (kvp.Value != null)
 					{
-						result += "=\"" + kvp.Value.ToString().Replace("\"", "\\\"") + "\"";
+						strbu.Append("=\"")
+							.Append(kvp.Value.ToString().Replace("\"", "\\\""))
+							.Append("\"");
 					}
 				}
 			}
 			if (selfClosed)
 			{
-				return result + "/>";
+				strbu.Append("/>");
+				return strbu.ToString();
 			}
-			return result + ">";
+
+			strbu.Append(">");
+			return strbu.ToString();
 		}
 
 		public static string EndTag(string tagname)

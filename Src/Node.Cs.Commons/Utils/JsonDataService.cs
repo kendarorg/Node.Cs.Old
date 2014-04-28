@@ -43,6 +43,7 @@ namespace Node.Cs.Lib.Utils
 				var data = File.ReadAllText(fileName).Trim();
 				var id = Int32.Parse(data);
 				id++;
+				// ReSharper disable once SpecifyACultureInStringConversionExplicitly
 				File.WriteAllText(fileName, id.ToString());
 				return id;
 			}

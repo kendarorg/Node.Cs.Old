@@ -36,7 +36,8 @@ namespace Node.Cs.EntityFramework
 		{
 			var csDefintion = GlobalVars.Settings.GetConnectionString(EfInitializer.ConnectionName);
 			var name = csDefintion.Provider;
-			var providerServiceFullName = EfInitializer.Settings.Providers.First((a) => string.Compare(name, a.InvariantName, true) == 0).ProviderType;
+			var providerServiceFullName = EfInitializer.Settings.Providers.First((a) =>
+				String.Compare(name, a.InvariantName, StringComparison.OrdinalIgnoreCase) == 0).ProviderType;
 			var providerServiceType = Type.GetType(providerServiceFullName);
 
 			var constructor = providerServiceType.GetConstructor(new Type[] { });
@@ -46,13 +47,13 @@ namespace Node.Cs.EntityFramework
 				var ps = (DbProviderServices)constructor.Invoke(new object[] { });
 				SetProviderServices(name, ps);
 			}
-			else if(instance!=null)
+			else if (instance != null)
 			{
 
 				var ps = (DbProviderServices)instance.GetValue(null);
 				SetProviderServices(name, ps);
 			}
-			
+
 		}
 	}
 
@@ -71,19 +72,22 @@ namespace Node.Cs.EntityFramework
 			var dataSource = csDefintion.DataSource;
 			var name = csDefintion.Provider;
 
-			var providerFactoryFullName = GlobalVars.Settings.DbProviderFactories.First((a) => string.Compare(name, a.InvariantName, true) == 0).ProviderFactoryType;
+			var providerFactoryFullName = GlobalVars.Settings.DbProviderFactories.First((a) =>
+				String.Compare(name, a.InvariantName, StringComparison.OrdinalIgnoreCase) == 0).ProviderFactoryType;
 			var providerServiceFullName = Settings.Providers.First((a) => string.Compare(name, a.InvariantName, true) == 0).ProviderType;
 			var connectionFactoryFullName = Settings.DefaultConnectionFactory.FactoryType;
 			var parameters = Settings.DefaultConnectionFactory.Parameters.Select((a) => a.Value).ToList();
 			Initialize(providerFactoryFullName, providerServiceFullName, connectionFactoryFullName, parameters);
 
-			EntityConnectionStringBuilder entityBuilder = new System.Data.Entity.Core.EntityClient.EntityConnectionStringBuilder();
-			entityBuilder.Provider = name;
+			// ReSharper disable once UnusedVariable
+			var entityBuilder = new EntityConnectionStringBuilder
+													{
+														Provider = name,
+														ProviderConnectionString = dataSource
+													};
 
 			// Set the provider-specific connection string.
-			entityBuilder.ProviderConnectionString = dataSource;
-
-			ConnectionString = dataSource;// entityBuilder.ConnectionString;
+			ConnectionString = dataSource;
 		}
 
 		/// <summary>

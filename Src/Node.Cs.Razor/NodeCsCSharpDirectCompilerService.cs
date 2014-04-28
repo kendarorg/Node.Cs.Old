@@ -13,12 +13,9 @@
 // ===========================================================
 
 
-#define NOT_USED
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Dynamic;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Web.Razor.Parser;
 using ExpressionBuilder;
@@ -28,26 +25,23 @@ using Node.Cs.Lib.Loggers;
 using RazorEngine.Compilation;
 using RazorEngine.Compilation.CSharp;
 using Binder = Microsoft.CSharp.RuntimeBinder.Binder;
-#if NOT_USED
+
 using System.CodeDom.Compiler;
 using System.Diagnostics.Contracts;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security;
 using System.Text;
-using Node.Cs.Lib.Utils;
 using Node.Cs.Lib;
-#endif
+
 
 namespace Node.Cs.Razor
 {
 	public class NodeCsCSharpDirectCompilerService : DirectCompilerServiceBase
 	{
-#if NOT_USED
+
 		private readonly CSharpCodeProvider _codeDomProvider;
-#endif
 
 		#region Constructor
 
@@ -68,11 +62,9 @@ namespace Node.Cs.Razor
 				markupParserFactory)
 		{
 			_extraLocations = new List<string> { GlobalVars.ApplicationLocation };
-#if NOT_USED
 			_codeDomProvider = codeProvider;
-#endif
 		}
-		private List<string> _extraLocations;
+		private readonly List<string> _extraLocations;
 		#endregion
 
 		#region Methods
@@ -89,7 +81,8 @@ namespace Node.Cs.Razor
 			all.Add(GetType().Assembly.Location);
 			return all.ToArray();
 		}
-#if NOT_USED
+
+
 		[Pure, SecurityCritical]
 		public override Tuple<Type, Assembly> CompileType(TypeContext context)
 		{
@@ -210,7 +203,6 @@ namespace Node.Cs.Razor
 		{
 			throw new NotImplementedException();
 		}
-#endif
 		#endregion
 	}
 }

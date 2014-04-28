@@ -32,7 +32,7 @@ namespace Node.Cs.Lib.Attributes.Validation
 			{
 				return strValue.Length > 0;
 			}
-			return value != null;
+			return true;
 		}
 	}
 }

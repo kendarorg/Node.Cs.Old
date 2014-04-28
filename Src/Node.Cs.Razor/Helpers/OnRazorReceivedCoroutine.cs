@@ -13,16 +13,16 @@
 // ===========================================================
 
 
-using System.Web;
-using ConcurrencyHelpers.Coroutines;
 using Node.Cs.Lib.Contexts;
+using Node.Cs.Lib.OnReceive;
 using Node.Cs.Lib.Utils;
 
 namespace Node.Cs.Razor.Helpers
 {
 	public class OnRazorReceivedCoroutine : OnHttpListenerReceivedCoroutine
 	{
-		private readonly NodeCsContext _context;
+
+		/*private readonly NodeCsContext _context;
 		internal RazorHandler RazorResource;
 
 		public OnRazorReceivedCoroutine(NodeCsContext context)
@@ -30,6 +30,8 @@ namespace Node.Cs.Razor.Helpers
 			_context = context;
 		}
 		protected override bool IsChildRequest { get { return true; } }
+
+		public override 
 
 		protected override Step CallHandlerInstance(ICoroutine handlerInstance)
 		{
@@ -39,6 +41,24 @@ namespace Node.Cs.Razor.Helpers
 				RazorResource.IsChildCall = true;
 			}
 			return base.CallHandlerInstance(handlerInstance);
+		}*/
+
+		private readonly NodeCsContext _context;
+
+		public OnRazorReceivedCoroutine(NodeCsContext context)
+		{
+			_context = context;
+		}
+		protected override bool IsChildRequest { get { return true; } }
+
+
+		protected override ViewsManagerCoroutine BuildViewManager()
+		{
+			var viewsManager = new RazorViewsManagerCoroutine();
+			
+			viewsManager.ViewData = ViewData;
+			viewsManager.IsChildRequest = IsChildRequest;
+			return viewsManager;
 		}
 	}
 }

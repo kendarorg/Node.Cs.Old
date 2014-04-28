@@ -24,7 +24,7 @@ namespace Node.Cs.Lib.Controllers
 {
 	public class ControllerWrapperDescriptor
 	{
-		private Dictionary<string, Dictionary<string, ReadOnlyCollection<MethodWrapperDescriptor>>> _methods;
+		private readonly Dictionary<string, Dictionary<string, ReadOnlyCollection<MethodWrapperDescriptor>>> _methods;
 		private readonly ClassWrapperDescriptor _cd;
 
 		public ControllerWrapperDescriptor(ClassWrapperDescriptor cd)
@@ -92,12 +92,11 @@ namespace Node.Cs.Lib.Controllers
 			{
 				_methods.Add(verb, new Dictionary<string, ReadOnlyCollection<MethodWrapperDescriptor>>(StringComparer.OrdinalIgnoreCase));
 			}
-			List<MethodWrapperDescriptor> methods;
 			if (!_methods[verb].ContainsKey(action))
 			{
 				_methods[verb].Add(action, new ReadOnlyCollection<MethodWrapperDescriptor>(new List<MethodWrapperDescriptor>()));
 			}
-			methods = new List<MethodWrapperDescriptor>(_methods[verb][action]);
+			var methods = new List<MethodWrapperDescriptor>(_methods[verb][action]);
 			methods.Add(method);
 			_methods[verb][action] = new ReadOnlyCollection<MethodWrapperDescriptor>(methods);
 		}

@@ -14,11 +14,7 @@
 
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ConcurrencyHelpers.Containers;
 using ConcurrencyHelpers.Interfaces;
 using ConcurrencyHelpers.Utils;
@@ -28,6 +24,7 @@ namespace Node.Cs.Lib.Loggers
 	public class FileLogger : ILogger
 	{
 		private readonly string _filePath;
+		// ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
 		private readonly SystemTimer _timer;
 		private readonly LockFreeQueue<string> _messages;
 		private bool _overlapping;

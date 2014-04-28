@@ -39,6 +39,11 @@ namespace Node.Cs.Lib.Contexts
 			get { return _context.User != null; }
 		}
 
+		public NodeCsRequest(Uri url)
+		{
+			_url = url;
+		}
+
 		public NodeCsRequest(HttpListenerRequest request, NodeCsContext context)
 		{
 			Initialized = false;
@@ -57,6 +62,11 @@ namespace Node.Cs.Lib.Contexts
 				_contentEncoding = Encoding.UTF8;
 			}
 			_queryString = HttpUtility.ParseQueryString(_request.Url.Query);
+			
+		}
+
+		public void Initialize()
+		{
 			FillInFormCollection();
 			FillInCookies();
 		}

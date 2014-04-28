@@ -37,17 +37,18 @@
     </Reference>
     <Reference Include="ConcurrencyHelpers, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.0\lib\net45\ConcurrencyHelpers.dll</HintPath>
+      <HintPath>..\..\packages\ConcurrencyHelpers.3.3.6\lib\net45\ConcurrencyHelpers.dll</HintPath>
     </Reference>
     <Reference Include="CoroutineCache, Version=2.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\CoroutineCache.3.3.0\lib\net45\CoroutineCache.dll</HintPath>
+      <HintPath>..\..\packages\CoroutineCache.3.3.6\lib\net45\CoroutineCache.dll</HintPath>
     </Reference>
     <Reference Include="ExpressionBuilder">
       <HintPath>..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
     </Reference>
     <Reference Include="NetworkHelpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NetworkHelpers.4.0.1\lib\net45\NetworkHelpers.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NetworkHelpers.4.0.2\lib\net45\NetworkHelpers.dll</HintPath>
     </Reference>
     <Reference Include="RazorEngine">
       <HintPath>..\..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
@@ -70,6 +71,7 @@
     <Compile Include="Helpers\HtmlHelper.Fields.cs" />
     <Compile Include="Helpers\NodeCsForm.cs" />
     <Compile Include="Helpers\OnRazorReceivedCoroutine.cs" />
+    <Compile Include="Helpers\RazorViewsManagerCoroutine.cs" />
     <Compile Include="Helpers\SelectList.cs" />
     <Compile Include="NodeCsCompilerServiceFactory.cs" />
     <Compile Include="NodeCsCSharpDirectCompilerService.cs" />

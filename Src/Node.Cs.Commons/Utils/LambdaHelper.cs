@@ -16,12 +16,9 @@
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.CSharp.RuntimeBinder;
 
 namespace Node.Cs.Lib.Utils
@@ -81,7 +78,7 @@ namespace Node.Cs.Lib.Utils
 		public PropertyInfo GetProperty<T>(Expression<Func<T>> e)
 		{
 			var member = (MemberExpression)e.Body;
-			return member.Member as PropertyInfo;;
+			return member.Member as PropertyInfo;
 		}
 		/*
 		public PropertyInfo Property<T>(Expression<Func<T>> e)

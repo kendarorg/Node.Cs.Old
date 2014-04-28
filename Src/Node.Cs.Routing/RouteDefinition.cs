@@ -30,6 +30,7 @@ namespace Node.Cs.Lib.Routing
 	public class UrlItemDescriptor
 	{
 		public string Name;
+		public string LowerRoute;
 		public bool IsParameter;
 	}
 
@@ -60,14 +61,16 @@ namespace Node.Cs.Lib.Routing
 					resultUrl.Add(new UrlItemDescriptor
 					{
 						IsParameter = true,
-						Name = block.TrimStart('{').TrimEnd('}')
+						Name = block.TrimStart('{').TrimEnd('}'),
+						LowerRoute = block.TrimStart('{').TrimEnd('}').ToLowerInvariant()
 					});
 				}
 				else
 				{
 					resultUrl.Add(new UrlItemDescriptor
 					{
-						Name = block.TrimStart('{').TrimEnd('}')
+						Name = block.TrimStart('{').TrimEnd('}'),
+						LowerRoute = block.TrimStart('{').TrimEnd('}').ToLowerInvariant()
 					});
 				}
 			}

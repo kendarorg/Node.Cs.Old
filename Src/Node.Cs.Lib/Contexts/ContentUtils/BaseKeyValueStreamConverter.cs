@@ -16,16 +16,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Node.Cs.Lib.Contexts.ContentUtils
 {
 	public abstract class BaseKeyValueStreamConverter : IRequestStreamConverter
 	{
-		private Dictionary<string, string> _parameters = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-		protected byte[] _content = new byte[] { };
+		private readonly Dictionary<string, string> _parameters = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+		protected byte[] _content = { };
 		protected Encoding _encoding;
 		protected string _contentType;
 

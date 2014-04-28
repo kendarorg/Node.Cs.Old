@@ -40,8 +40,8 @@ namespace Node.Cs.Lib.Contexts
 		}
 		private readonly HttpListenerResponse _response;
 		private static readonly MethodInfo _getInnerCollection;
-		private Timer _timeout;
-		private Stopwatch _watch;
+		//private Timer _timeout;
+		//private Stopwatch _watch;
 
 		private void Restart()
 		{
@@ -57,7 +57,7 @@ namespace Node.Cs.Lib.Contexts
 			_timeout.Start();*/
 			_response = response;
 		}
-
+		/*
 		void OnTimeout(object sender, ElapsedEventArgs e)
 		{
 			if (_watch.ElapsedMilliseconds > TIMEOUT_MS)
@@ -72,7 +72,7 @@ namespace Node.Cs.Lib.Contexts
 
 				}
 			}
-		}
+		}*/
 
 		public override Stream OutputStream
 		{
@@ -170,7 +170,7 @@ namespace Node.Cs.Lib.Contexts
 			}
 		}
 
-		private bool _closed = false;
+		private bool _closed;
 
 		public override void Close()
 		{
@@ -178,10 +178,12 @@ namespace Node.Cs.Lib.Contexts
 			{
 				PerfMon.SetMetric(PerfMonConst.NodeCs_Network_ClosedConnections, 1);
 				_closed = true;
-				GlobalVars.OpenedConnections--;
 				try
 				{
+#if !TESTHTTP
 					_response.Close();
+#endif
+					GlobalVars.OpenedConnections--;
 				}
 				catch
 				{
