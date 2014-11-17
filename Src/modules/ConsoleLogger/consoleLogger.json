@@ -1,0 +1,8 @@
+﻿{
+	"Name":"consoleLogger",
+	"Version":"0.0.0.1-alpha",
+	"Description":"Logging on the console",
+	"Class":"ConsoleLoggerModule.Log4NetModule",
+	"Singleton":"true",
+	"Dependencies":[]
+}

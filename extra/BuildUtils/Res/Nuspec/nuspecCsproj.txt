@@ -1,0 +1,4 @@
+﻿nuspecCsproj.txt
+
+copy $(TargetPath) $(ProjectDir)
+$(SolutionDir).nuget\nuget pack $(ProjectDir)$(ProjectName).nuspec</PostBuildEvent>

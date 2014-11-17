@@ -1,0 +1,10 @@
+﻿{
+	"Name":"http.renderer.markdown",
+	"Version":"0.0.0.1-alpha",
+	"Description":"Render markdown files",
+	"Class":"Http.Renderer.Markdown.MarkdownRendererModule",
+	"Singleton":"true",
+	"Dependencies":[
+		{"Name":"http","Version":"0.0.0.1-alpha"}
+	]
+}

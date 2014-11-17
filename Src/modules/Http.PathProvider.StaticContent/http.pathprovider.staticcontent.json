@@ -1,0 +1,10 @@
+﻿{
+	"Name":"http.pathprovider.staticcontent",
+	"Version":"0.0.0.1-alpha",
+	"Description":"Handle static http requests",
+	"Class":"Http.PathProvider.StaticContent.StaticContentModule",
+	"Singleton":"false",
+	"Dependencies":[
+		{"Name":"http","Version":"0.0.0.1-alpha"}
+	]
+}

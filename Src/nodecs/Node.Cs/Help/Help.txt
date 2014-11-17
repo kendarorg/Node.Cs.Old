@@ -1,0 +1,12 @@
+﻿Node.Cs
+Node.Cs (options)
+
+Options:
+-service	:To run as a service
+-tempBin	:Where all the dlls will be copied
+-config		:The location of the config file (with file name)
+
+Node.Cs command prompt
+close			:Closes the application
+recycle		:Recycle the application, loosing all changes made
+execute "[path]" "[function]":Execute the function in the csharp code required.

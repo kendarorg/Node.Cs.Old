@@ -1,0 +1,9 @@
+﻿{
+	"Name":"node.caching",
+	"Version":"0.0.0.1-alpha",
+	"Description":"Simple coroutine cache",
+	"Class":"Node.Caching.CachingModule",
+	"Singleton":"false",
+	"Dependencies":[
+	]
+}

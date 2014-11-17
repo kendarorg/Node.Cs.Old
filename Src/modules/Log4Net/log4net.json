@@ -1,0 +1,9 @@
+﻿{
+	"Name":"log4net",
+	"Version":"0.0.0.1-alpha",
+	"Description":"Log4Net integration",
+	"Class": "NodeLog4Net.Log4NetModule",
+	"ReplaceItem": "log",
+	"Singleton":"true",
+	"Dependencies":[]
+}

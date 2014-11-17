@@ -1,0 +1,8 @@
+﻿{
+	"Name":"curl",
+	"Version":"0.0.0.1-alpha",
+	"Description":"Execute http requests",
+	"Class":"Curl.CurlModule",
+	"Singleton":"true",
+	"Dependencies":[]
+}

@@ -1,0 +1,43 @@
+//Default file names
+//Missing default directories for razor/mvc
+
+Session. When closing should remove from cache
+Session. Should handle "async" pattern when updating
+
+Optimize the controller call system
+Reeview the multithread thing
+
+Cache:
+	Adding sub caches to specific region to use memcached or wetheaver
+	Specifying if something should be cached locally or globally
+Testing:
+	Testing for the controller handling
+	Testing to pass request and models from controtller to views
+	Verify the "CanHandle" stuff
+	Plus for an old item (according to coverage)
+Node.Cs:
+	Adding the help for the sub commands
+
+Custom error pages
+
+The setParameter is crap.
+Should add "loadConfig(config.json)"
+SetParameter should accept arrays too
+
+File watcher on
+* static
+* markdwond
+* cshtml
+
+Missing route directly on controllers
+	If nothing specified on the cshtml file written in 
+	ViewResponse then assumed ~/views/controller/action.cshtml
+
+C:\Projects\Program Files
+X:\Xampp\apache\bin\ab.exe
+ab.exe -n100000 -c20 http://127.0.0.1:8881/nodecs/Home/Do/asdfa
+ab.exe -n100000 -c20 http://127.0.0.1:8881/nodecs/WebApi/Do/Hello%20cruel%20World
+
+http://weblog.west-wind.com/posts/2013/Dec/09/Reexamining-ASPNET-and-Helios-Performance-Tests
+http://weblog.west-wind.com/posts/2013/Nov/23/Checking-out-the-Helios-IIS-Owin-Web-Server-Host
+http://weblog.west-wind.com/posts/2012/Sep/04/ASPNET-Frameworks-and-Raw-Throughput-Performance

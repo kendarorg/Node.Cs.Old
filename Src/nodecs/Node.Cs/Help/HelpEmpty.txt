@@ -1,0 +1,86 @@
+﻿Node.Cs main help.
+================================================================================
+Note that [xxx] are mandatory parameters while (xxx) are optional
+Available commands are:
+
+  HELP (command)
+		Show the Node.Cs main Help
+		(command)           The command for which the help must be shown
+
+  EXIT 
+    Exit from Node.Cs
+
+  CLS 
+    Clean the console
+
+  RECYCLE
+    Restart Node.Cs. Loose all work made
+
+	LASTERROR
+	  Show the last error message followed by its stack trace.
+
+	RUN [.cs file] (function)
+		Load the .cs file and run the called function
+		Recycling will abort the operation
+		[.cs file]          The C# file to load. If no extension is provided, ".cs"
+                        is added by default
+		[function]          The function (with no parameters) to run from the 
+                        .cs file. Default is 'execute'
+
+	RUNTHREAD [threadName] [.cs file] [function]
+	  Load the .cs file and run the  called function inside a thread called 
+		'threadName'
+		Recycling will abort the operation
+		[threadName]        The name of thread running inside Node.Cs 
+		[.cs file]          The C# file to load 
+		[function]          The function (with no parameters) to run from the 
+                        .cs file
+
+  STOPTHREAD [threadName]
+	  Stop the thread 'threadName' if present, else does nothing
+
+  LISTTHREADS
+	  List all the threads
+
+	LISTDLL (search param)
+	  List all dlls loaded
+		(search param)      If specified tells to list all the dlls that has a name
+		                    containing the search parameter 
+
+  LOADDLL [path]
+	  Load a dll on Node.Cs environment
+		Recycling will unload the dll
+		[path]              The path of the dll. Examples
+
+		LOADDLL myDll: will load myDll.dll from the main directory
+		LOADDLL myDll.dll: will load myDll.dll from the main directory
+		LOADDLL C:\myDll.dll: will load myDll.dll from C:\
+
+  LISTMODULES
+	  List all modules, their instance name and their running status
+		If module is not runnable the status will be '-'
+		If module is singleton the instance name will be 'Singleton'
+
+	STARTMODULE (moduleId) (moduleName)
+	  Start the given module
+		(moduleId)          The module id to start. The module name is not needed
+                        for singleton modules
+		(moduleName)        The isntance name of the module to start.
+
+	STOPMODULE (moduleId) (moduleName)
+	  Start the given module
+		(moduleId)          The module id to stop. The module name is not needed
+                        for singleton modules
+		(moduleName)        The isntance name of the module to stop.
+
+	LOADMODULE (moduleId) (moduleName)
+	  Load the given module
+		(moduleId)          The module id to stop. The module name is not needed
+                        for singleton modules
+		(moduleName)        The isntance name of the module to stop.
+
+	LISTCOROUTINES 
+	  List all coroutines currently running with their status and description
+
+  STATUSCOROUTINES
+    Show the status of the currently running coroutines

@@ -1,0 +1,9 @@
+﻿{
+	"Name":"runtime.caching",
+	"Version":"0.0.0.1-alpha",
+	"Description":"System.Runtime.Caching based cache",
+	"Class":"RuntimeCaching.CachingModule",
+	"Singleton":"false",
+	"Dependencies":[
+	]
+}

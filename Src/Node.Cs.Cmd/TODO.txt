@@ -1,2 +1,0 @@
-﻿Restart on too much memory consumed
-Split caches for razor and files

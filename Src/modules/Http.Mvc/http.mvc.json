@@ -1,0 +1,11 @@
+﻿{
+	"Name":"http.mvc",
+	"Version":"0.0.0.1-alpha",
+	"Description":"MVC infrastructure",
+	"Class":"HttpMvc.MvcModule",
+	"Singleton":"true",
+	"Dependencies":[
+		{"Name":"http","Version":"0.0.0.1-alpha"},
+		{"Name":"http.routing","Version":"0.0.0.1-alpha"}
+	]
+}

@@ -1,0 +1,10 @@
+﻿{
+	"Name":"http.routing",
+	"Version":"0.0.0.1-alpha",
+	"Description":"Handle http request directing to the correct route",
+	"Class":"Http.Routing.HttpRoutingModule",
+	"Singleton":"true",
+	"Dependencies":[
+		{"Name":"http","Version":"0.0.0.1-alpha"}
+	]
+}

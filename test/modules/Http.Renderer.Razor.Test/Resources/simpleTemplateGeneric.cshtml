@@ -1,0 +1,14 @@
+﻿@model System.Collections.Generic.List<System.String>
+<html>
+<head>
+	<title>Hello World</title>
+</head>
+<body>
+	Hello World. Today is @DateTime.UtcNow.Year <br/>
+	@foreach (var item in model)
+	{
+		<span>The model is @item</span>
+	}
+	
+</body>
+</html>

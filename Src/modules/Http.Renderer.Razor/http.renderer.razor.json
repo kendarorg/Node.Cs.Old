@@ -1,0 +1,11 @@
+﻿{
+	"Name":"http.renderer.razor",
+	"Version":"0.0.0.1-alpha",
+	"Description":"Render cshtml files",
+	"Class":"Http.Renderer.Razor.RazorRendererModule",
+	"Singleton":"true",
+	"Dependencies":[
+		{"Name":"http","Version":"0.0.0.1-alpha"},
+		{"Name":"http.mvc","Version":"0.0.0.1-alpha"}
+	]
+}

@@ -1,0 +1,1 @@
+﻿-makenuspec [file.csproj]

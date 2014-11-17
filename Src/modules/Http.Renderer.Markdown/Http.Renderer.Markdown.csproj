@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{88DA58CC-787E-4DE7-9DFA-36B5AB125257}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Http.Renderer.Markdown</RootNamespace>
+    <AssemblyName>Http.Renderer.Markdown</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MarkdownSharp">
+      <HintPath>..\..\..\packages\MarkdownSharp.1.13.0.0\lib\35\MarkdownSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="http.renderer.markdown.json" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MarkdownRendererModule.cs" />
+    <Compile Include="MarkdownRenderer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\ConcurrencyHelpers\ConcurrencyHelpers.csproj">
+      <Project>{12785E79-30B0-4959-A46C-D833D502605B}</Project>
+      <Name>ConcurrencyHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libs\CoroutinesLib.Shared\CoroutinesLib.Shared.csproj">
+      <Project>{92421235-CEBB-44C1-B939-7D39D23044B3}</Project>
+      <Name>CoroutinesLib.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libs\GenericHelpers\GenericHelpers.csproj">
+      <Project>{CC980B42-74BA-4E03-8B85-1DECBAC4155E}</Project>
+      <Name>GenericHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\modules\Http.Shared\Http.Shared.csproj">
+      <Project>{308123AA-03D4-4058-84B4-E8CF5D721D16}</Project>
+      <Name>Http.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\modules\Http\Http.csproj">
+      <Project>{CE8AD0CB-A416-4BFC-B998-AE6F33669590}</Project>
+      <Name>Http</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\nodecs\Node.Cs.Shared\Node.Cs.Shared.csproj">
+      <Project>{84F88FD9-F8F6-4741-BDDD-D62772E77523}</Project>
+      <Name>Node.Cs.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
