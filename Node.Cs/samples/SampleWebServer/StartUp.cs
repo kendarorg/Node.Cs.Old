@@ -20,9 +20,9 @@ using NodeCs.Shared;
 
 namespace SampleWebServer
 {
-	public class StartUp : 
-        IRouteInitializer, IFiltersInitializer,ILocatorInitialize,
-        IAuthenticationDataProviderFactory
+	public class StartUp :
+				IRouteInitializer, IFiltersInitializer, ILocatorInitialize,
+				IAuthenticationDataProviderFactory
 	{
 		public void InitializeRoutes(IRoutingHandler handler)
 		{
@@ -44,17 +44,18 @@ namespace SampleWebServer
 
 		public void InitializeFilters(IFilterHandler handler)
 		{
-            
+
 		}
 
 		public void InitializeLocator(IServiceLocator serviceLocator)
 		{
-		    
+
 		}
 
-        public IAuthenticationDataProvider Create()
-        {
-            return NullAuthenticationDataProvider.Instance;
-        }
-    }
+
+		public IAuthenticationDataProvider CreateAuthenticationDataProvider()
+		{
+			return NullAuthenticationDataProvider.Instance;
+		}
+	}
 }
