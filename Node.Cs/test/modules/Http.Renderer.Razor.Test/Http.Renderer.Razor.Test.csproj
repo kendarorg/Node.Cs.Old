@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GenericHelpers">
+      <HintPath>..\..\..\packages\GenericHelpers.1.0.5\lib\net45\GenericHelpers.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Moq">
       <HintPath>..\..\..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
@@ -50,10 +53,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\libs\GenericHelpers\GenericHelpers.csproj">
-      <Project>{CC980B42-74BA-4E03-8B85-1DECBAC4155E}</Project>
-      <Name>GenericHelpers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\src\modules\Http.Contexts\Http.Contexts.csproj">
       <Project>{53F80DC1-CA11-485D-B0E5-1BA13E07279D}</Project>
       <Name>Http.Contexts</Name>

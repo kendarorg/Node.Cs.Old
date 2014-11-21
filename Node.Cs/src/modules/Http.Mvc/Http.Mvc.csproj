@@ -32,6 +32,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClassWrapper">
+      <HintPath>..\..\..\packages\ClassWrapper.2.1.1\lib\net45\ClassWrapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExpressionBuilder">
+      <HintPath>..\..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="GenericHelpers">
+      <HintPath>..\..\..\packages\GenericHelpers.1.0.5\lib\net45\GenericHelpers.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -71,17 +81,9 @@
     <Compile Include="Utils\JsonDataService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\ClassWrapper\ClassWrapper.csproj">
-      <Project>{1C38424D-8A56-4894-BEA2-216B877CA225}</Project>
-      <Name>ClassWrapper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\libs\CoroutinesLib.Shared\CoroutinesLib.Shared.csproj">
       <Project>{92421235-cebb-44c1-b939-7d39d23044b3}</Project>
       <Name>CoroutinesLib.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libs\GenericHelpers\GenericHelpers.csproj">
-      <Project>{CC980B42-74BA-4E03-8B85-1DECBAC4155E}</Project>
-      <Name>GenericHelpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\nodecs\Node.Cs.Shared\Node.Cs.Shared.csproj">
       <Project>{84f88fd9-f8f6-4741-bddd-d62772e77523}</Project>

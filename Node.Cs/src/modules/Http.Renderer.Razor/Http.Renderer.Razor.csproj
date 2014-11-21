@@ -32,6 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClassWrapper">
+      <HintPath>..\..\..\packages\ClassWrapper.2.1.1\lib\net45\ClassWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="ExpressionBuilder">
+      <HintPath>..\..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="GenericHelpers">
+      <HintPath>..\..\..\packages\GenericHelpers.1.0.5\lib\net45\GenericHelpers.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -98,17 +107,9 @@
     <EmbeddedResource Include="http.renderer.razor.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\ClassWrapper\ClassWrapper.csproj">
-      <Project>{1C38424D-8A56-4894-BEA2-216B877CA225}</Project>
-      <Name>ClassWrapper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\libs\CoroutinesLib.Shared\CoroutinesLib.Shared.csproj">
       <Project>{92421235-CEBB-44C1-B939-7D39D23044B3}</Project>
       <Name>CoroutinesLib.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libs\GenericHelpers\GenericHelpers.csproj">
-      <Project>{CC980B42-74BA-4E03-8B85-1DECBAC4155E}</Project>
-      <Name>GenericHelpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\nodecs\Node.Cs.Shared\Node.Cs.Shared.csproj">
       <Project>{84F88FD9-F8F6-4741-BDDD-D62772E77523}</Project>

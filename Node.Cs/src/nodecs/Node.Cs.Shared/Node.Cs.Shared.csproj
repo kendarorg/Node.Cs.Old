@@ -32,8 +32,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClassWrapper">
+      <HintPath>..\..\..\packages\ClassWrapper.2.1.1\lib\net45\ClassWrapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExpressionBuilder">
+      <HintPath>..\..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="GenericHelpers">
+      <HintPath>..\..\..\packages\GenericHelpers.1.0.5\lib\net45\GenericHelpers.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTemplate">
+      <HintPath>..\..\..\packages\SharpTemplate.1.0.1\lib\net45\SharpTemplate.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -73,17 +87,9 @@
     <Compile Include="ValidationService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\ClassWrapper\ClassWrapper.csproj">
-      <Project>{1C38424D-8A56-4894-BEA2-216B877CA225}</Project>
-      <Name>ClassWrapper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\libs\CoroutinesLib.Shared\CoroutinesLib.Shared.csproj">
       <Project>{92421235-CEBB-44C1-B939-7D39D23044B3}</Project>
       <Name>CoroutinesLib.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libs\GenericHelpers\GenericHelpers.csproj">
-      <Project>{CC980B42-74BA-4E03-8B85-1DECBAC4155E}</Project>
-      <Name>GenericHelpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

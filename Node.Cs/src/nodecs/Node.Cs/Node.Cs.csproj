@@ -34,8 +34,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GenericHelpers">
+      <HintPath>..\..\..\packages\GenericHelpers.1.0.5\lib\net45\GenericHelpers.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpTemplate">
+      <HintPath>..\..\..\packages\SharpTemplate.1.0.1\lib\net45\SharpTemplate.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -76,14 +83,6 @@
     <ProjectReference Include="..\..\libs\CoroutinesLib\CoroutinesLib.csproj">
       <Project>{8602CDBA-1A07-48DC-87ED-DAEE73D8489B}</Project>
       <Name>CoroutinesLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libs\GenericHelpers\GenericHelpers.csproj">
-      <Project>{CC980B42-74BA-4E03-8B85-1DECBAC4155E}</Project>
-      <Name>GenericHelpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libs\SharpTemplate\SharpTemplate.csproj">
-      <Project>{8995C056-B019-4579-AEFD-C61AE93AABDA}</Project>
-      <Name>SharpTemplate</Name>
     </ProjectReference>
     <ProjectReference Include="..\Node.Cs.Shared\Node.Cs.Shared.csproj">
       <Project>{84F88FD9-F8F6-4741-BDDD-D62772E77523}</Project>

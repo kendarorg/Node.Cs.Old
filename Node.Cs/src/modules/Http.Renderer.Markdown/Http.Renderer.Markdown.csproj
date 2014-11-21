@@ -37,6 +37,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GenericHelpers">
+      <HintPath>..\..\..\packages\GenericHelpers.1.0.5\lib\net45\GenericHelpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MarkdownSharp">
       <HintPath>..\..\..\packages\MarkdownSharp.1.13.0.0\lib\35\MarkdownSharp.dll</HintPath>
     </Reference>
@@ -59,10 +63,6 @@
     <ProjectReference Include="..\..\libs\CoroutinesLib.Shared\CoroutinesLib.Shared.csproj">
       <Project>{92421235-CEBB-44C1-B939-7D39D23044B3}</Project>
       <Name>CoroutinesLib.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libs\GenericHelpers\GenericHelpers.csproj">
-      <Project>{CC980B42-74BA-4E03-8B85-1DECBAC4155E}</Project>
-      <Name>GenericHelpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\modules\Http.Shared\Http.Shared.csproj">
       <Project>{308123AA-03D4-4058-84B4-E8CF5D721D16}</Project>
