@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Node.Cs.TestHelpers;
 using NodeCs.Shared;
+using System;
 
 namespace Http.IntegrationTest
 {
@@ -52,8 +53,15 @@ namespace Http.IntegrationTest
 			var outputStream = (MockStream)context.Response.OutputStream;
 			outputStream.Initialize();
 
+
+            globalFilter.Setup(a => a.OnPostExecute(It.IsAny<IHttpContext>()))
+                .Callback(() =>
+                {
+                    Console.WriteLine("AAAA");
+                });
+
 			//request.
-			http.ExecuteRequest(context, (a, b) => false);
+			http.ExecuteRequest(context);
 			runner.RunCycleFor(200);
 			var os = (MemoryStream)context.Response.OutputStream;
 			os.Seek(0, SeekOrigin.Begin);
@@ -103,8 +111,8 @@ namespace Http.IntegrationTest
 			outputStream.Initialize();
 
 			//request.
-			http.ExecuteRequest(context, (a, b) => false);
-			runner.RunCycleFor(200);
+			http.ExecuteRequest(context);
+			runner.RunCycleFor(700);
 			var os = (MemoryStream)context.Response.OutputStream;
 			os.Seek(0, SeekOrigin.Begin);
 			var bytes = os.ToArray();
@@ -154,8 +162,8 @@ namespace Http.IntegrationTest
 			outputStream.Initialize();
 
 			//request.
-			http.ExecuteRequest(context, (a, b) => false);
-			runner.RunCycleFor(500);
+			http.ExecuteRequest(context);
+			runner.RunCycleFor(1500);
 			var os = (MemoryStream)context.Response.OutputStream;
 			os.Seek(0, SeekOrigin.Begin);
 			var bytes = os.ToArray();

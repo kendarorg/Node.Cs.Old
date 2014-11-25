@@ -63,7 +63,7 @@ namespace Http.IntegrationTest
 		protected byte[] RunRequest(string uri, HttpModule http, RunnerForTest runner, int timeoutMs = 250)
 		{
 			var context = PrepareRequest(uri);
-			http.ExecuteRequest(context, (a, b) => false);
+			http.ExecuteRequest(context);
 			var outputStream = (MockStream)context.Response.OutputStream;
 
 			var sw = new Stopwatch();

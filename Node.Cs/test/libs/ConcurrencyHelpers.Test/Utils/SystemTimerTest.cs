@@ -20,139 +20,139 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ConcurrencyHelpers.Test.Utils
 {
-	[TestClass]
-	public class SystemTimerTest
-	{
-		private int _elapsedCount;
-		private SystemTimer _t;
+    [TestClass]
+    public class SystemTimerTest
+    {
+        private int _elapsedCount;
+        private SystemTimer _t;
 
-		private void TimerElapsed(object sender, ElapsedTimerEventArgs e)
-		{
-			_elapsedCount++;
-		}
+        private void TimerElapsed(object sender, ElapsedTimerEventArgs e)
+        {
+            _elapsedCount++;
+        }
 
-		private void TimerElapsed100(object sender, ElapsedTimerEventArgs e)
-		{
-			Thread.Sleep(100);
-			_elapsedCount++;
-		}
+        private void TimerElapsed100(object sender, ElapsedTimerEventArgs e)
+        {
+            Thread.Sleep(100);
+            _elapsedCount++;
+        }
 
-		[TestInitialize]
-		public void TestInitialize()
-		{
-			_elapsedCount = 0;
-		}
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            _elapsedCount = 0;
+        }
 
-		[TestCleanup]
-		public void TestCleanup()
-		{
-			_t.Dispose();
-		}
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            _t.Dispose();
+        }
 
-		[TestMethod]
-		public void SystemTimerDelayTimerStart()
-		{
-			_t = new SystemTimer(100, 100);
-			_t.Elapsed += TimerElapsed;
-			_t.Start();
-			Thread.Sleep(90);
-			Assert.AreEqual(0, _elapsedCount);
-			Thread.Sleep(220);
-			Assert.IsTrue(3 == _elapsedCount || 2 == _elapsedCount);
-		}
+        [TestMethod]
+        public void SystemTimerDelayTimerStart()
+        {
+            _t = new SystemTimer(100, 100);
+            _t.Elapsed += TimerElapsed;
+            _t.Start();
+            Thread.Sleep(90);
+            Assert.AreEqual(0, _elapsedCount);
+            Thread.Sleep(220);
+            Assert.IsTrue(3 == _elapsedCount || 2 == _elapsedCount);
+        }
 
-		[TestMethod]
-		public void SystemTimerDelayTimerStartChangingTimers()
-		{
-			_t = new SystemTimer(1, 1);
-			_t.Elapsed += TimerElapsed;
-			_t.Start(100, 100);
-			Thread.Sleep(90);
-			Assert.AreEqual(0, _elapsedCount);
-			Thread.Sleep(220);
-			Assert.IsTrue(_elapsedCount >= 2);
-			Assert.AreEqual(_t.TimesRun, _elapsedCount);
-		}
+        [TestMethod]
+        public void SystemTimerDelayTimerStartChangingTimers()
+        {
+            _t = new SystemTimer(1, 1);
+            _t.Elapsed += TimerElapsed;
+            _t.Start(100, 100);
+            Thread.Sleep(90);
+            Assert.IsTrue(_elapsedCount <= 1);
+            Thread.Sleep(220);
+            Assert.IsTrue(_elapsedCount >= 2);
+            Assert.AreEqual(_t.TimesRun, _elapsedCount);
+        }
 
-		[TestMethod]
-		[Ignore]
-		public void SystemTimerRemoveElapsed()
-		{
-			_t = new SystemTimer(1, 1);
-			_t.Elapsed += TimerElapsed;
-			_t.Start(100, 100);
-			Thread.Sleep(90);
-			Assert.AreEqual(0, _elapsedCount);
-			Thread.Sleep(120);
-			_t.Stop();
-			var elapsed = _elapsedCount;
+        [TestMethod]
+        [Ignore]
+        public void SystemTimerRemoveElapsed()
+        {
+            _t = new SystemTimer(1, 1);
+            _t.Elapsed += TimerElapsed;
+            _t.Start(100, 100);
+            Thread.Sleep(90);
+            Assert.AreEqual(0, _elapsedCount);
+            Thread.Sleep(120);
+            _t.Stop();
+            var elapsed = _elapsedCount;
 
-			_t.Elapsed -= TimerElapsed;
+            _t.Elapsed -= TimerElapsed;
 
-			_t.Start(100, 100);
-			Thread.Sleep(90);
-			Assert.AreEqual(elapsed, _elapsedCount);
-			Thread.Sleep(220);
-			_t.Stop();
-			Assert.AreEqual(elapsed, _elapsedCount);
-			Assert.AreNotEqual(_t.TimesRun, _elapsedCount);
-		}
+            _t.Start(100, 100);
+            Thread.Sleep(90);
+            Assert.AreEqual(elapsed, _elapsedCount);
+            Thread.Sleep(220);
+            _t.Stop();
+            Assert.AreEqual(elapsed, _elapsedCount);
+            Assert.AreNotEqual(_t.TimesRun, _elapsedCount);
+        }
 
-		[TestMethod]
-		public void SystemTimerRunGivenTimes()
-		{
-			_t = new SystemTimer(100, 10);
-			_t.Elapsed += TimerElapsed;
-			_t.Start();
-			Thread.Sleep(240);
-			Assert.IsTrue(_t.Running);
-			_t.Stop();
-			Assert.AreEqual(3, _elapsedCount);
-			Assert.IsFalse(_t.Running);
-		}
+        [TestMethod]
+        public void SystemTimerRunGivenTimes()
+        {
+            _t = new SystemTimer(100, 10);
+            _t.Elapsed += TimerElapsed;
+            _t.Start();
+            Thread.Sleep(240);
+            Assert.IsTrue(_t.Running);
+            _t.Stop();
+            Assert.AreEqual(3, _elapsedCount);
+            Assert.IsFalse(_t.Running);
+        }
 
-		[TestMethod]
-		public void SystemTimerInitialization()
-		{
-			_t = new SystemTimer(15, 101);
-			Assert.AreEqual(15, _t.Period);
-			_t.Start();
-			_t.Dispose();
-			_t = new SystemTimer(15);
-		}
+        [TestMethod]
+        public void SystemTimerInitialization()
+        {
+            _t = new SystemTimer(15, 101);
+            Assert.AreEqual(15, _t.Period);
+            _t.Start();
+            _t.Dispose();
+            _t = new SystemTimer(15);
+        }
 
-		[TestMethod]
-		public void SystemTimerZeroWait()
-		{
-			_t = new SystemTimer(50);
-			_t.Elapsed += TimerElapsed;
-			_t.Start();
-			Thread.Sleep(265);
-			Assert.AreEqual(5, _elapsedCount);
-		}
+        [TestMethod]
+        public void SystemTimerZeroWait()
+        {
+            _t = new SystemTimer(50);
+            _t.Elapsed += TimerElapsed;
+            _t.Start();
+            Thread.Sleep(265);
+            Assert.AreEqual(5, _elapsedCount);
+        }
 
-		[TestMethod]
-		public void SystemTimerNoOverlap()
-		{
-			_t = new SystemTimer(50);
-			_t.Elapsed += TimerElapsed100;
-			_t.Start();
-			Thread.Sleep(350);
-			_t.Stop();
-			Assert.AreEqual(3, _elapsedCount);
-		}
+        [TestMethod]
+        public void SystemTimerNoOverlap()
+        {
+            _t = new SystemTimer(50);
+            _t.Elapsed += TimerElapsed100;
+            _t.Start();
+            Thread.Sleep(350);
+            _t.Stop();
+            Assert.AreEqual(3, _elapsedCount);
+        }
 
-		[TestMethod]
-		public void SystemTimerStop()
-		{
-			_t = new SystemTimer(50);
-			_t.Elapsed += TimerElapsed;
-			_t.Start();
-			Thread.Sleep(265);
-			Assert.AreEqual(5, _elapsedCount);
-			_t.Stop();
-			Thread.Sleep(265);
-			Assert.AreEqual(5, _elapsedCount);
-		}
-	}
+        [TestMethod]
+        public void SystemTimerStop()
+        {
+            _t = new SystemTimer(50);
+            _t.Elapsed += TimerElapsed;
+            _t.Start();
+            Thread.Sleep(265);
+            Assert.AreEqual(5, _elapsedCount);
+            _t.Stop();
+            Thread.Sleep(265);
+            Assert.AreEqual(5, _elapsedCount);
+        }
+    }
 }

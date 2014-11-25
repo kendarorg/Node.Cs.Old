@@ -101,7 +101,7 @@ namespace Node.Cache.Test
 				result = r;
 			});
 			_runner.StartCoroutine(waiter.AsCoroutine());
-			_runner.RunCycleFor(100);
+			_runner.RunCycleFor(200);
 
 			Assert.AreEqual(1, _loadDataCalled);
 			Assert.AreEqual("RESULT", result);

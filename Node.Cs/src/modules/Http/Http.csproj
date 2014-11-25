@@ -64,6 +64,7 @@
     <Compile Include="BasicSessionManager.cs" />
     <Compile Include="Controllers\ControllerWrapperDescriptor.cs" />
     <Compile Include="Controllers\ControllerWrapperInstance.cs" />
+    <Compile Include="Coroutines\ExecuteRequestCoroutine.cs" />
     <Compile Include="Coroutines\RenderizableItemCoroutine.cs" />
     <Compile Include="Coroutines\RoutedItemCoroutine.cs" />
     <Compile Include="FilterHandler.cs" />

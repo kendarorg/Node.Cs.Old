@@ -83,23 +83,11 @@ namespace Http.Coroutines
 			}
 
 			var target = new MemoryStream(result);
-			yield return CoroutineResult.Run(_renderer.Render(_relativePath, lastModification, target,
-				_context, _model, _modelStateDictionary),
-				string.Format("RenderItem::Render '{0}'", _relativePath))
-				.OnComplete(() =>
-				{
-					if (_context.Parent == null)
-					{
-						ServiceLocator.Locator.Resolve<IFilterHandler>().OnPostExecute(_context);
-					}
-					_context.Response.Close();
-				})
-				.WithTimeout(TimeSpan.FromMinutes(1))
-				.OnError((exception) =>
-				{
-					if (_specialHandler != null && _specialHandler(exception, _context)) return true;
-					return true;
-				});
+            yield return CoroutineResult.Run(_renderer.Render(_relativePath, lastModification, target,
+                _context, _model, _modelStateDictionary),
+                string.Format("RenderItem::Render '{0}'", _relativePath))
+                .WithTimeout(TimeSpan.FromMinutes(1))
+                .AndWait();
 			TerminateElaboration();
 
 		}

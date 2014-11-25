@@ -1,5 +1,7 @@
 ## Node.Cs Server
 
+THIS IS THE VERSION 2 alpha! The working one is on the branch!!!
+
 ### Introduction
 
 This is a project developed to simulate the behaviour of Node.Js. It's not a direct port since simply I prefer

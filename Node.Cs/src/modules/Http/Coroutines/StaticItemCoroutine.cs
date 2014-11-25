@@ -67,8 +67,6 @@ namespace Http.Coroutines
 				.WithTimeout(TimeSpan.FromSeconds(60))
 				.AndWait();
 
-
-			ServiceLocator.Locator.Resolve<IFilterHandler>().OnPostExecute(_context);
 			if (!completed || result == null)
 			{
 				throw new HttpException(500, string.Format("Error loading '{0}'.", _relativePath));
@@ -79,17 +77,20 @@ namespace Http.Coroutines
 			var source = new MemoryStream(result);
 			source.Seek(0, SeekOrigin.Begin);
 			//Wait that the copy is completed
+            /*
 			try
 			{
 				source.CopyToAsync(target)
-					.ContinueWith((c) => _context.Response.Close());
+					.ContinueWith((c) => _con text.Resp  onse.Close());
 			}
 			catch (Exception)
 			{
 				
-			}
+			}*/
+            yield return CoroutineResult.RunTask(source.CopyToAsync(target)).AndWait();
 
 			TerminateElaboration();
+            
 
 		}
 

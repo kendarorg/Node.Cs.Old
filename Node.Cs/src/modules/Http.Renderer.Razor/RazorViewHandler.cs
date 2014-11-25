@@ -21,6 +21,7 @@ using Http.Shared.Controllers;
 using HttpMvc;
 using HttpMvc.Controllers;
 using NodeCs.Shared;
+using CoroutinesLib.Shared;
 
 namespace Http.Renderer.Razor
 {
@@ -34,7 +35,7 @@ namespace Http.Renderer.Razor
 			_mvcModule = NodeRoot.GetModule("http.mvc") as MvcModule;
 			_httpModule = ServiceLocator.Locator.Resolve<HttpModule>();
 		}
-		public void Handle(IHttpContext context, IResponse response)
+		public ICoroutineResult Handle(IHttpContext context, IResponse response)
 		{
 			var viewResponse = (ViewResponse)response;
 			var view = viewResponse.View ?? context.RouteParams["action"].ToString();
@@ -66,7 +67,7 @@ namespace Http.Renderer.Razor
 			wrappedRequest.SetUrl(new Uri(view,UriKind.RelativeOrAbsolute));
 			var wrappedResponse = (IHttpResponse)wrappedContext.Response;
 			wrappedResponse.SetOutputStream(context.Response.OutputStream);
-			_httpModule.ExecuteRequest(wrappedContext, viewResponse.Model,new ModelStateDictionary());
+			return _httpModule.ExecuteRequestInternal(wrappedContext, viewResponse.Model,new ModelStateDictionary());
 		}
 
 		public bool CanHandle(IResponse response)

@@ -392,7 +392,7 @@ namespace CoroutinesLib.Test
 			coroutine.Verify(a => a.Execute(), Times.AtLeastOnce);
 			coroutine.Verify(a => a.OnError(It.IsAny<Exception>()), Times.Once);
 			coroutine.Verify(a => a.OnError(It.IsAny<ManagerStoppedException>()), Times.Once);
-			coroutine.Verify(a => a.OnDestroy(), Times.Never);
+			coroutine.Verify(a => a.OnDestroy(), Times.AtMostOnce);
 		}
 		#endregion
 	}

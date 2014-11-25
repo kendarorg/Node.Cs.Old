@@ -63,7 +63,7 @@ namespace Http.IntegrationTest
 			outputStream.Initialize();
 
 			//request.
-			http.ExecuteRequest(context,(a,b)=>false);
+			http.ExecuteRequest(context);
 			runner.RunCycleFor(200);
 			var os = (MemoryStream)context.Response.OutputStream;
 			os.Seek(0, SeekOrigin.Begin);
@@ -109,7 +109,7 @@ namespace Http.IntegrationTest
 			outputStream.Initialize();
 
 			//request.
-			http.ExecuteRequest(context,(a,b)=>false);
+			http.ExecuteRequest(context);
 			runner.RunCycleFor(200);
 			var os = (MemoryStream)context.Response.OutputStream;
 			os.Seek(0, SeekOrigin.Begin);
@@ -170,7 +170,7 @@ namespace Http.IntegrationTest
 					var src = node.Attributes["src"].Value;
 					if (!src.StartsWith("http")) src = uri + "/" + src.Trim('/');
 					contexts.Add((SimpleHttpContext)PrepareRequest(src));
-					http.ExecuteRequest(contexts.Last(), (a,b) => false);
+					http.ExecuteRequest(contexts.Last());
 				}
 			}
 			runner.RunCycleFor(500);
