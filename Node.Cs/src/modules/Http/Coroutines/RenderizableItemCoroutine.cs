@@ -82,12 +82,23 @@ namespace Http.Coroutines
 				throw new HttpException(500, string.Format("Error loading '{0}'.", _relativePath));
 			}
 
+			Exception thrownException = null;
 			var target = new MemoryStream(result);
-            yield return CoroutineResult.Run(_renderer.Render(_relativePath, lastModification, target,
-                _context, _model, _modelStateDictionary),
-                string.Format("RenderItem::Render '{0}'", _relativePath))
-                .WithTimeout(TimeSpan.FromMinutes(1))
-                .AndWait();
+			yield return CoroutineResult.Run(_renderer.Render(_relativePath, lastModification, target,
+					_context, _model, _modelStateDictionary),
+					string.Format("RenderItem::Render '{0}'", _relativePath))
+					.WithTimeout(TimeSpan.FromMinutes(1))
+					.OnError((e) =>
+					{
+						thrownException = e;
+						return true;
+					})
+					.AndWait();
+			if (thrownException != null)
+			{
+				throw new HttpException(500,
+					thrownException.Message+": "+thrownException.GetType().Namespace+thrownException.GetType().Name,thrownException);
+			}
 			TerminateElaboration();
 
 		}

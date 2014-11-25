@@ -14,25 +14,27 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Http.Shared
 {
-	public class HttpException:Exception
+	public class HttpException : Exception
 	{
 		public int Code { get; set; }
-		
-		public HttpException(int code,string message):
+
+		public HttpException(int code, string message) :
 			base(message)
 		{
 			Code = code;
 		}
 
-		public HttpException(int code, string message,Exception innerException) :
+		public HttpException(int code, string message, Exception innerException) :
 			base(message, innerException)
+		{
+			Code = code;
+		}
+
+		public HttpException(int code, Exception innerException) :
+			base(innerException.Message, innerException)
 		{
 			Code = code;
 		}

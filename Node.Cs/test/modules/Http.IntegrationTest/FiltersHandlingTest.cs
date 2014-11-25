@@ -163,7 +163,7 @@ namespace Http.IntegrationTest
 
 			//request.
 			http.ExecuteRequest(context);
-			runner.RunCycleFor(1500);
+			runner.RunCycleFor(2000);
 			var os = (MemoryStream)context.Response.OutputStream;
 			os.Seek(0, SeekOrigin.Begin);
 			var bytes = os.ToArray();
@@ -171,7 +171,7 @@ namespace Http.IntegrationTest
 
 			Assert.IsTrue(outputStream.WrittenBytes > 0);
 			Assert.IsNotNull(result);
-			Assert.IsTrue(result.Contains("FormatException"));
+			Assert.IsTrue(result.Contains("format"), result);
 
 			globalFilter.Verify(a => a.OnPreExecute(It.IsAny<IHttpContext>()), Times.Once);
 			globalFilter.Verify(a => a.OnPostExecute(It.IsAny<IHttpContext>()), Times.Once);

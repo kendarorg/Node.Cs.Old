@@ -120,6 +120,7 @@ namespace Http.Coroutines
 
                     var httpModule = ServiceLocator.Locator.Resolve<HttpModule>();
                     yield return httpModule.HandleResponse(_context, response);
+										Console.WriteLine("AAAAAAAAAAAAAAAA");
                 }
             }
             else
