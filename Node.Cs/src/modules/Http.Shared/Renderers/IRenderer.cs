@@ -26,8 +26,10 @@ namespace Http.Shared.Renderers
 	{
 		bool CanHandle(string extension);
 		IEnumerable<ICoroutineResult> Render(
-			string itemPath, DateTime lastModification, 
+			string itemPath, DateTime lastModification,
 			MemoryStream target, IHttpContext context, object model,
 			ModelStateDictionary modelStateDictionary);
+
+		bool IsSessionCapable { get; }
 	}
 }

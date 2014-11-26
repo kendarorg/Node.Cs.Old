@@ -83,14 +83,19 @@ namespace Http.Renderer.Razor
 					.AndWait();
 			}
 			context.Response.ContentType = MimeHelper.HTML_MIME;
-			
+
 			var bytes = Encoding.UTF8.GetBytes(_renderer.GenerateOutputString(model, itemPath, context, modelStateDictionary));
-			
+
 			var newSoure = new MemoryStream(bytes);
 			var target = context.Response.OutputStream;
 			yield return CoroutineResult.RunTask(newSoure.CopyToAsync(target),
 				string.Format("RazorRenderer::CopyStream '{0}'", context.Request.Url))
 				.AndWait();
+		}
+
+		public bool IsSessionCapable
+		{
+			get { return true; }
 		}
 
 		private IEnumerable<ICoroutineResult> RunAsTask(string itemPath, MemoryStream source, DateTime lastModification, object model)

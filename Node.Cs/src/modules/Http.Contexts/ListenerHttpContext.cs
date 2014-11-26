@@ -47,6 +47,15 @@ namespace Http.Contexts
 			get { return null; }
 		}
 
+		public IHttpContext RootContext
+		{
+			get
+			{
+				if (Parent == null) return this;
+				return Parent.RootContext;
+			}
+		}
+
 		public Dictionary<string, object> RouteParams { get; set; }
 		public object SourceObject { get { return _httpListenerContext; } }
 

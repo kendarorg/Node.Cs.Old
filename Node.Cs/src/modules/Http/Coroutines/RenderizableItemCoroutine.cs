@@ -19,10 +19,10 @@ using Http.Shared.Contexts;
 using Http.Shared.Controllers;
 using Http.Shared.PathProviders;
 using Http.Shared.Renderers;
+using NodeCs.Shared;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using NodeCs.Shared;
 
 namespace Http.Coroutines
 {
@@ -33,7 +33,7 @@ namespace Http.Coroutines
 		private readonly IPathProvider _pathProvider;
 		private readonly IHttpContext _context;
 		private readonly Func<Exception, IHttpContext, bool> _specialHandler;
-		private object _model;
+		private readonly object _model;
 		private readonly ModelStateDictionary _modelStateDictionary;
 
 		public RenderizableItemCoroutine(
@@ -59,6 +59,7 @@ namespace Http.Coroutines
 		{
 
 		}
+		private bool _iInitializedSession = false;
 
 		public override IEnumerable<ICoroutineResult> OnCycle()
 		{
@@ -84,6 +85,20 @@ namespace Http.Coroutines
 
 			Exception thrownException = null;
 			var target = new MemoryStream(result);
+
+			if (_renderer.IsSessionCapable)
+			{
+				if (_context.Session == null)
+				{
+					var sessionManager = ServiceLocator.Locator.Resolve<ISessionManager>();
+					if (sessionManager != null)
+					{
+						_iInitializedSession = true;
+						sessionManager.InitializeSession(_context);
+					}
+				}
+			}
+
 			yield return CoroutineResult.Run(_renderer.Render(_relativePath, lastModification, target,
 					_context, _model, _modelStateDictionary),
 					string.Format("RenderItem::Render '{0}'", _relativePath))
@@ -97,7 +112,15 @@ namespace Http.Coroutines
 			if (thrownException != null)
 			{
 				throw new HttpException(500,
-					thrownException.Message+": "+thrownException.GetType().Namespace+thrownException.GetType().Name,thrownException);
+					thrownException.Message + ": " + thrownException.GetType().Namespace + thrownException.GetType().Name, thrownException);
+			}
+			if (_iInitializedSession)
+			{
+				if (_context.Session != null)
+				{
+					var sessionManager = ServiceLocator.Locator.Resolve<ISessionManager>();
+					sessionManager.SaveSession(_context);
+				}
 			}
 			TerminateElaboration();
 
@@ -111,6 +134,14 @@ namespace Http.Coroutines
 		public override bool OnError(Exception exception)
 		{
 			if (_specialHandler != null) _specialHandler(exception, _context);
+			if (_iInitializedSession)
+			{
+				if (_context.Session != null)
+				{
+					var sessionManager = ServiceLocator.Locator.Resolve<ISessionManager>();
+					sessionManager.SaveSession(_context);
+				}
+			}
 
 			return true;
 		}

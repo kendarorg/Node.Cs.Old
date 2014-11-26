@@ -98,6 +98,10 @@ namespace Http.Renderer.Markdown
 				.AndWait();
 		}
 
+		public bool IsSessionCapable {
+			get { return false; }
+		}
+
 		private IEnumerable<ICoroutineResult> LoadTransformedBytes(string itemPath, MemoryStream source, DateTime lastModification)
 		{
 			string result;

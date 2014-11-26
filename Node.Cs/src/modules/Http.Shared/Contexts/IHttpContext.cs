@@ -37,6 +37,7 @@ namespace Http.Shared.Contexts
     }
 	public interface IHttpContext 
 	{
+		IHttpContext RootContext { get; }
 		IHttpContext Parent { get; }
 		void ForceHeader(string key, string value);
 		ISubscriptionToken AddOnRequestCompleted(Action<HttpContextBase> callback);

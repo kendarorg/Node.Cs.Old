@@ -41,6 +41,15 @@ namespace Http.Contexts
 			RouteParams = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 		}
 
+		public IHttpContext RootContext
+		{
+			get
+			{
+				if (Parent == null) return this;
+				return Parent.RootContext;
+			}
+		}
+
 		public Dictionary<string, object> RouteParams { get; set; }
 		private readonly IHttpContext _httpContext;
 

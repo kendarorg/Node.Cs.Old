@@ -13,7 +13,6 @@
 // ===========================================================
 
 
-using System.Web.UI.WebControls;
 using ClassWrapper;
 using ConcurrencyHelpers.Utils;
 using CoroutinesLib.Shared;
@@ -31,12 +30,10 @@ using Http.Shared.Routing;
 using NodeCs.Shared;
 using NodeCs.Shared.Caching;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Threading;
 
 namespace Http
@@ -356,11 +353,7 @@ namespace Http
 				relativePath = requestPath.Substring(_virtualDir.Length - 1);
 			}
 			_filtersHandler.OnPreExecute(context);
-			var sessionManager = ServiceLocator.Locator.Resolve<ISessionManager>();
-			if (sessionManager != null)
-			{
-				sessionManager.InitializeSession(context);
-			}
+			
 			if (_routingHandler != null)
 			{
 				var match = _routingHandler.Resolve(relativePath, context);
