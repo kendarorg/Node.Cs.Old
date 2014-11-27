@@ -84,7 +84,8 @@ namespace Http.Renderer.Razor
 			}
 			context.Response.ContentType = MimeHelper.HTML_MIME;
 
-			var bytes = Encoding.UTF8.GetBytes(_renderer.GenerateOutputString(model, itemPath, context, modelStateDictionary));
+			var stringResult = _renderer.GenerateOutputString(model, itemPath, context, modelStateDictionary);
+			var bytes = Encoding.UTF8.GetBytes(stringResult);
 
 			var newSoure = new MemoryStream(bytes);
 			var target = context.Response.OutputStream;

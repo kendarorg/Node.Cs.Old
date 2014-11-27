@@ -83,7 +83,7 @@ namespace CoroutinesLib.Shared.Enumerators
 		{
 			if (!_started)
 			{
-				Log.Warning("Not started {0}",InstanceName);
+				Log.Warning("Not started {0}", InstanceName);
 			}
 			if (disposing)
 			{
@@ -194,7 +194,14 @@ namespace CoroutinesLib.Shared.Enumerators
 		{
 			var builder = (FluentResultBuilder)current;
 			builder.Log = Log;
-			if (builder.Type.HasFlag(FluentResultType.Waiting))
+			if (builder.Type.HasFlag(FluentResultType.CoroutineFunction) && !builder.Type.HasFlag(FluentResultType.Waiting))
+			{
+				_child = new CoroutineResultEnumerator(builder.InstanceName, builder.Coroutine.Execute().GetEnumerator())
+				{
+					Log = Log
+				};
+			}
+			else if (builder.Type.HasFlag(FluentResultType.Waiting))
 			{
 				_child = new CoroutineResultEnumerator(builder.InstanceName, builder.RunEnumerator().GetEnumerator())
 				{

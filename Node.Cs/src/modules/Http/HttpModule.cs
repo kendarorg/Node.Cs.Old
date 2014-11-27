@@ -280,17 +280,19 @@ namespace Http
 			return cld.CreateWrapper(controller);
 		}
 
-		public ICoroutineResult HandleResponse(IHttpContext context, IResponse response)
+		public IEnumerable<ICoroutineResult> HandleResponse(IHttpContext context, IResponse response)
 		{
 			for (int index = 0; index < _responseHandlers.Count; index++)
 			{
 				var handler = _responseHandlers[index];
 				if (handler.CanHandle(response))
 				{
-					return handler.Handle(context, response);
+					foreach (var item in handler.Handle(context, response))
+					{
+						yield return item;
+					}
 				}
 			}
-			return CoroutineResult.YieldBreak();
 		}
 
 		/*
@@ -668,6 +670,7 @@ namespace Http
 
 			executeRequestCoroutine.Initialize();
 			return CoroutineResult.RunCoroutine(executeRequestCoroutine)
+					.WithTimeout(TimeSpan.FromSeconds(60))
 					.AndWait();/*
             runner.StartCoroutine(executeRequestCoroutine);
 

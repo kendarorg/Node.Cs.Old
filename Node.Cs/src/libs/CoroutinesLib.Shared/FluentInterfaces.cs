@@ -25,6 +25,8 @@ namespace CoroutinesLib.Shared
 {
 	public class FluentResultBuilder : IOnResponseMessage, IOnFunctionResult, IForEachItem, IOnComplete, INamedItem, ILoggable
 	{
+		private ICoroutineThread _coroutine;
+
 		public FluentResultBuilder()
 		{
 			OnCompleteWithoutResultDo = () => { };
@@ -124,7 +126,24 @@ namespace CoroutinesLib.Shared
 
 		public Action OnCompleteWithoutResultDo { get; set; }
 		public Task Task { get; set; }
-		public ICoroutineThread Coroutine { get; set; }
+
+		private static IEnumerable<ICoroutineResult> CoroutineWaiter(ICoroutineThread coroutine)
+		{
+			while (!coroutine.Status.Is(RunningStatus.NotRunning))
+			{
+				yield return CoroutineResult.Wait;
+			}
+		}
+		public ICoroutineThread Coroutine
+		{
+			get { return _coroutine; }
+			set
+			{
+				_coroutine = value;
+				Enumerator = _coroutine.Execute().GetEnumerator();
+			}
+		}
+
 		public IMessage Message { get; set; }
 
 		public ICoroutineResult AndWait()
@@ -171,7 +190,15 @@ namespace CoroutinesLib.Shared
 						throw new CoroutineTimeoutException(string.Format("Timeout on '{0}'", InstanceName));
 					}
 					moveNext = Enumerator.MoveNext();
-					if (!moveNext) break;
+					if (!moveNext)
+					{
+						if (_coroutine != null)
+						{
+							_coroutine.OnDestroy();
+							_coroutine = null;
+						}
+						break;
+					}
 					current = Enumerator.Current;
 					if (current.ResultType == ResultType.Return)
 					{
@@ -193,7 +220,20 @@ namespace CoroutinesLib.Shared
 				{
 					if (OnErrorDo != null)
 					{
-						if (OnErrorDo(ex)) break;
+						if (OnErrorDo(ex))
+						{
+							if (_coroutine != null)
+							{
+								_coroutine.OnDestroy();
+								_coroutine = null;
+							}
+							break;
+						}
+					}
+					if (_coroutine != null)
+					{
+						_coroutine.OnDestroy();
+						_coroutine = null;
 					}
 					throw new CoroutineTimeoutException("Error running ", ex);
 				}

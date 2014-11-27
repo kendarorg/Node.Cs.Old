@@ -1,4 +1,5 @@
 ﻿using CoroutinesLib.Shared;
+using CoroutinesLib.Shared.Enums;
 using GenericHelpers;
 using Http.Shared;
 using Http.Shared.Contexts;
@@ -275,8 +276,10 @@ namespace Http.Coroutines
 		{
 			foreach (var item in _coroutine.Execute())
 			{
+				_status = _coroutine.Status;
 				yield return item;
 			}
+			_status = RunningStatus.Stopping;
 		}
 
 		private bool _errorHappened = false;
@@ -295,9 +298,10 @@ namespace Http.Coroutines
 			return true;
 		}
 
-		public CoroutinesLib.Shared.Enums.RunningStatus Status
+		private RunningStatus _status;
+		public RunningStatus Status
 		{
-			get { return _coroutine.Status; }
+			get { return _status; }
 		}
 
 		public void OnDestroy()
@@ -306,9 +310,13 @@ namespace Http.Coroutines
 			{
 				var filtersHandler = ServiceLocator.Locator.Resolve<IFilterHandler>();
 				filtersHandler.OnPostExecute(_context);
+				_context.Response.Close();
+			}
+			else
+			{
+				_context.Response.Close();
 			}
 			_coroutine.OnDestroy();
-			_context.Response.Close();
 		}
 
 		public string InstanceName

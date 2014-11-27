@@ -129,7 +129,10 @@ namespace Http.Coroutines
 					ServiceLocator.Locator.Release(_controller.Instance.Instance);
 
 					var httpModule = ServiceLocator.Locator.Resolve<HttpModule>();
-					yield return httpModule.HandleResponse(_context, response);
+					foreach (var item in httpModule.HandleResponse(_context, response))
+					{
+						yield return item;
+					}
 				}
 			}
 			else
