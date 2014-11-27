@@ -290,6 +290,7 @@ namespace Http
 					foreach (var item in handler.Handle(context, response))
 					{
 						yield return item;
+						yield break;
 					}
 				}
 			}
@@ -665,7 +666,7 @@ namespace Http
 		{
 			var executeRequestCoroutine = new ExecuteRequestCoroutine(
 					_virtualDir,
-					context, null, new ModelStateDictionary(),
+					context, model, new ModelStateDictionary(),
 					_pathProviders, _renderers, _defaulList);
 
 			executeRequestCoroutine.Initialize();

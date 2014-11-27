@@ -31,11 +31,9 @@ namespace CoroutinesLib.Internals
 		internal void Initialize(ILogger log)
 		{
 			var en = new CoroutineResultEnumerator(
-#if DEBUG
+
 				string.Format("Enumerator for '{0}'.", Coroutine.InstanceName),
-#else
-				string.Empty,
-#endif
+
 				Coroutine.Execute().GetEnumerator())
 			{
 				Log = log
@@ -49,11 +47,9 @@ namespace CoroutinesLib.Internals
 
 		public string BuildRunningStatus()
 		{
-#if DEBUG
+
 			return Coroutine.GetType().Name + "(" + (Coroutine.InstanceName ?? "") + ")" + Enumerators.BuildRunningStatus();
-#else
-			return string.Empty;
-#endif
+
 		}
 	}
 }

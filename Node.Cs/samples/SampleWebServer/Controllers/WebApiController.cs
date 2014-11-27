@@ -25,7 +25,7 @@ namespace SampleWebServer.Controllers
 		public IEnumerable<IResponse> Do(string id)
 		{
 			yield return NullResponse.Instance;
-			yield return TextResponse("FUFFA CONTENT "+id);
+			yield return TextResponse("FUFFA CONTENT "+id??"null");
 		}
 	}
 }

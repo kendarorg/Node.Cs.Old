@@ -23,8 +23,8 @@ namespace CoroutinesLib.Shared
 {
 	public interface INamedItem
 	{
-#if DEBUG
+
 		string InstanceName { get; set; }
-#endif
+
 	}
 }

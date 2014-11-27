@@ -145,6 +145,10 @@ namespace Http.Coroutines
 						sessionManager.SaveSession(_context);
 					}
 				}
+				if (_context.Parent == null)
+				{
+					_context.Response.Close();
+				}
 				TerminateElaboration();
 			}
 
@@ -192,6 +196,10 @@ namespace Http.Coroutines
 					var sessionManager = ServiceLocator.Locator.Resolve<ISessionManager>();
 					sessionManager.SaveSession(_context);
 				}
+			}
+			if (_context.Parent == null)
+			{
+				_context.Response.Close();
 			}
 
 			throw exception;
