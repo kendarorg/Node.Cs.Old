@@ -13,14 +13,10 @@
 // ===========================================================
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using CoroutinesLib.Shared.Logging;
 using log4net;
+using System;
+using System.Reflection;
 
 namespace NodeLog4Net
 {

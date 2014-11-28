@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,7 +36,17 @@
     <Reference Include="ClassWrapper">
       <HintPath>..\..\..\packages\ClassWrapper.2.1.1\lib\net45\ClassWrapper.dll</HintPath>
     </Reference>
-    <Reference Include="ExpressionBuilder">
+    <Reference Include="ConcurrencyHelpers">
+      <HintPath>..\..\..\packages\ConcurrencyHelpers.4.0.0-alpha\lib\net45\ConcurrencyHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="CoroutinesLib">
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.dll</HintPath>
+    </Reference>
+    <Reference Include="CoroutinesLib.Shared">
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="ExpressionBuilder, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
     </Reference>
     <Reference Include="GenericHelpers">
@@ -73,14 +84,6 @@
     <Compile Include="Coroutines\StaticItemCoroutine.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\ConcurrencyHelpers\ConcurrencyHelpers.csproj">
-      <Project>{12785E79-30B0-4959-A46C-D833D502605B}</Project>
-      <Name>ConcurrencyHelpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libs\CoroutinesLib.Shared\CoroutinesLib.Shared.csproj">
-      <Project>{92421235-CEBB-44C1-B939-7D39D23044B3}</Project>
-      <Name>CoroutinesLib.Shared</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\nodecs\Node.Cs.Shared\Node.Cs.Shared.csproj">
       <Project>{84F88FD9-F8F6-4741-BDDD-D62772E77523}</Project>
       <Name>Node.Cs.Shared</Name>

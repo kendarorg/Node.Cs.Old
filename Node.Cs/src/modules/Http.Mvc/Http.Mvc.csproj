@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +35,18 @@
   <ItemGroup>
     <Reference Include="ClassWrapper">
       <HintPath>..\..\..\packages\ClassWrapper.2.1.1\lib\net45\ClassWrapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ConcurrencyHelpers">
+      <HintPath>..\..\..\packages\ConcurrencyHelpers.4.0.0-alpha\lib\net45\ConcurrencyHelpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CoroutinesLib">
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CoroutinesLib.Shared">
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.Shared.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ExpressionBuilder">
@@ -81,10 +94,6 @@
     <Compile Include="Utils\JsonDataService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\CoroutinesLib.Shared\CoroutinesLib.Shared.csproj">
-      <Project>{92421235-cebb-44c1-b939-7d39d23044b3}</Project>
-      <Name>CoroutinesLib.Shared</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\nodecs\Node.Cs.Shared\Node.Cs.Shared.csproj">
       <Project>{84f88fd9-f8f6-4741-bddd-d62772e77523}</Project>
       <Name>Node.Cs.Shared</Name>

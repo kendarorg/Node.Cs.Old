@@ -30,8 +30,9 @@ namespace Http.Contexts
 {
 	public class ListenerHttpResponse : HttpResponseBase, IHttpResponse
 	{
-		public ListenerHttpResponse() { 
-		
+		public ListenerHttpResponse()
+		{
+
 		}
 
 		public object SourceObject { get { return _httpListenerResponse; } }
@@ -251,8 +252,8 @@ namespace Http.Contexts
 		public override void Write(Char ch)
 		{
 			if (ContentEncoding == null) ContentEncoding = Encoding.UTF8;
-			var bytes = ContentEncoding.GetBytes(new []{ch});
-			_httpListenerResponse.OutputStream.Write(bytes,0,bytes.Length);
+			var bytes = ContentEncoding.GetBytes(new[] { ch });
+			_httpListenerResponse.OutputStream.Write(bytes, 0, bytes.Length);
 		}
 
 		public override void Write(Char[] buffer, Int32 index, Int32 count)
@@ -276,19 +277,19 @@ namespace Http.Contexts
 
 		public override void WriteFile(String filename)
 		{
-		    var response = this;
-		    var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-		    file.CopyToAsync(_httpListenerResponse.OutputStream)
-		        .ContinueWith(a =>
-		        {
-		            response.Close();
-		            file.Close();
-		        });
+			var response = this;
+			var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+			file.CopyToAsync(_httpListenerResponse.OutputStream)
+					.ContinueWith(a =>
+					{
+						response.Close();
+						file.Close();
+					});
 		}
 
 		public override void WriteFile(String filename, Boolean readIntoMemory)
 		{
-            //TODO Missing WriteFile for HttpListenerResponse
+			//TODO Missing WriteFile for HttpListenerResponse
 		}
 
 		public override void WriteFile(String filename, Int64 offset, Int64 size)
@@ -518,7 +519,7 @@ namespace Http.Contexts
 
 		public void Close(byte[] data, bool willblock = false)
 		{
-			_httpListenerResponse.Close(data,willblock);
+			_httpListenerResponse.Close(data, willblock);
 		}
 	}
 }

@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -57,6 +58,18 @@
     <None Include="web\web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="ConcurrencyHelpers">
+      <HintPath>..\..\packages\ConcurrencyHelpers.4.0.0-alpha\lib\net45\ConcurrencyHelpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CoroutinesLib">
+      <HintPath>..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CoroutinesLib.Shared">
+      <HintPath>..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.Shared.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -79,10 +92,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\libs\CoroutinesLib.Shared\CoroutinesLib.Shared.csproj">
-      <Project>{92421235-CEBB-44C1-B939-7D39D23044B3}</Project>
-      <Name>CoroutinesLib.Shared</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\modules\Http.Mvc\Http.Mvc.csproj">
       <Project>{2F827CC4-3867-4F39-81CC-458D47A5EBA5}</Project>
       <Name>Http.Mvc</Name>

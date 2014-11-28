@@ -37,8 +37,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ConcurrencyHelpers">
+      <HintPath>..\..\..\packages\ConcurrencyHelpers.4.0.0-alpha\lib\net45\ConcurrencyHelpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CoroutinesLib">
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CoroutinesLib.Shared">
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.Shared.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CoroutinesLib.TestHelpers">
+      <HintPath>..\..\..\packages\CoroutinesLib.TestHelpers.4.0.0-alpha\lib\net45\CoroutinesLib.TestHelpers.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>..\..\..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\..\..\packages\HtmlAgilityPack.1.4.9\lib\net45\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Moq">
@@ -132,10 +147,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\libs\CoroutinesLib.Shared\CoroutinesLib.Shared.csproj">
-      <Project>{92421235-CEBB-44C1-B939-7D39D23044B3}</Project>
-      <Name>CoroutinesLib.Shared</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\src\modules\Http.Contexts\Http.Contexts.csproj">
       <Project>{53F80DC1-CA11-485D-B0E5-1BA13E07279D}</Project>
       <Name>Http.Contexts</Name>
@@ -171,10 +182,6 @@
     <ProjectReference Include="..\..\..\src\nodecs\Node.Cs.Shared\Node.Cs.Shared.csproj">
       <Project>{84F88FD9-F8F6-4741-BDDD-D62772E77523}</Project>
       <Name>Node.Cs.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\src\utils\CoroutinesLib.TestHelpers\CoroutinesLib.TestHelpers.csproj">
-      <Project>{B495480C-6048-4FC5-B954-6B780DD17F71}</Project>
-      <Name>CoroutinesLib.TestHelpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\utils\Node.Cs.TestHelpers\Node.Cs.TestHelpers.csproj">
       <Project>{44719B64-DAEB-44FD-91E7-CE7ADB43A605}</Project>

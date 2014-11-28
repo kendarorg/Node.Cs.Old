@@ -35,6 +35,18 @@
     <Reference Include="ClassWrapper">
       <HintPath>..\..\..\packages\ClassWrapper.2.1.1\lib\net45\ClassWrapper.dll</HintPath>
     </Reference>
+    <Reference Include="ConcurrencyHelpers">
+      <HintPath>..\..\..\packages\ConcurrencyHelpers.4.0.0-alpha\lib\net45\ConcurrencyHelpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CoroutinesLib">
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CoroutinesLib.Shared">
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.Shared.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ExpressionBuilder">
       <HintPath>..\..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
     </Reference>
@@ -107,10 +119,6 @@
     <EmbeddedResource Include="http.renderer.razor.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\CoroutinesLib.Shared\CoroutinesLib.Shared.csproj">
-      <Project>{92421235-CEBB-44C1-B939-7D39D23044B3}</Project>
-      <Name>CoroutinesLib.Shared</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\nodecs\Node.Cs.Shared\Node.Cs.Shared.csproj">
       <Project>{84F88FD9-F8F6-4741-BDDD-D62772E77523}</Project>
       <Name>Node.Cs.Shared</Name>

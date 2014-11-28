@@ -37,6 +37,18 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ConcurrencyHelpers">
+      <HintPath>..\..\..\packages\ConcurrencyHelpers.4.0.0-alpha\lib\net45\ConcurrencyHelpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CoroutinesLib">
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CoroutinesLib.Shared">
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.Shared.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="GenericHelpers">
       <HintPath>..\..\..\packages\GenericHelpers.1.0.5\lib\net45\GenericHelpers.dll</HintPath>
       <Private>True</Private>
@@ -56,14 +68,6 @@
     <Compile Include="MarkdownRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\ConcurrencyHelpers\ConcurrencyHelpers.csproj">
-      <Project>{12785E79-30B0-4959-A46C-D833D502605B}</Project>
-      <Name>ConcurrencyHelpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libs\CoroutinesLib.Shared\CoroutinesLib.Shared.csproj">
-      <Project>{92421235-CEBB-44C1-B939-7D39D23044B3}</Project>
-      <Name>CoroutinesLib.Shared</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\modules\Http.Shared\Http.Shared.csproj">
       <Project>{308123AA-03D4-4058-84B4-E8CF5D721D16}</Project>
       <Name>Http.Shared</Name>
