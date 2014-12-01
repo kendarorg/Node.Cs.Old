@@ -29,5 +29,6 @@ namespace Http.Shared.Routing
 
 		void LoadControllers(IEnumerable<Type> type);
 		void IgnoreRoute(string routeToBlock);
+		void EnableQuerySupport();
 	}
 }

@@ -7,7 +7,9 @@ namespace IntranetWebApplication
 	{
 		public void RegisterRoutes(IRoutingHandler routes)
 		{
-			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+			//routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+			routes.MapStaticRoute("/");
 
 			routes.MapRoute(
 					name: "Default",

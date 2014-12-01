@@ -27,7 +27,7 @@ using NodeCs.Shared;
 
 namespace NodeCs
 {
-	
+
 
 	public class Main : MarshalByRefObject, IMain
 	{
@@ -37,6 +37,7 @@ namespace NodeCs
 		private ICoroutinesManager _coroutinesManager;
 		private NodeCsParser _parser;
 		private static string _binPath;
+		private static string _binFallBackPath;
 
 		public ICoroutinesManager CoroutinesManager
 		{
@@ -49,7 +50,8 @@ namespace NodeCs
 			_clp = new CommandLineParser(args, helpMessage ?? string.Empty);
 			_configPath = _clp.GetOrDefault("config", Path.Combine(AssemblyDirectory, "config.json"));
 			_binPath = _clp.GetOrDefault("tempBin", Path.Combine(AssemblyDirectory, "bin"));
-			
+			_binFallBackPath = AssemblyDirectory;
+
 
 			RunnerFactory.Initialize();
 			_coroutinesManager = RunnerFactory.Create();
@@ -70,8 +72,17 @@ namespace NodeCs
 
 		static Assembly LoadFromBinPath(object sender, ResolveEventArgs args)
 		{
-			string assemblyPath = Path.Combine(_binPath, new AssemblyName(args.Name).Name + ".dll");
-			if (File.Exists(assemblyPath) == false) return null;
+			var name = new AssemblyName(args.Name).Name;
+			string assemblyPath = Path.Combine(_binPath, name + ".dll");
+			if (!File.Exists(assemblyPath))
+			{
+				assemblyPath = Path.Combine(_binFallBackPath, name + ".dll");
+				if (!File.Exists(assemblyPath))
+				{
+					Console.WriteLine("Unable to load " + assemblyPath);
+					return null;
+				}
+			}
 			Assembly assembly = Assembly.LoadFrom(assemblyPath);
 			return assembly;
 		}
@@ -82,7 +93,14 @@ namespace NodeCs
 		static Assembly LoadReflectionFromBinPath(object sender, ResolveEventArgs args)
 		{
 			string assemblyPath = Path.Combine(_binPath, new AssemblyName(args.Name).Name + ".dll");
-			if (File.Exists(assemblyPath) == false) return null;
+			if (!File.Exists(assemblyPath) == false)
+			{
+				assemblyPath = Path.Combine(_binFallBackPath, new AssemblyName(args.Name).Name + ".dll");
+				if (!File.Exists(assemblyPath))
+				{
+					return null;
+				}
+			}
 			Assembly assembly = Assembly.ReflectionOnlyLoad(assemblyPath);
 			return assembly;
 		}
@@ -127,7 +145,7 @@ namespace NodeCs
 
 		public void RemoveThread(string threadName)
 		{
-			Commands.RemoveThread( threadName);
+			Commands.RemoveThread(threadName);
 		}
 
 		public void RegisterCommand(string name, CommandDefinition definition)

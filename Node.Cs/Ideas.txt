@@ -1,3 +1,12 @@
+FOR SAMPLE
+=================================
+
+samples\IntranetWebApplicationMvc\Views\Home\Index.cshtml(4):@section featured {
+@Section must be replaced with something like "CreateSection"
+Section must be placed inside a "sections" storage
+The section must be rendered with @RenderSection(name,optional)
+
+
 //Default file names
 //Missing default directories for razor/mvc
 
@@ -47,3 +56,4 @@ http://www.31a2ba2a-b718-11dc-8314-0800200c9a66.com/2010/12/running-multiple-thr
 https://social.msdn.microsoft.com/Forums/azure/en-US/413a976b-17ce-4fdf-ba99-7c30a2b262e3/httplistener-in-worker-role
 
 http://brockallen.com/2012/09/04/using-oauthwebsecurity-without-simplemembership/
+

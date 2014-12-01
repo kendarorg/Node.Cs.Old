@@ -328,7 +328,7 @@ namespace Http
 					}
 					return true;
 			}*/
-
+		/*
 		private IRenderer FindRenderer(ref string relativePath, IPathProvider pathProvider, bool isDir)
 		{
 			if (isDir)
@@ -351,7 +351,7 @@ namespace Http
 			}
 			var renderer = GetPossibleRenderer(relativePath);
 			return renderer;
-		}
+		}*/
 
 
 		/// <summary>
@@ -538,13 +538,13 @@ namespace Http
 				var initializer = (IAuthenticationDataProviderFactory)ServiceLocator.Locator.Resolve(type);
 				authenticationDataProvider = initializer.CreateAuthenticationDataProvider();
 				ServiceLocator.Locator.Register<IAuthenticationDataProvider>(authenticationDataProvider);
-				ForceMemebershipProvider(authenticationDataProvider);
 				break;
 			}
 			if (authenticationDataProvider == null)
 			{
 				ServiceLocator.Locator.Register<IAuthenticationDataProvider>(NullAuthenticationDataProvider.Instance);
 			}
+			ForceMemebershipProvider(ServiceLocator.Locator.Resolve<IAuthenticationDataProvider>());
 			ISessionManager sessionManager = null;
 			foreach (var type in AssembliesManager.LoadTypesInheritingFrom<ISessionManagerFactory>())
 			{

@@ -49,7 +49,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ExpressionBuilder">
-      <HintPath>..\..\..\packages\ExpressionBuilder.2.1.0\lib\net45\ExpressionBuilder.dll</HintPath>
+      <HintPath>..\..\..\packages\ExpressionBuilder.2.1.1\lib\net45\ExpressionBuilder.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
