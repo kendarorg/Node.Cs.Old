@@ -35,7 +35,7 @@ namespace Http.Routing
 			_routeDefinitions = new List<RouteDefinition>();
 		}
 
-		public void AddStaticRoute(string route)
+		public void MapStaticRoute(string route)
 		{
 			if (!route.StartsWith("~/"))
 			{
@@ -203,19 +203,19 @@ namespace Http.Routing
 		}
 
 
-		public void AddRoute(string route, dynamic parameters = null)
+		public void MapRoute(string name,string url, dynamic defaults = null)
 		{
-			if (!route.StartsWith("~/"))
+			if (!url.StartsWith("~/"))
 			{
-				throw new Exception(string.Format("Invalid route '{0}' not starting with ~", route));
+				throw new Exception(string.Format("Invalid route '{0}' not starting with ~", url));
 			}
-			route = route.TrimStart('~');
-			if (route.StartsWith("/"))
+			url = url.TrimStart('~');
+			if (url.StartsWith("/"))
 			{
-				route = route.TrimStart('/');
+				url = url.TrimStart('/');
 			}
 
-			var routeDefinition = new RouteDefinition(route, ReflectionUtils.ObjectToDictionary(parameters));
+			var routeDefinition = new RouteDefinition(url, ReflectionUtils.ObjectToDictionary(defaults));
 			CheckForConflicting(routeDefinition);
 			_routeDefinitions.Add(routeDefinition);
 		}

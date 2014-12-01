@@ -548,7 +548,7 @@ namespace Http
 			foreach (var type in AssembliesManager.LoadTypesInheritingFrom<IRouteInitializer>())
 			{
 				var initializer = (IRouteInitializer)ServiceLocator.Locator.Resolve(type);
-				initializer.InitializeRoutes(_routingHandler);
+				initializer.RegisterRoutes(_routingHandler);
 			}
 			var controllers = AssembliesManager.LoadTypesInheritingFrom<IController>().ToArray();
 			_routingHandler.LoadControllers(controllers);

@@ -49,7 +49,7 @@ namespace Http.Routing.Test
 		{
 			IRoutingHandler rs = new RoutingService();
 			rs.LoadControllers(new[] { typeof(MockController) });
-			rs.AddRoute("~/{controller}/{method}/{id}", new { Controller = "Mock", Action = "Index", Id = RoutingParameter.Optional });
+			rs.MapRoute("","~/{controller}/{method}/{id}", new { Controller = "Mock", Action = "Index", Id = RoutingParameter.Optional });
 			var ctx = CreateRequest("http://127.0.0.1/Mock/Index");
 
 			var result = rs.Resolve(ctx.Request.Url.LocalPath, ctx);
@@ -68,7 +68,7 @@ namespace Http.Routing.Test
 		{
 			IRoutingHandler rs = new RoutingService();
 			rs.LoadControllers(new[] { typeof(MockController) });
-			rs.AddRoute("~/{controller}/Fuffa/{id}", new { Controller = "Mock", Action = "Index", Id = RoutingParameter.Optional });
+			rs.MapRoute("", "~/{controller}/Fuffa/{id}", new { Controller = "Mock", Action = "Index", Id = RoutingParameter.Optional });
 			var ctx = CreateRequest("http://127.0.0.1/Mock/Fuffa");
 
 			var result = rs.Resolve(ctx.Request.Url.LocalPath, ctx);
@@ -86,8 +86,8 @@ namespace Http.Routing.Test
 		{
 			IRoutingHandler rs = new RoutingService();
 			rs.LoadControllers(new[] { typeof(MockController) });
-			rs.AddRoute("~/{controller}/Index/{id}", new { Controller = "Mock", Action = "MethodIndex", Id = RoutingParameter.Optional });
-			rs.AddRoute("~/{controller}/Test/{id}", new { Controller = "Mock", Action = "MethodTest", Id = RoutingParameter.Optional });
+			rs.MapRoute("", "~/{controller}/Index/{id}", new { Controller = "Mock", Action = "MethodIndex", Id = RoutingParameter.Optional });
+			rs.MapRoute("", "~/{controller}/Test/{id}", new { Controller = "Mock", Action = "MethodTest", Id = RoutingParameter.Optional });
 
 			var ctx = CreateRequest("http://127.0.0.1/Mock/Index");
 			var result = rs.Resolve(ctx.Request.Url.LocalPath, ctx);
@@ -116,7 +116,7 @@ namespace Http.Routing.Test
 		{
 			IRoutingHandler rs = new RoutingService();
 			rs.LoadControllers(new []{typeof(MockController)});
-			rs.AddRoute("~/{controller}/Fuffa/{id}", new { Controller = "Mock", Action = "Index", Id = RoutingParameter.Optional });
+			rs.MapRoute("", "~/{controller}/Fuffa/{id}", new { Controller = "Mock", Action = "Index", Id = RoutingParameter.Optional });
 			var ctx = CreateRequest("http://127.0.0.1/Mock/Fuffa/200");
 
 			var result = rs.Resolve(ctx.Request.Url.LocalPath, ctx);

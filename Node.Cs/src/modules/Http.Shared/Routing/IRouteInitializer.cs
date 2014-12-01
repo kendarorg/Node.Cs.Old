@@ -19,7 +19,7 @@ namespace Http.Shared.Routing
 {
 	public interface IRouteInitializer
 	{
-		void InitializeRoutes(IRoutingHandler handler);
+		void RegisterRoutes(IRoutingHandler handler);
 	}
 
 	public interface IFiltersInitializer

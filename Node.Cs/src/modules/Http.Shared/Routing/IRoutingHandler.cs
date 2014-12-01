@@ -24,8 +24,8 @@ namespace Http.Shared.Routing
 		RouteInstance Resolve(string route, IHttpContext context);
 		string ResolveFromParams(Dictionary<string,object> parameters);
 
-		void AddRoute(string route, dynamic parameters = null);
-		void AddStaticRoute(string url);
+		void MapRoute(string name,string url, dynamic defaults = null);
+		void MapStaticRoute(string url);
 
 		void LoadControllers(IEnumerable<Type> type);
 		void IgnoreRoute(string routeToBlock);

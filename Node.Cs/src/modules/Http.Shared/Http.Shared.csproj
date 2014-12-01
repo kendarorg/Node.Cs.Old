@@ -68,9 +68,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authorization\AllowAnonymous.cs" />
     <Compile Include="Authorization\AuthorizeAttribute.cs" />
     <Compile Include="Authorization\DigestAuth.cs" />
     <Compile Include="Authorization\IAuthenticationDataProvider.cs" />
+    <Compile Include="Authorization\InitializeSimpleMembership.cs" />
     <Compile Include="Authorization\NodeCsIdentity.cs" />
     <Compile Include="Authorization\NodeCsPrincipal.cs" />
     <Compile Include="Authorization\SecurityDefinition.cs" />

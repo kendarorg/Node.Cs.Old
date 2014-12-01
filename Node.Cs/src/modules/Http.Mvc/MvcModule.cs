@@ -51,8 +51,8 @@ namespace HttpMvc
 			var routingModule = NodeRoot.GetModule("http.routing");
 			var routingHandler = routingModule.GetParameter<IRoutingHandler>(HttpParameters.RoutingHandlerInstance);
 			routingHandler.IgnoreRoute("~/");
-			routingHandler.AddStaticRoute(GetParameter<string>("scripts"));
-			routingHandler.AddStaticRoute(GetParameter<string>("content"));
+			routingHandler.MapStaticRoute(GetParameter<string>("scripts"));
+			routingHandler.MapStaticRoute(GetParameter<string>("content"));
 			
 			_httpModule.SetParameter(HttpParameters.HttpShowDirectoryContent,false);
 		}

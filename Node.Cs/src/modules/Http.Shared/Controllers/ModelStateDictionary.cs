@@ -19,31 +19,45 @@ using System.Linq;
 
 namespace Http.Shared.Controllers
 {
+	public class ModelState
+	{
+		public ModelState()
+		{
+			Errors = new List<string>();
+		}
+		public List<string> Errors { get; private set; } 
+	}
 	public class ModelStateDictionary
 	{
-		private readonly Dictionary<string, List<string>> _messages;
+		private readonly Dictionary<string, ModelState> _messages;
 
 		public ModelStateDictionary()
 		{
-			_messages = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase);
+			_messages = new Dictionary<string, ModelState>(StringComparer.OrdinalIgnoreCase);
 		}
 
 		// ReSharper disable once UseMethodAny.2
 		public bool IsValid { get { return _messages.Count() == 0; } }
 
+		public ModelState this[string i]
+		{
+			get { return _messages[i]; }
+			set { _messages[i] = value; }
+		}
+
 		public void AddModelError(string field, string message)
 		{
 			if (!_messages.ContainsKey(field))
 			{
-				_messages.Add(field, new List<string>());
+				_messages.Add(field, new ModelState());
 			}
-			_messages[field].Add(message);
+			_messages[field].Errors.Add(message);
 		}
 
 		public List<string> GetErrors(string forFields = "")
 		{
 			if (!_messages.ContainsKey(forFields)) return new List<string>();
-			return _messages[forFields];
+			return _messages[forFields].Errors;
 		}
 	}
 }

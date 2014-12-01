@@ -129,8 +129,12 @@ namespace HttpMvc.Controllers
 			return link;
 		}
 
-		public string Action(string action, string controller)
+		public string Action(string action, string controller = null)
 		{
+			if (controller == null)
+			{
+				throw new NotImplementedException();
+			}
 			var result = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase)
 			             {
 				             {"controller", controller},

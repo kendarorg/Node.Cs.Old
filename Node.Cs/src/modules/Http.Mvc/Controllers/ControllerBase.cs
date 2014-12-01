@@ -104,7 +104,6 @@ namespace HttpMvc.Controllers
 			return new PartialViewResponse(action, model, ViewBag);
 		}
 
-
 		protected IResponse RedirectToAction(string action, string controller = null)
 		{
 			return RedirectToAction(action, null, controller);
