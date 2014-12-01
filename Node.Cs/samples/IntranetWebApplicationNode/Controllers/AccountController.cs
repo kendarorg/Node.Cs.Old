@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
+using DotNetOpenAuth.AspNet;
 using Http.Shared.Authorization;
+using Http.Shared.Contexts;
 using Http.Shared.Controllers;
 using HttpMvc.Controllers;
 using IntranetWebApplication.Models;
+using Microsoft.Web.WebPages.OAuth;
 
 namespace IntranetWebApplication.Controllers
 {
@@ -354,7 +357,7 @@ namespace IntranetWebApplication.Controllers
 			RemoveLoginSuccess,
 		}
 
-		internal class ExternalLoginResult : IResponse
+		internal class ExternalLoginResult : IFunctionalResponse
 		{
 			public ExternalLoginResult(string provider, string returnUrl)
 			{
@@ -365,9 +368,10 @@ namespace IntranetWebApplication.Controllers
 			public string Provider { get; private set; }
 			public string ReturnUrl { get; private set; }
 
-			public override void ExecuteResult(ControllerContext context)
+			public IEnumerable<IResponse> ExecuteResult(IHttpContext context)
 			{
 				OAuthWebSecurity.RequestAuthentication(Provider, ReturnUrl);
+				yield break;
 			}
 		}
 

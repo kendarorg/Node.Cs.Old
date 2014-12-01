@@ -56,8 +56,10 @@
       <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -80,6 +82,7 @@
     <Compile Include="Coroutines\RoutedItemCoroutine.cs" />
     <Compile Include="FilterHandler.cs" />
     <Compile Include="HttpModule.cs" />
+    <Compile Include="MembershipProviderWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Coroutines\StaticItemCoroutine.cs" />
   </ItemGroup>

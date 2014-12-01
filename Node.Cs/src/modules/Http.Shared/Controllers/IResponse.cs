@@ -14,11 +14,19 @@
 
 
 using CoroutinesLib.Shared;
+using Http.Shared.Contexts;
+using System.Collections.Generic;
 
 namespace Http.Shared.Controllers
 {
 	public interface IResponse
 	{
+	}
+
+
+	public interface IFunctionalResponse : IResponse
+	{
+		IEnumerable<IResponse> ExecuteResult(IHttpContext context);
 	}
 
 	public class WaitResponse

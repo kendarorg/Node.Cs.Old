@@ -17,11 +17,12 @@ namespace Http.Shared.Authorization
 {
 	public interface IUser
 	{
+		int UserId { get; }
 		string UserName { get; }
 		bool ChangePassword(string oldPassword, string newPassword);
 		void SetRoles(params string[] roleNames);
 	}
-	public class NullAuthenticationDataProvider : IAuthenticationDataProvider
+	public class NullAuthenticationDataProvider :  IAuthenticationDataProvider
 	{
 		static NullAuthenticationDataProvider _instance = new NullAuthenticationDataProvider();
 		public static IAuthenticationDataProvider Instance
@@ -65,6 +66,11 @@ namespace Http.Shared.Authorization
 		{
 			return new string[0];
 		}
+
+		public bool DeleteUser(string username, bool deleteAllRelatedData)
+		{
+			return true;
+		}
 	}
 	public interface IAuthenticationDataProviderFactory
 	{
@@ -79,6 +85,7 @@ namespace Http.Shared.Authorization
 		IUser GetUser(string userName, bool isOnLine);
 		void AddUsersToRoles(string[] userNames, string[] roleNames);
 		string[] GetUserRoles(string p);
+		bool DeleteUser(string username, bool deleteAllRelatedData);
 	}
 
 	public enum AuthenticationCreateStatus

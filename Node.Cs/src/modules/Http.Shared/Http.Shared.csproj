@@ -73,9 +73,11 @@
     <Compile Include="Authorization\DigestAuth.cs" />
     <Compile Include="Authorization\IAuthenticationDataProvider.cs" />
     <Compile Include="Authorization\InitializeSimpleMembership.cs" />
+    <Compile Include="Authorization\MembershipCreateUserException.cs" />
     <Compile Include="Authorization\NodeCsIdentity.cs" />
     <Compile Include="Authorization\NodeCsPrincipal.cs" />
     <Compile Include="Authorization\SecurityDefinition.cs" />
+    <Compile Include="Authorization\WebSecurity.cs" />
     <Compile Include="Contexts\IHttpContext.cs" />
     <Compile Include="Contexts\IHttpRequest.cs" />
     <Compile Include="Contexts\IHttpResponse.cs" />
@@ -101,6 +103,12 @@
     <Compile Include="IResponseHandler.cs" />
     <Compile Include="ISessionManagerFactory.cs" />
     <Compile Include="MimeHelper.cs" />
+    <Compile Include="Optimizations\IBundle.cs" />
+    <Compile Include="Optimizations\IResourceBundleInitializer.cs" />
+    <Compile Include="Optimizations\IResourceBundles.cs" />
+    <Compile Include="Optimizations\ResourceBundles.cs" />
+    <Compile Include="Optimizations\ScriptBundle.cs" />
+    <Compile Include="Optimizations\StyleBundle.cs" />
     <Compile Include="PathProviders\IPathProvider.cs" />
     <Compile Include="PathProviders\ResourcesPathProvider.cs" />
     <Compile Include="Renderers\IRenderer.cs" />

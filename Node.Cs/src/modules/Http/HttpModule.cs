@@ -13,6 +13,9 @@
 // ===========================================================
 
 
+using System.Collections.Specialized;
+using System.Reflection;
+using System.Web.Security;
 using ClassWrapper;
 using ConcurrencyHelpers.Utils;
 using CoroutinesLib.Shared;
@@ -24,6 +27,7 @@ using Http.Shared;
 using Http.Shared.Authorization;
 using Http.Shared.Contexts;
 using Http.Shared.Controllers;
+using Http.Shared.Optimizations;
 using Http.Shared.PathProviders;
 using Http.Shared.Renderers;
 using Http.Shared.Routing;
@@ -282,6 +286,20 @@ namespace Http
 
 		public IEnumerable<ICoroutineResult> HandleResponse(IHttpContext context, IResponse response)
 		{
+			var functionalResponse = response as IFunctionalResponse;
+			if (functionalResponse != null)
+			{
+				foreach (var item in functionalResponse.ExecuteResult(context))
+				{
+					if (item != null)
+					{
+						response = item;
+						break;
+					}
+					yield return CoroutineResult.Wait;
+				}
+			}
+
 			for (int index = 0; index < _responseHandlers.Count; index++)
 			{
 				var handler = _responseHandlers[index];
@@ -356,7 +374,7 @@ namespace Http
 				relativePath = requestPath.Substring(_virtualDir.Length - 1);
 			}
 			_filtersHandler.OnPreExecute(context);
-			
+
 			if (_routingHandler != null)
 			{
 				var match = _routingHandler.Resolve(relativePath, context);
@@ -520,6 +538,7 @@ namespace Http
 				var initializer = (IAuthenticationDataProviderFactory)ServiceLocator.Locator.Resolve(type);
 				authenticationDataProvider = initializer.CreateAuthenticationDataProvider();
 				ServiceLocator.Locator.Register<IAuthenticationDataProvider>(authenticationDataProvider);
+				ForceMemebershipProvider(authenticationDataProvider);
 				break;
 			}
 			if (authenticationDataProvider == null)
@@ -582,79 +601,33 @@ namespace Http
 				var initializer = (IFiltersInitializer)ServiceLocator.Locator.Resolve(type);
 				initializer.InitializeFilters(_filtersHandler);
 			}
+			var resourceBundler = new ResourceBundles();
+			ServiceLocator.Locator.Register<IResourceBundles>(resourceBundler);
+			foreach (var type in AssembliesManager.LoadTypesInheritingFrom<IResourceBundleInitializer>())
+			{
+				var initializer = (IResourceBundleInitializer)ServiceLocator.Locator.Resolve(type);
+				initializer.RegisterBundles(resourceBundler);
+			}
 		}
 
-
-		/*
-		private void WriteException(IHttpContext context, HttpException httpException)
+		private void ForceMemebershipProvider(IAuthenticationDataProvider authenticationDataProvider)
 		{
-				var sd = "Unknown error";
-				if (_respStatus.Contains(httpException.Code))
-				{
-						sd = (string)_respStatus[httpException.Code];
-				}
-				var errorModel = new ErrorDescriptor()
-				{
-						Exception = httpException,
-						HttpCode = httpException.Code,
-						ShortDescription = sd,
-						LongDescription = httpException.Message,
-						ServerType = "Node.Cs http module V." + Assembly.GetExecutingAssembly().GetName().Version
-				};
-				OutputException(errorModel, context);
-		}
+			var objSqlMembershipProvider = new MembershipProviderWrapper(authenticationDataProvider);
+			var colMembershipProviders = new MembershipProviderCollection { objSqlMembershipProvider };
+			colMembershipProviders.SetReadOnly();
 
-		private void WriteException(IHttpContext context, int httpCode, Exception exception)
-		{
-				var sd = "Unknown error";
-				if (_respStatus.Contains(httpCode))
-				{
-						sd = (string)_respStatus[httpCode];
-				}
-				var errorModel = new ErrorDescriptor()
-				{
-						Exception = exception,
-						HttpCode = httpCode,
-						ShortDescription = sd,
-						LongDescription = exception.Message,
-						ServerType = "Node.Cs http module V." + Assembly.GetExecutingAssembly().GetName().Version
-				};
-				OutputException(errorModel, context);
+			const BindingFlags enuBindingFlags = BindingFlags.NonPublic | BindingFlags.Static;
+			Type objMembershipType = typeof(Membership);
+			// ReSharper disable PossibleNullReferenceException
+			objMembershipType.GetField("s_Initialized", enuBindingFlags).SetValue(null, true);
+			objMembershipType.GetField("s_InitializeException", enuBindingFlags).SetValue(null, null);
+			objMembershipType.GetField("s_HashAlgorithmType", enuBindingFlags).SetValue(null, "SHA1");
+			objMembershipType.GetField("s_HashAlgorithmFromConfig", enuBindingFlags).SetValue(null, false);
+			objMembershipType.GetField("s_UserIsOnlineTimeWindow", enuBindingFlags).SetValue(null, 15);
+			objMembershipType.GetField("s_Provider", enuBindingFlags).SetValue(null, objSqlMembershipProvider);
+			objMembershipType.GetField("s_Providers", enuBindingFlags).SetValue(null, colMembershipProviders);
+			// ReSharper restore PossibleNullReferenceException
 		}
-
-		private void OutputException(ErrorDescriptor errorModel, IHttpContext context)
-		{
-				var es = _errorPageString;
-				es = es.Replace("{SERVER_TYPE}", errorModel.ServerType);
-				es = es.Replace("{HTTP_CODE}", errorModel.HttpCode.ToString());
-				es = es.Replace("{SHORT_DESCRIPTION}", errorModel.ShortDescription);
-				es = es.Replace("{LONG_DESCRIPTION}", errorModel.LongDescription);
-				es = es.Replace("{STACK_TRACE}", errorModel.HttpCode == 500 ? BuildStackTrace(errorModel.Exception) : string.Empty);
-
-				byte[] buffer = System.Text.Encoding.UTF8.GetBytes(es);
-				context.Response.BinaryWrite(buffer);
-				_filtersHandler.OnPostExecute(context);
-				context.Response.Close();
-		}
-
-		private string BuildStackTrace(Exception exception)
-		{
-				var result = "<hr size='3'>";
-				result += exception.GetType().Namespace + "." + exception.GetType().Name + ":" + exception.Message;
-				result += "<hr size='1'>";
-				result += "<pre>" + exception.StackTrace + "</pre>";
-				var inner = exception.InnerException;
-				while (inner != null)
-				{
-						result += "<hr size='3'>";
-						result += inner.GetType().Namespace + "." + inner.GetType().Name + ":" + inner.Message;
-						result += "<hr size='1'>";
-						result += "<pre>" + inner.StackTrace + "</pre>";
-						inner = inner.InnerException;
-				}
-				return result;
-		}
-*/
 
 		/// <summary>
 		/// This Execute request
@@ -672,56 +645,7 @@ namespace Http
 			executeRequestCoroutine.Initialize();
 			return CoroutineResult.RunCoroutine(executeRequestCoroutine)
 					.WithTimeout(TimeSpan.FromSeconds(60))
-					.AndWait();/*
-            runner.StartCoroutine(executeRequestCoroutine);
-
-            var runner = ServiceLocator.Locator.Resolve<ICoroutinesManager>();
-            if (context.Request.Url == null)
-            {
-                throw new HttpException(500, string.Format("Missing url."));
-            }
-            string requestPath;
-
-            if (context.Request.Url.IsAbsoluteUri)
-            {
-                requestPath = context.Request.Url.LocalPath.Trim();
-            }
-            else
-            {
-                requestPath = context.Request.Url.ToString().Trim();
-            }
-
-            var relativePath = requestPath;
-            if (requestPath.StartsWith(_virtualDir.TrimEnd('/')))
-            {
-                relativePath = requestPath.Substring(_virtualDir.Length - 1);
-            }
-
-            for (int index = 0; index < _pathProviders.Count; index++)
-            {
-                var pathProvider = _pathProviders[index];
-                var isDir = false;
-                if (pathProvider.Exists(relativePath, out isDir))
-                {
-                    var renderer = FindRenderer(ref relativePath, pathProvider, isDir);
-                    if (renderer == null)
-                    {
-                        runner.StartCoroutine(new StaticItemCoroutine(
-                            relativePath, pathProvider, context,
-                            HttpListenerExceptionHandler));
-                    }
-                    else
-                    {
-                        runner.StartCoroutine(new RenderizableItemCoroutine(
-                            renderer,
-                            relativePath, pathProvider, context,
-                            HttpListenerExceptionHandler,
-                            model, modelStateDictionary));
-                    }
-                    return;
-                }
-            }
-            throw new HttpException(404, string.Format("Not found '{0}'.", context.Request.Url));*/
+					.AndWait();
 		}
 
 	}

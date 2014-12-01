@@ -45,3 +45,5 @@ http://weblog.west-wind.com/posts/2012/Sep/04/ASPNET-Frameworks-and-Raw-Throughp
 
 http://www.31a2ba2a-b718-11dc-8314-0800200c9a66.com/2010/12/running-multiple-threads-on-windows.html azure
 https://social.msdn.microsoft.com/Forums/azure/en-US/413a976b-17ce-4fdf-ba99-7c30a2b262e3/httplistener-in-worker-role
+
+http://brockallen.com/2012/09/04/using-oauthwebsecurity-without-simplemembership/
