@@ -637,16 +637,21 @@ namespace Http
 		/// <param name="modelStateDictionary"></param>
 		public ICoroutineResult ExecuteRequestInternal(IHttpContext context, object model, ModelStateDictionary modelStateDictionary)
 		{
-			var executeRequestCoroutine = new ExecuteRequestCoroutine(
-					_virtualDir,
-					context, model, new ModelStateDictionary(),
-					_pathProviders, _renderers, _defaulList);
-
-			executeRequestCoroutine.Initialize();
+			var executeRequestCoroutine = SetupInternalRequestCoroutine(context, model);
 			return CoroutineResult.RunCoroutine(executeRequestCoroutine)
 					.WithTimeout(TimeSpan.FromSeconds(60))
 					.AndWait();
 		}
 
+		public ExecuteRequestCoroutine SetupInternalRequestCoroutine(IHttpContext context, object model)
+		{
+			var executeRequestCoroutine = new ExecuteRequestCoroutine(
+				_virtualDir,
+				context, model, new ModelStateDictionary(),
+				_pathProviders, _renderers, _defaulList);
+
+			executeRequestCoroutine.Initialize();
+			return executeRequestCoroutine;
+		}
 	}
 }

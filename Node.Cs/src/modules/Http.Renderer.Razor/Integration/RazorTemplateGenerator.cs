@@ -154,6 +154,10 @@ namespace Http.Renderer.Razor.Integration
 					case ("Context"):
 						property.SetValue(template, context);
 						break;
+
+					case ("ViewBag"):
+						property.SetValue(template, new object() as dynamic);
+						break;
 					default:
 						var value = ServiceLocator.Locator.Resolve(property.PropertyType);
 						if (value != null)

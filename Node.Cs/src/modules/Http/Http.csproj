@@ -40,10 +40,12 @@
       <HintPath>..\..\..\packages\ConcurrencyHelpers.4.0.0-alpha\lib\net45\ConcurrencyHelpers.dll</HintPath>
     </Reference>
     <Reference Include="CoroutinesLib">
-      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.dll</HintPath>
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha-1\lib\net45\CoroutinesLib.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="CoroutinesLib.Shared">
-      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.Shared.dll</HintPath>
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha-1\lib\net45\CoroutinesLib.Shared.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="ExpressionBuilder">
       <HintPath>..\..\..\packages\ExpressionBuilder.2.1.1\lib\net45\ExpressionBuilder.dll</HintPath>

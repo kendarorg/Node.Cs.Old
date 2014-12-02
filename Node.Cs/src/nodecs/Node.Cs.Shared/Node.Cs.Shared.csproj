@@ -38,11 +38,11 @@
     <Reference Include="ConcurrencyHelpers">
       <HintPath>..\..\..\packages\ConcurrencyHelpers.4.0.0-alpha\lib\net45\ConcurrencyHelpers.dll</HintPath>
     </Reference>
-    <Reference Include="CoroutinesLib">
-      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.dll</HintPath>
+    <Reference Include="CoroutinesLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha-1\lib\net45\CoroutinesLib.dll</HintPath>
     </Reference>
-    <Reference Include="CoroutinesLib.Shared">
-      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha\lib\net45\CoroutinesLib.Shared.dll</HintPath>
+    <Reference Include="CoroutinesLib.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\CoroutinesLib.4.0.0-alpha-1\lib\net45\CoroutinesLib.Shared.dll</HintPath>
     </Reference>
     <Reference Include="ExpressionBuilder, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

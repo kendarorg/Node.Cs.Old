@@ -16,9 +16,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using CoroutinesLib.Shared;
 using Http.Contexts;
 using Http.Renderer.Razor.Helpers;
 using Http.Shared.Contexts;
@@ -28,7 +30,7 @@ using NodeCs.Shared;
 
 namespace Http.Renderer.Razor.Integration
 {
-	
+
 
 	public abstract class RazorTemplateBase : IRazorTemplate
 	{
@@ -38,7 +40,7 @@ namespace Http.Renderer.Razor.Integration
 		public dynamic ViewBag { get; private set; }
 		public object ObjectModel { get; set; }
 
-		protected Dictionary< string,Action> _sections = new Dictionary<string, Action>(StringComparer.InvariantCultureIgnoreCase);
+		protected Dictionary<string, Action> _sections = new Dictionary<string, Action>(StringComparer.InvariantCultureIgnoreCase);
 
 		public string RenderBody()
 		{
@@ -47,16 +49,16 @@ namespace Http.Renderer.Razor.Integration
 
 		public string RenderPage(string name, object model = null, bool skipLayout = false)
 		{
-			var renderer = ServiceLocator.Locator.Resolve<HttpModule>();
-			var task = new Task(() =>
-			{
-				var context = new WrappedHttpContext(Context);
-				var result = renderer.ExecuteRequestInternal(context, model, new ModelStateDictionary());
-				
+			var http = ServiceLocator.Locator.Resolve<HttpModule>();
 
-			}, new CancellationToken(), TaskCreationOptions.AttachedToParent);
-			task.Start();
-			return string.Empty;
+			var context = new WrappedHttpContext(Context);
+			var internalCoroutine = http.SetupInternalRequestCoroutine(Context, model);
+			var task = CoroutineResult.WaitForCoroutine(internalCoroutine);
+			task.Wait();
+			var stream = context.Response.OutputStream as MemoryStream;
+
+			// ReSharper disable once PossibleNullReferenceException
+			return Encoding.UTF8.GetString(stream.ToArray());
 		}
 
 		public string RenderSection(string sectionName, bool required = false)
