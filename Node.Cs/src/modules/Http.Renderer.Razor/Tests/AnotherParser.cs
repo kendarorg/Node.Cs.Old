@@ -66,7 +66,7 @@ namespace RazorEngine
 		{
 			var languageService = provider.CreateLanguageService();
 			var codeDom = provider.CreateCodeDomProvider();
-			var host = new RazorEngineHost(languageService);
+			var host = new NodeRazorHost(languageService);
 
 			var generator = languageService.CreateCodeGenerator(className, "Razor.Dynamic", null, host);
 			var parser = new RazorParser(languageService.CreateCodeParser(), new HtmlMarkupParser());
@@ -125,7 +125,7 @@ namespace RazorEngine
 
 			return instance;
 		}
-		#endregion
+#endregion
 	}
 	/// <summary>
 	/// Process razor templates.
@@ -135,7 +135,7 @@ namespace RazorEngine
 #region Fields
 		private static RazorCompiler Compiler;
 		private static readonly IDictionary<string, ITemplate> Templates;
-		#endregion
+#endregion
 
 #region Constructor
 		/// <summary>
@@ -146,7 +146,7 @@ namespace RazorEngine
 			Compiler = new RazorCompiler(new CSharpRazorProvider());
 			Templates = new Dictionary<string, ITemplate>();
 		}
-		#endregion
+#endregion
 
 #region Methods
 		/// <summary>
@@ -204,7 +204,7 @@ namespace RazorEngine
 
 			Compiler = new RazorCompiler(provider);
 		}
-		#endregion
+#endregion
 	}
 	/// <summary>
 	/// A razor template.
@@ -216,7 +216,7 @@ namespace RazorEngine
 		/// Gets the parsed result of the template.
 		/// </summary>
 		string Result { get; }
-		#endregion
+#endregion
 
 #region Methods
 		/// <summary>
@@ -240,7 +240,7 @@ namespace RazorEngine
 		/// </summary>
 		/// <param name="literal"></param>
 		void WriteLiteral(string literal);
-		#endregion
+#endregion
 	}
 
 	/// <summary>
@@ -254,7 +254,7 @@ namespace RazorEngine
 		/// Gets or sets the model.
 		/// </summary>
 		TModel Model { get; set; }
-		#endregion
+#endregion
 	}
 	/// <summary>
 	/// Defines a provider used to create associated compiler types.
@@ -273,7 +273,7 @@ namespace RazorEngine
 		/// </summary>
 		/// <returns>The a code dom provider.</returns>
 		CodeDomProvider CreateCodeDomProvider();
-		#endregion
+#endregion
 	}
 	/// <summary>
 	/// Provides a razor provider that supports the C# syntax.
@@ -298,7 +298,7 @@ namespace RazorEngine
 		{
 			return new CSharpCodeProvider();
 		}
-		#endregion
+#endregion
 	}
 	/// <summary>
 	/// Provides a base implementation of a template.
@@ -307,14 +307,14 @@ namespace RazorEngine
 	{
 #region Fields
 		private readonly StringBuilder builder = new StringBuilder();
-		#endregion
+#endregion
 
 #region Properties
 		/// <summary>
 		/// Gets the parsed result of the template.
 		/// </summary>
 		public string Result { get { return builder.ToString(); } }
-		#endregion
+#endregion
 
 #region Methods
 		/// <summary>
@@ -353,7 +353,7 @@ namespace RazorEngine
 
 			builder.Append(literal);
 		}
-		#endregion
+#endregion
 	}
 
 	/// <summary>
@@ -367,7 +367,7 @@ namespace RazorEngine
 		/// Gets or sets the model.
 		/// </summary>
 		public TModel Model { get; set; }
-		#endregion
+#endregion
 	}
 	/// <summary>
 	/// Provides a razor provider that supports the VB syntax.
@@ -392,7 +392,7 @@ namespace RazorEngine
 		{
 			return new VBCodeProvider();
 		}
-		#endregion
+#endregion
 	}
 
 	public class TemplateException : Exception
@@ -412,14 +412,14 @@ namespace RazorEngine
 			}
 			Errors = new ReadOnlyCollection<CompilerError>(list);
 		}
-		#endregion
+#endregion
 
 #region Properties
 		/// <summary>
 		/// Gets the collection of compiler errors.
 		/// </summary>
 		public ReadOnlyCollection<CompilerError> Errors { get; private set; }
-		#endregion
+#endregion
 	}
 }
 #endif

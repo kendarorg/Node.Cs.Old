@@ -99,11 +99,15 @@
     <Compile Include="Helpers\SelectList.cs" />
     <Compile Include="Integration\BufferItem.cs" />
     <Compile Include="Integration\Compiler.cs" />
+    <Compile Include="Integration\HelperResult.cs" />
     <Compile Include="Integration\IRazorTemplate.cs" />
     <Compile Include="Integration\IRazorTemplateGenerator.cs" />
+    <Compile Include="Integration\NodeRazorHost.cs" />
     <Compile Include="Integration\RazorTemplateBase.cs" />
     <Compile Include="Integration\RazorTemplateEntry.cs" />
     <Compile Include="Integration\RazorTemplateGenerator.cs" />
+    <Compile Include="Utils\ObjectExtension.cs" />
+    <Compile Include="Utils\StringExtension.cs" />
     <Compile Include="Integration\TemplateCompileException.cs" />
     <Compile Include="RazorViewHandler.cs" />
     <Compile Include="Tests\AnotherParser.cs" />
@@ -113,6 +117,7 @@
     <Compile Include="Utils\LambdaHelper.cs" />
     <Compile Include="Utils\RawString.cs" />
     <Compile Include="Utils\TagBuilder.cs" />
+    <Compile Include="Utils\TypeExtension.cs" />
     <Compile Include="Utils\ViewContext.cs" />
   </ItemGroup>
   <ItemGroup>

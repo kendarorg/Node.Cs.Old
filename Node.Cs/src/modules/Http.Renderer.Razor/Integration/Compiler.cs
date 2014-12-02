@@ -52,7 +52,7 @@ namespace Http.Renderer.Razor.Integration
 
 		private static GeneratorResults GenerateCode(RazorTemplateEntry entry)
 		{
-			var host = new RazorEngineHost(new CSharpRazorCodeLanguage());
+			var host = new NodeRazorHost(new CSharpRazorCodeLanguage());
 
 			host.DefaultBaseClass = string.Format("Http.Renderer.Razor.Integration.RazorTemplateBase<{0}>", TypeToString(entry.ModelType));
 			host.DefaultNamespace = "Http.Renderer.Razor.Integration";

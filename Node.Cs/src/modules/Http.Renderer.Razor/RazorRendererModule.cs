@@ -26,7 +26,6 @@ namespace Http.Renderer.Razor
 		private INodeModule _cachingModule;
 		private RazorViewHandler _handler;
 
-
 		public override void Initialize()
 		{
 			var httpModule = ServiceLocator.Locator.Resolve<HttpModule>(); ;
@@ -37,6 +36,7 @@ namespace Http.Renderer.Razor
 			{
 				_renderer.SetCachingEngine(_cachingModule.GetParameter<ICacheEngine>(HttpParameters.CacheInstance));
 			}
+			ServiceLocator.Locator.Register<RazorRenderer>(_renderer);
 			SetParameter(HttpParameters.RendererInstance, _renderer);
 			httpModule.RegisterRenderer(_renderer);
 			_handler = new RazorViewHandler();

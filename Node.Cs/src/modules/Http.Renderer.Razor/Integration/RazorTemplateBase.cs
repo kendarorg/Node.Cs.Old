@@ -13,18 +13,80 @@
 // ===========================================================
 
 
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
+using Http.Contexts;
 using Http.Renderer.Razor.Helpers;
 using Http.Shared.Contexts;
+using Http.Shared.Controllers;
 using HttpMvc.Controllers;
+using NodeCs.Shared;
 
 namespace Http.Renderer.Razor.Integration
 {
+	
+
 	public abstract class RazorTemplateBase : IRazorTemplate
 	{
 		public IHttpContext Context { get; set; }
 		public List<BufferItem> Buffer { get; private set; }
+		public string Layout { get; set; }
+		public dynamic ViewBag { get; private set; }
 		public object ObjectModel { get; set; }
+
+		protected Dictionary< string,Action> _sections = new Dictionary<string, Action>(StringComparer.InvariantCultureIgnoreCase);
+
+		public string RenderBody()
+		{
+			throw new NotImplementedException();
+		}
+
+		public string RenderPage(string name, object model = null, bool skipLayout = false)
+		{
+			var renderer = ServiceLocator.Locator.Resolve<HttpModule>();
+			var task = new Task(() =>
+			{
+				var context = new WrappedHttpContext(Context);
+				var result = renderer.ExecuteRequestInternal(context, model, new ModelStateDictionary());
+				
+
+			}, new CancellationToken(), TaskCreationOptions.AttachedToParent);
+			task.Start();
+			return string.Empty;
+		}
+
+		public string RenderSection(string sectionName, bool required = false)
+		{
+			if (IsSectionDefined(sectionName))
+			{
+				_sections[sectionName]();
+			}
+			return string.Empty;
+		}
+
+		public bool IsSectionDefined(string sectionName)
+		{
+			return _sections.ContainsKey(sectionName);
+		}
+
+		public void DefineSection(string name, Action action)
+		{
+			_sections[name] = action;
+		}
+
+		public void WriteLiteralTo(TextWriter writer, object value)
+		{
+			writer.Write(value);
+		}
+
+		public void WriteTo(TextWriter writer, object value)
+		{
+			writer.Write(value);
+		}
 
 		protected RazorTemplateBase()
 		{
