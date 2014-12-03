@@ -30,6 +30,7 @@ namespace Http.Shared.PathProviders
 		private readonly HashSet<string> _resources;
 		private readonly Dictionary<string, byte[]> _files;
 		private readonly HashSet<string> _dirs;
+		private Assembly _asm;
 
 		public ResourcesPathProvider(Assembly asm = null)
 		{
@@ -37,6 +38,7 @@ namespace Http.Shared.PathProviders
 			_resources = new HashSet<string>(asm.GetManifestResourceNames(),StringComparer.OrdinalIgnoreCase);
 			_files = new Dictionary<string, byte[]>(StringComparer.OrdinalIgnoreCase);
 			_dirs = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			_asm = asm;
 		}
 
 		public void RegisterPath(string resourceId, string path)
@@ -48,7 +50,7 @@ namespace Http.Shared.PathProviders
 			{
 				throw new FileLoadException(resourceId);
 			}
-			var content = ResourceContentLoader.LoadBytes(resourceName);
+			var content = ResourceContentLoader.LoadBytes(resourceName, _asm);
 			_files.Add(path,content);
 			var splitted = path.Split(Path.DirectorySeparatorChar);
 			var entry = string.Empty;
@@ -66,6 +68,8 @@ namespace Http.Shared.PathProviders
 
 		public bool Exists(string relativePath,out bool isDir)
 		{
+			relativePath = relativePath.Replace('/', Path.DirectorySeparatorChar);
+			relativePath = relativePath.Trim(Path.DirectorySeparatorChar);
 			if (_dirs.Contains(relativePath))
 			{
 				isDir = true;
@@ -77,7 +81,9 @@ namespace Http.Shared.PathProviders
 
 		public IEnumerable<ICoroutineResult> GetStream(string relativePath, IHttpContext context)
 		{
-			yield return CoroutineResult.Return(new MemoryStream(_files[relativePath]));
+			relativePath = relativePath.Replace('/', Path.DirectorySeparatorChar);
+			relativePath = relativePath.Trim(Path.DirectorySeparatorChar);
+			yield return CoroutineResult.Return(new StreamResult(DateTime.UtcNow,_files[relativePath]));
 		}
 
 		public void ShowDirectoryContent(bool showDirectoryContent)

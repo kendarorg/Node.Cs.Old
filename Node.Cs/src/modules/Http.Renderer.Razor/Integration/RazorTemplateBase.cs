@@ -13,20 +13,17 @@
 // ===========================================================
 
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
+using System.Dynamic;
 using CoroutinesLib.Shared;
 using Http.Contexts;
 using Http.Renderer.Razor.Helpers;
 using Http.Shared.Contexts;
-using Http.Shared.Controllers;
 using HttpMvc.Controllers;
 using NodeCs.Shared;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace Http.Renderer.Razor.Integration
 {
@@ -37,7 +34,7 @@ namespace Http.Renderer.Razor.Integration
 		public IHttpContext Context { get; set; }
 		public List<BufferItem> Buffer { get; private set; }
 		public string Layout { get; set; }
-		public dynamic ViewBag { get; private set; }
+		public dynamic ViewBag { get; set; }
 		public object ObjectModel { get; set; }
 
 		protected Dictionary<string, Action> _sections = new Dictionary<string, Action>(StringComparer.InvariantCultureIgnoreCase);
@@ -52,13 +49,19 @@ namespace Http.Renderer.Razor.Integration
 			var http = ServiceLocator.Locator.Resolve<HttpModule>();
 
 			var context = new WrappedHttpContext(Context);
-			var internalCoroutine = http.SetupInternalRequestCoroutine(Context, model);
+			
+			var newUrl = name.TrimStart('~');
+
+			((IHttpRequest)context.Request).SetUrl(new Uri(newUrl,UriKind.Relative));
+			((IHttpRequest)context.Request).SetQueryString(Context.Request.QueryString);
+			var internalCoroutine = http.SetupInternalRequestCoroutine(context, model, ViewBag);
 			var task = CoroutineResult.WaitForCoroutine(internalCoroutine);
 			task.Wait();
 			var stream = context.Response.OutputStream as MemoryStream;
 
 			// ReSharper disable once PossibleNullReferenceException
-			return Encoding.UTF8.GetString(stream.ToArray());
+			var result = Encoding.UTF8.GetString(stream.ToArray());
+			return result;
 		}
 
 		public string RenderSection(string sectionName, bool required = false)

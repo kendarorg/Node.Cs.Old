@@ -26,7 +26,7 @@ namespace HttpMvc
 {
 	public class DataResponseHandler : IResponseHandler
 	{
-		public IEnumerable<ICoroutineResult> Handle(IHttpContext context, IResponse response)
+		public IEnumerable<ICoroutineResult> Handle(IHttpContext context, IResponse response, object viewBag)
 		{
 			var filtersHandler = ServiceLocator.Locator.Resolve<IFilterHandler>();
 			var dataResponse = (DataResponse)response;

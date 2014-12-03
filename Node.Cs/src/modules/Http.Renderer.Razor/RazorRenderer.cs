@@ -49,9 +49,8 @@ namespace Http.Renderer.Razor
 		}
 
 
-		public IEnumerable<ICoroutineResult> Render(string itemPath, DateTime lastModification,
-			MemoryStream source, IHttpContext context, object model,
-			ModelStateDictionary modelStateDictionary)
+		public IEnumerable<ICoroutineResult> Render(string itemPath, DateTime lastModification, MemoryStream source, IHttpContext context, 
+			object model, ModelStateDictionary modelStateDictionary, object viewBag)
 		{
 			if (_cacheEngine != null)
 			{
@@ -84,7 +83,7 @@ namespace Http.Renderer.Razor
 			}
 			context.Response.ContentType = MimeHelper.HTML_MIME;
 
-			var stringResult = _renderer.GenerateOutputString(model, itemPath, context, modelStateDictionary);
+			var stringResult = _renderer.GenerateOutputString(model, itemPath, context, modelStateDictionary, viewBag);
 			var bytes = Encoding.UTF8.GetBytes(stringResult);
 
 			var newSoure = new MemoryStream(bytes);

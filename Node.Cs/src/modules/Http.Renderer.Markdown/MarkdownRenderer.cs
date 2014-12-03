@@ -49,9 +49,7 @@ namespace Http.Renderer.Markdown
 		}
 
 
-		public IEnumerable<ICoroutineResult> Render(string itemPath, DateTime lastModification, 
-			MemoryStream source, IHttpContext context, object model,
-			ModelStateDictionary modelStateDictionary)
+		public IEnumerable<ICoroutineResult> Render(string itemPath, DateTime lastModification, MemoryStream source, IHttpContext context, object model, ModelStateDictionary modelStateDictionary, object viewBag)
 		{
 			var bytes = new byte[] { };
 			if (_cacheEngine != null)

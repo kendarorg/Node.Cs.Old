@@ -58,6 +58,7 @@ namespace HttpMvc.Controllers
 				}
 				return _dynamicViewDataDictionary;
 			}
+			set { _dynamicViewDataDictionary = value; }
 		}
 
 		public Dictionary<string, object> ViewData

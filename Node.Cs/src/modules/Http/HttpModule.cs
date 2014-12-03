@@ -14,6 +14,7 @@
 
 
 using System.Collections.Specialized;
+using System.Dynamic;
 using System.Reflection;
 using System.Web.Security;
 using ClassWrapper;
@@ -69,6 +70,7 @@ namespace Http
 
 		public HttpModule()
 		{
+			_virtualDir = string.Empty;
 			_errorPageString = ResourceContentLoader.LoadText("errorTemplate.html");
 			_conversionService = new ConversionService();
 			ServiceLocator.Locator.Register<IConversionService>(_conversionService);
@@ -284,7 +286,7 @@ namespace Http
 			return cld.CreateWrapper(controller);
 		}
 
-		public IEnumerable<ICoroutineResult> HandleResponse(IHttpContext context, IResponse response)
+		public IEnumerable<ICoroutineResult> HandleResponse(IHttpContext context, IResponse response, object viewBag)
 		{
 			var functionalResponse = response as IFunctionalResponse;
 			if (functionalResponse != null)
@@ -305,7 +307,7 @@ namespace Http
 				var handler = _responseHandlers[index];
 				if (handler.CanHandle(response))
 				{
-					foreach (var item in handler.Handle(context, response))
+					foreach (var item in handler.Handle(context, response,viewBag))
 					{
 						yield return item;
 						yield break;
@@ -405,7 +407,7 @@ namespace Http
 			var executeRequestCoroutine = new ExecuteRequestCoroutine(
 					_virtualDir,
 					context, null, new ModelStateDictionary(),
-					_pathProviders, _renderers, _defaulList);
+					_pathProviders, _renderers, _defaulList,new ExpandoObject());
 			executeRequestCoroutine.Initialize();
 			runner.StartCoroutine(executeRequestCoroutine);
 		}
@@ -635,20 +637,21 @@ namespace Http
 		/// <param name="context"></param>
 		/// <param name="model"></param>
 		/// <param name="modelStateDictionary"></param>
-		public ICoroutineResult ExecuteRequestInternal(IHttpContext context, object model, ModelStateDictionary modelStateDictionary)
+		/// <param name="o"></param>
+		public ICoroutineResult ExecuteRequestInternal(IHttpContext context, object model, ModelStateDictionary modelStateDictionary, object viewBag)
 		{
-			var executeRequestCoroutine = SetupInternalRequestCoroutine(context, model);
+			var executeRequestCoroutine = SetupInternalRequestCoroutine(context, model, viewBag);
 			return CoroutineResult.RunCoroutine(executeRequestCoroutine)
 					.WithTimeout(TimeSpan.FromSeconds(60))
 					.AndWait();
 		}
 
-		public ExecuteRequestCoroutine SetupInternalRequestCoroutine(IHttpContext context, object model)
+		public ExecuteRequestCoroutine SetupInternalRequestCoroutine(IHttpContext context, object model, object viewBag)
 		{
 			var executeRequestCoroutine = new ExecuteRequestCoroutine(
 				_virtualDir,
 				context, model, new ModelStateDictionary(),
-				_pathProviders, _renderers, _defaulList);
+				_pathProviders, _renderers, _defaulList, viewBag);
 
 			executeRequestCoroutine.Initialize();
 			return executeRequestCoroutine;

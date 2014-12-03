@@ -91,7 +91,8 @@ namespace Http.Renderer.Razor.Integration
 		}
 
 		private static object _locker = new object();
-		public IEnumerable<BufferItem> GenerateOutput(object model, string templateName, IHttpContext context,ModelStateDictionary modelStateDictionary)
+		public IEnumerable<BufferItem> GenerateOutput(object model, string templateName, IHttpContext context,
+			ModelStateDictionary modelStateDictionary,object viewBag)
 		{
 			if (templateName == null)
 				throw new ArgumentNullException("templateName");
@@ -116,7 +117,7 @@ namespace Http.Renderer.Razor.Integration
 			}
 			var type = templateItem.TemplateType;
 			var template = (RazorTemplateBase)Activator.CreateInstance(type);
-			InjectData(template, type, context, modelStateDictionary);
+			InjectData(template, type, context, modelStateDictionary, viewBag);
 
 			template.ObjectModel = model;
 			template.Execute();
@@ -124,19 +125,25 @@ namespace Http.Renderer.Razor.Integration
 			return template.Buffer;
 		}
 
-		private void InjectData(RazorTemplateBase template, Type type, IHttpContext context,ModelStateDictionary modelStateDictionary)
+		private void InjectData(RazorTemplateBase template, Type type, IHttpContext context, 
+			ModelStateDictionary modelStateDictionary, object viewBag)
 		{
+
+			var routeHandler = ServiceLocator.Locator.Resolve<IRoutingHandler>();
+			var properties = type.GetProperties();
+			var model = properties.FirstOrDefault(p => p.Name == "Model");
+
 			var ga = type.GetGenericArguments();
 			if (ga.Length == 0)
 			{
-				ga = new []{typeof(object)};
+				ga = new[] { model != null ? model.PropertyType : typeof(object) };
 			}
-			var routeHandler = ServiceLocator.Locator.Resolve<IRoutingHandler>();
-			foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.SetProperty))
+			foreach (var property in type.GetProperties())
 			{
+				if (!property.CanWrite) continue;
 				switch (property.Name)
 				{
-					case("Html"):
+					case ("Html"):
 						var urlHelper = typeof(HtmlHelper<>).MakeGenericType(ga);
 						//public HtmlHelper(IHttpContext context, ViewContext viewContext,
 						//	object nodeCsTemplateBase, string localPath, dynamic viewBag,IRoutingHandler routingHandler)
@@ -144,19 +151,18 @@ namespace Http.Renderer.Razor.Integration
 							new object[]
 							{
 								context,new ViewContext(context,template,modelStateDictionary),
-								template,context.Request.Url,new ExpandoObject(),routeHandler
+								template,context==null?string.Empty:context.Request.Url.ToString(),new ExpandoObject(),routeHandler
 							}
 							));
 						break;
-					case("Url"):
+					case ("Url"):
 						property.SetValue(template, new UrlHelper(context, routeHandler));
 						break;
 					case ("Context"):
 						property.SetValue(template, context);
 						break;
-
 					case ("ViewBag"):
-						property.SetValue(template, new object() as dynamic);
+						property.SetValue(template, viewBag??new ExpandoObject());
 						break;
 					default:
 						var value = ServiceLocator.Locator.Resolve(property.PropertyType);
@@ -170,10 +176,10 @@ namespace Http.Renderer.Razor.Integration
 
 		}
 
-		public string GenerateOutputString(object model, string templateName, IHttpContext context,ModelStateDictionary modelStateDictionary)
+		public string GenerateOutputString(object model, string templateName, IHttpContext context, ModelStateDictionary modelStateDictionary,object viewBag)
 		{
 			var output = new StringBuilder();
-			foreach (var item in GenerateOutput(model, templateName, context, modelStateDictionary))
+			foreach (var item in GenerateOutput(model, templateName, context, modelStateDictionary,viewBag))
 			{
 				output.Append(item.Value);
 			}

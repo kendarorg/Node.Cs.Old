@@ -15,12 +15,22 @@
 
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using CoroutinesLib;
+using CoroutinesLib.TestHelpers;
 using GenericHelpers;
+using Http;
+using Http.Contexts;
 using Http.Renderer.Razor.Integration;
 using Http.Routing;
 using Http.Shared.Controllers;
+using Http.Shared.PathProviders;
 using Http.Shared.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Node.Cs.TestHelpers;
 using NodeCs.Shared;
 
 namespace HttpRendererRazorTest
@@ -38,7 +48,7 @@ namespace HttpRendererRazorTest
 				var generator = new RazorTemplateGenerator();
 				generator.RegisterTemplate(sourceText, "simpleTemplate");
 				generator.CompileTemplates();
-				var result = generator.GenerateOutputString(null, "simpleTemplate", null,new ModelStateDictionary());
+				var result = generator.GenerateOutputString(null, "simpleTemplate", null,new ModelStateDictionary(),new ExpandoObject());
 
 				var year = DateTime.UtcNow.Year;
 				Assert.IsTrue(result.Contains("Hello World"));
@@ -54,7 +64,7 @@ namespace HttpRendererRazorTest
 				generator.RegisterTemplate(sourceText, "simpleTemplateString");
 				generator.CompileTemplates();
 				var model = "This is the model";
-				var result = generator.GenerateOutputString(model, "simpleTemplateString", null, new ModelStateDictionary());
+				var result = generator.GenerateOutputString(model, "simpleTemplateString", null, new ModelStateDictionary(), new ExpandoObject());
 
 				var year = DateTime.UtcNow.Year;
 				Assert.IsTrue(result.Contains("Hello World"));
@@ -75,13 +85,84 @@ namespace HttpRendererRazorTest
 					"First",
 					"Second"
 				};
-				var result = generator.GenerateOutputString(model, "simpleTemplateGeneric", null,new ModelStateDictionary());
+				var result = generator.GenerateOutputString(model, "simpleTemplateGeneric", null, new ModelStateDictionary(), new ExpandoObject());
 
 				var year = DateTime.UtcNow.Year;
 				Assert.IsTrue(result.Contains("Hello World"));
 				Assert.IsTrue(result.Contains(year.ToString()));
 				Assert.IsTrue(result.Contains(model[0]));
 				Assert.IsTrue(result.Contains(model[1]));
+			}
+
+
+			[TestMethod]
+			public void ItShouldBePossibleToCreateTemplateWithSection()
+			{
+				ServiceLocator.Locator.Register<IRoutingHandler>(new RoutingService());
+				var sourceText = ResourceContentLoader.LoadText("section.cshtml");
+				var generator = new RazorTemplateGenerator();
+				generator.RegisterTemplate(sourceText, "simpleTemplateGeneric");
+				generator.CompileTemplates();
+
+				var result = generator.GenerateOutputString(null, "simpleTemplateGeneric", null, new ModelStateDictionary(), new ExpandoObject());
+
+				var year = DateTime.UtcNow.Year;
+				Assert.IsTrue(result.Contains("Hello World"));
+				Assert.IsTrue(result.Contains("C:\\test"));
+			}
+
+
+			[TestMethod]
+			public void ItShouldBePossibleToCreateTemplateWithRenderPage()
+			{
+				RunnerFactory.Initialize();
+				var runner = RunnerFactory.Create();
+
+				ServiceLocator.Locator.Register<IRoutingHandler>(new RoutingService());
+				var httpModule = ServiceLocator.Locator.Resolve<HttpModule>();
+				var resPathProvider = new ResourcesPathProvider(Assembly.GetExecutingAssembly());
+				resPathProvider.RegisterPath("renderPage.cshtml", "renderPage.cshtml");
+				resPathProvider.RegisterPath("renderPageSub.cshtml", "renderPageSub.cshtml");
+
+				httpModule.RegisterPathProvider(resPathProvider);
+
+				//var assemblyLocation = Assembly.GetExecutingAssembly().Location;
+				//NodeMainInitializer.InitializeFakeMain(assemblyLocation, runner);
+
+				runner.Start();
+				var generator = new RazorTemplateGenerator();
+				var sourceText = ResourceContentLoader.LoadText("renderPage.cshtml");
+				generator.RegisterTemplate(sourceText, "renderPage");
+				sourceText = ResourceContentLoader.LoadText("renderPageSub.cshtml");
+				generator.RegisterTemplate(sourceText, "renderPageSub");
+
+				generator.CompileTemplates();
+
+				string result = string.Empty;
+				Task.Run(() =>
+				{
+					var ctx = CreateRequest("http://127.0.0.1/renderPage.cshtml");
+					result = generator.GenerateOutputString(null, "renderPage", ctx, new ModelStateDictionary(), new ExpandoObject());
+				});
+				Thread.Sleep(200);
+
+				runner.Stop();
+				var year = DateTime.UtcNow.Year;
+				Assert.IsTrue(result.Contains("Mainpage"));
+				Assert.IsTrue(result.Contains("Subpage"));
+			}
+
+			private static SimpleHttpContext CreateRequest(string uri)
+			{
+				var context = new SimpleHttpContext();
+				var request = new SimpleHttpRequest();
+				request.SetUrl(new Uri(uri));
+				var response = new SimpleHttpResponse();
+				var outputStream = new MockStream();
+				response.SetOutputStream(outputStream);
+				context.SetRequest(request);
+				context.SetResponse(response);
+				return context;
 			}
 		}
 	}

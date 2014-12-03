@@ -21,7 +21,7 @@ namespace Http.Shared
 {
 	public interface IResponseHandler
 	{
-		IEnumerable<ICoroutineResult> Handle(IHttpContext context, IResponse response);
+		IEnumerable<ICoroutineResult> Handle(IHttpContext context, IResponse response, object viewBag);
 		bool CanHandle(IResponse response);
 	}
 }

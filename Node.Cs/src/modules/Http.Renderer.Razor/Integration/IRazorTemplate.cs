@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 
 namespace Http.Renderer.Razor.Integration

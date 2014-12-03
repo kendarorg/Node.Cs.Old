@@ -2,9 +2,6 @@ FOR SAMPLE
 =================================
 
 samples\IntranetWebApplicationMvc\Views\Home\Index.cshtml(4):@section featured {
-@Section must be replaced with something like "CreateSection"
-Section must be placed inside a "sections" storage
-The section must be rendered with @RenderSection(name,optional)
 
 
 //Default file names

@@ -35,15 +35,11 @@ namespace Http.Coroutines
 		private readonly Func<Exception, IHttpContext, bool> _specialHandler;
 		private readonly object _model;
 		private readonly ModelStateDictionary _modelStateDictionary;
+		private readonly object _viewBag;
 
-		public RenderizableItemCoroutine(
-			IRenderer renderer,
-			string relativePath,
-			IPathProvider pathProvider,
-			IHttpContext context, Func<Exception,
-			IHttpContext, bool> specialHandler,
-			object model,
-			ModelStateDictionary modelStateDictionary)
+		public RenderizableItemCoroutine(IRenderer renderer, string relativePath, IPathProvider pathProvider, 
+			IHttpContext context, Func<Exception, IHttpContext, bool> specialHandler, object model, 
+			ModelStateDictionary modelStateDictionary, object viewBag)
 		{
 			InstanceName = "RenderItem(" + renderer.GetType().Namespace + "." + renderer.GetType().Name + "," + relativePath + ")";
 			_renderer = renderer;
@@ -53,6 +49,7 @@ namespace Http.Coroutines
 			_specialHandler = specialHandler;
 			_model = model;
 			_modelStateDictionary = modelStateDictionary;
+			_viewBag = viewBag;
 		}
 
 		public override void Initialize()
@@ -100,7 +97,7 @@ namespace Http.Coroutines
 			}
 
 			yield return CoroutineResult.Run(_renderer.Render(_relativePath, lastModification, target,
-					_context, _model, _modelStateDictionary),
+					_context, _model, _modelStateDictionary, _viewBag),
 					string.Format("RenderItem::Render '{0}'", _relativePath))
 					.WithTimeout(TimeSpan.FromMinutes(1))
 					.OnError((e) =>

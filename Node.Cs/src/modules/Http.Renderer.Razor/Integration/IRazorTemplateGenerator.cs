@@ -23,7 +23,7 @@ namespace Http.Renderer.Razor.Integration
 	{
 		void RegisterTemplate(string templateName, string templateString);
 		void CompileTemplates();
-		string GenerateOutputString(object model, string templateName, IHttpContext context, ModelStateDictionary modelStateDictionary);
-		IEnumerable<BufferItem> GenerateOutput(object model, string templateName, IHttpContext context, ModelStateDictionary modelStateDictionary);
+		string GenerateOutputString(object model, string templateName, IHttpContext context, ModelStateDictionary modelStateDictionary, object viewBag);
+		IEnumerable<BufferItem> GenerateOutput(object model, string templateName, IHttpContext context, ModelStateDictionary modelStateDictionary,object viewBag);
 	}
 }

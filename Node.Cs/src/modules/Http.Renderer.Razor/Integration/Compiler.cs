@@ -16,6 +16,7 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -27,6 +28,11 @@ namespace Http.Renderer.Razor.Integration
 {
 	public class Compiler
 	{
+		public static ExpandoObject ForceCore;
+		static Compiler()
+		{
+			ForceCore = new ExpandoObject();
+		}
 		private static string TypeToString(Type type)
 		{
 			var typeName = type.Name;
@@ -58,6 +64,7 @@ namespace Http.Renderer.Razor.Integration
 			host.DefaultNamespace = "Http.Renderer.Razor.Integration";
 			host.DefaultClassName = entry.TemplateName + "Template";
 			host.NamespaceImports.Add("System");
+			host.NamespaceImports.Add("System.Dynamic");
 			GeneratorResults razorResult = null;
 			using (TextReader reader = new StringReader(entry.TemplateString))
 			{
@@ -75,7 +82,11 @@ namespace Http.Renderer.Razor.Integration
 					@params.ReferencedAssemblies.Add(assembly.Location);
 			}
 			@params.GenerateInMemory = true;
+#if DEBUG
+			@params.IncludeDebugInformation = true;
+#else
 			@params.IncludeDebugInformation = false;
+#endif
 			@params.GenerateExecutable = false;
 			@params.CompilerOptions = "/target:library /optimize";
 			return @params;

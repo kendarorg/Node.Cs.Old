@@ -13,6 +13,7 @@
 // ===========================================================
 
 
+using System.Dynamic;
 using ClassWrapper;
 using CoroutinesLib.Shared;
 using Http.Contexts;
@@ -45,8 +46,11 @@ namespace Http.Coroutines
 			_conversionService = conversionService;
 		}
 
+		private object _viewBag;
+
 		public override void Initialize()
 		{
+			_viewBag = new ExpandoObject();
 			var verb = _context.Request.HttpMethod;
 			object methResult = null;
 			var allParams = ReadRequestParameters();
@@ -66,6 +70,9 @@ namespace Http.Coroutines
 						break;
 					case ("Url"):
 						_controller.Instance.Set(property, new UrlHelper(_context, routeService));
+						break;
+					case ("ViewBag"):
+						_controller.Instance.Set(property, _viewBag as dynamic);
 						break;
 					default:
 						var prop = cdd.GetProperty(property);
@@ -129,7 +136,7 @@ namespace Http.Coroutines
 					ServiceLocator.Locator.Release(_controller.Instance.Instance);
 
 					var httpModule = ServiceLocator.Locator.Resolve<HttpModule>();
-					foreach (var item in httpModule.HandleResponse(_context, response))
+					foreach (var item in httpModule.HandleResponse(_context, response,_viewBag))
 					{
 						yield return item;
 					}

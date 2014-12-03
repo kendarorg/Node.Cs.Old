@@ -45,6 +45,7 @@ namespace Http.Coroutines
 		private readonly List<IPathProvider> _pathProviders;
 		private readonly List<IRenderer> _renderers;
 		private readonly List<string> _defaulList;
+		private readonly object _viewBag;
 		private ICoroutineThread _coroutine;
 
 
@@ -72,10 +73,9 @@ namespace Http.Coroutines
 			ErrorPageString = "{SERVER_TYPE} Detailed Error - {HTTP_CODE} - {SHORT_DESCRIPTION} - {LONG_DESCRIPTION}";
 		}
 
-		public ExecuteRequestCoroutine(
-				string virtualDir,
-				IHttpContext context, object model, ModelStateDictionary modelStateDictionary,
-				List<IPathProvider> pathProviders, List<IRenderer> renderers, List<string> defaulList)
+		public ExecuteRequestCoroutine(string virtualDir, IHttpContext context, object model, 
+			ModelStateDictionary modelStateDictionary, List<IPathProvider> pathProviders,
+			List<IRenderer> renderers, List<string> defaulList, object viewBag)
 		{
 			_context = context;
 			_model = model;
@@ -84,6 +84,7 @@ namespace Http.Coroutines
 			_pathProviders = pathProviders;
 			_renderers = renderers;
 			_defaulList = defaulList;
+			_viewBag = viewBag;
 		}
 
 		public void Initialize()
@@ -106,7 +107,10 @@ namespace Http.Coroutines
 			var relativePath = requestPath;
 			if (requestPath.StartsWith(_virtualDir.TrimEnd('/')))
 			{
-				relativePath = requestPath.Substring(_virtualDir.Length - 1);
+				if (_virtualDir.Length >0 )
+				{
+					relativePath = requestPath.Substring(_virtualDir.Length - 1);
+				}
 			}
 
 			for (int index = 0; index < _pathProviders.Count; index++)
@@ -129,7 +133,8 @@ namespace Http.Coroutines
 								renderer,
 								relativePath, pathProvider, _context,
 								HttpListenerExceptionHandler,
-								_model, _modelStateDictionary);
+								_model, _modelStateDictionary,
+								_viewBag);
 					}
 					return;
 				}

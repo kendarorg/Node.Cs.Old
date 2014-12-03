@@ -36,7 +36,7 @@ namespace Http.Renderer.Razor
 			_mvcModule = NodeRoot.GetModule("http.mvc") as MvcModule;
 			_httpModule = ServiceLocator.Locator.Resolve<HttpModule>();
 		}
-		public IEnumerable<ICoroutineResult> Handle(IHttpContext context, IResponse response)
+		public IEnumerable<ICoroutineResult> Handle(IHttpContext context, IResponse response, object viewBag)
 		{
 			var viewResponse = (ViewResponse)response;
 			var view = viewResponse.View ?? context.RouteParams["action"].ToString();
@@ -68,7 +68,7 @@ namespace Http.Renderer.Razor
 			wrappedRequest.SetUrl(new Uri(view,UriKind.RelativeOrAbsolute));
 			var wrappedResponse = (IHttpResponse)wrappedContext.Response;
 			wrappedResponse.SetOutputStream(context.Response.OutputStream);
-			yield return _httpModule.ExecuteRequestInternal(wrappedContext, viewResponse.Model,new ModelStateDictionary());
+			yield return _httpModule.ExecuteRequestInternal(wrappedContext, viewResponse.Model, new ModelStateDictionary(), viewBag);
 		}
 
 		public bool CanHandle(IResponse response)

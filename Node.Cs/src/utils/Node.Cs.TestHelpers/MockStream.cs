@@ -24,6 +24,10 @@ namespace Node.Cs.TestHelpers
 {
 	public class MockStream : MemoryStream
 	{
+		public MockStream()
+		{
+			Initialize();
+		}
 		public void Initialize()
 		{
 			Sw = new Stopwatch();

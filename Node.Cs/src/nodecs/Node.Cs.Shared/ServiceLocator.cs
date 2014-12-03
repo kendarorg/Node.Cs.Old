@@ -145,6 +145,7 @@ namespace NodeCs.Shared
 			{
 				return default(T);
 			}
+			if (IsSystem(typeof (T))) return default(T);
 			return Activator.CreateInstance<T>();
 		}
 
@@ -168,7 +169,17 @@ namespace NodeCs.Shared
 			{
 				return null;
 			}
+			if (IsSystem(t)) return null;
 			return Activator.CreateInstance(t);
+		}
+
+		private bool IsSystem(Type type)
+		{
+			var ns = type.Namespace ?? "";
+			return type.IsPrimitive ||
+						 ns.StartsWith("System.") ||
+						 ns == "System." ||
+			       type.Module.ScopeName == "CommonLanguageRuntimeLibrary";
 		}
 
 
