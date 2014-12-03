@@ -101,7 +101,7 @@ namespace Http.PathProvider.StaticContent
 				}, STATIC_PATH_PROVIDER_CACHE_ID);
 				if (result != null)
 				{
-					context.Response.ContentType = MimeHelper.GetMime(relativePath);
+					//context.Response.ContentType = MimeHelper.GetMime(relativePath);
 					yield return CoroutineResult.Return(result);
 				}
 			}

@@ -52,6 +52,7 @@ namespace Http.Renderer.Razor
 		public IEnumerable<ICoroutineResult> Render(string itemPath, DateTime lastModification, MemoryStream source, IHttpContext context, 
 			object model, ModelStateDictionary modelStateDictionary, object viewBag)
 		{
+
 			if (_cacheEngine != null)
 			{
 				StreamResult streamResult = null;
@@ -73,7 +74,6 @@ namespace Http.Renderer.Razor
 						streamResult = (StreamResult)a;
 					}, RAZOR_CACHE_ID);
 				}
-
 			}
 			else
 			{

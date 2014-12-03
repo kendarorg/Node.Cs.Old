@@ -1,0 +1,14 @@
+﻿@using System.IO
+@section testSection {
+	This is the section content: @Path.Combine("C:\\","test")
+}
+<html>
+<head>
+	<title>Hello World</title>
+</head>
+<body>
+	Section:
+	@RenderSection("testSection", false)
+	
+</body>
+</html>

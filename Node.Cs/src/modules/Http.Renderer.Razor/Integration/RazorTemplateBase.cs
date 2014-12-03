@@ -13,7 +13,10 @@
 // ===========================================================
 
 
+using System.Diagnostics;
 using System.Dynamic;
+using System.Web.WebPages;
+using System.Web.WebPages.Instrumentation;
 using CoroutinesLib.Shared;
 using Http.Contexts;
 using Http.Renderer.Razor.Helpers;
@@ -27,8 +30,6 @@ using System.Text;
 
 namespace Http.Renderer.Razor.Integration
 {
-
-
 	public abstract class RazorTemplateBase : IRazorTemplate
 	{
 		public IHttpContext Context { get; set; }
@@ -37,11 +38,154 @@ namespace Http.Renderer.Razor.Integration
 		public dynamic ViewBag { get; set; }
 		public object ObjectModel { get; set; }
 
+		public virtual string ResolveUrl(string path)
+		{
+			// TODO: Actually resolve the url
+			if (path.StartsWith("~"))
+			{
+				path = path.Substring(1);
+			}
+			return path;
+		}
+
+		/// <summary>
+		/// Writes an attribute to the result.
+		/// </summary>
+		/// <param name="name">The name of the attribute.</param>
+		public virtual void WriteAttribute(string name, PositionTagged<string> prefix, PositionTagged<string> suffix, params AttributeValue[] values)
+		{
+			bool first = true;
+			bool wroteSomething = false;
+			if (values.Length == 0)
+			{
+				// Explicitly empty attribute, so write the prefix and suffix
+				WriteLiteral( prefix);
+				WriteLiteral(suffix);
+			}
+			else
+			{
+				for (int i = 0; i < values.Length; i++)
+				{
+					AttributeValue attrVal = values[i];
+					PositionTagged<object> val = attrVal.Value;
+					bool? boolVal = null;
+					if (val.Value is bool)
+					{
+						boolVal = (bool)val.Value;
+					}
+					if (val.Value != null && (boolVal == null || boolVal.Value))
+					{
+						string valStr = val.Value as string;
+						if (valStr == null)
+						{
+							valStr = val.Value.ToString();
+						}
+						if (boolVal != null)
+						{
+							Debug.Assert(boolVal.Value);
+							valStr = name;
+						}
+						if (first)
+						{
+							WriteLiteral( prefix);
+							first = false;
+						}
+						else
+						{
+							WriteLiteral( attrVal.Prefix);
+						}
+						if (attrVal.Literal)
+						{
+							WriteLiteral( valStr);
+						}
+						else
+						{
+							WriteLiteral( valStr); // Write value
+						}
+						wroteSomething = true;
+					}
+				}
+				if (wroteSomething)
+				{
+					WriteLiteral( suffix);
+				}
+			}
+		}
+
+		private void WritePositionTaggedLiteral(TextWriter writer, PositionTagged<string> value)
+		{
+			WriteLiteralTo(writer, value.Value);
+		}
+		/// <summary>
+		/// Writes an attribute to the specified <see cref="TextWriter"/>.
+		/// </summary>
+		/// <param name="writer">The writer.</param>
+		/// <param name="name">The name of the attribute to be written.</param>
+		public virtual void WriteAttributeTo(TextWriter writer, string name, PositionTagged<string> prefix, PositionTagged<string> suffix, params AttributeValue[] values)
+		{
+			bool first = true;
+			bool wroteSomething = false;
+			if (values.Length == 0)
+			{
+				// Explicitly empty attribute, so write the prefix and suffix
+				WritePositionTaggedLiteral(writer, prefix);
+				WritePositionTaggedLiteral(writer, suffix);
+			}
+			else
+			{
+				for (int i = 0; i < values.Length; i++)
+				{
+					AttributeValue attrVal = values[i];
+					PositionTagged<object> val = attrVal.Value;
+					bool? boolVal = null;
+					if (val.Value is bool)
+					{
+						boolVal = (bool)val.Value;
+					}
+					if (val.Value != null && (boolVal == null || boolVal.Value))
+					{
+						string valStr = val.Value as string;
+						if (valStr == null)
+						{
+							valStr = val.Value.ToString();
+						}
+						if (boolVal != null)
+						{
+							Debug.Assert(boolVal.Value);
+							valStr = name;
+						}
+						if (first)
+						{
+							WritePositionTaggedLiteral(writer, prefix);
+							first = false;
+						}
+						else
+						{
+							WritePositionTaggedLiteral(writer, attrVal.Prefix);
+						}
+						if (attrVal.Literal)
+						{
+							WriteLiteralTo(writer, valStr);
+						}
+						else
+						{
+							WriteTo(writer, valStr); // Write value
+						}
+						wroteSomething = true;
+					}
+				}
+				if (wroteSomething)
+				{
+					WritePositionTaggedLiteral(writer, suffix);
+				}
+			}
+		}
+
 		protected Dictionary<string, Action> _sections = new Dictionary<string, Action>(StringComparer.InvariantCultureIgnoreCase);
 
 		public string RenderBody()
 		{
-			throw new NotImplementedException();
+			return ViewBag["ChildItem"] as string;
 		}
 
 		public string RenderPage(string name, object model = null, bool skipLayout = false)
@@ -49,14 +193,14 @@ namespace Http.Renderer.Razor.Integration
 			var http = ServiceLocator.Locator.Resolve<HttpModule>();
 
 			var context = new WrappedHttpContext(Context);
-			
+
 			var newUrl = name.TrimStart('~');
 
-			((IHttpRequest)context.Request).SetUrl(new Uri(newUrl,UriKind.Relative));
+			((IHttpRequest)context.Request).SetUrl(new Uri(newUrl, UriKind.Relative));
 			((IHttpRequest)context.Request).SetQueryString(Context.Request.QueryString);
 			var internalCoroutine = http.SetupInternalRequestCoroutine(context, model, ViewBag);
 			var task = CoroutineResult.WaitForCoroutine(internalCoroutine);
-			task.Wait();
+			//task.Wait();
 			var stream = context.Response.OutputStream as MemoryStream;
 
 			// ReSharper disable once PossibleNullReferenceException
@@ -100,6 +244,10 @@ namespace Http.Renderer.Razor.Integration
 
 		public abstract void Execute();
 
+		public virtual void Write()
+		{
+			
+		}
 		public virtual void Write(object value)
 		{
 			WriteLiteral(value);

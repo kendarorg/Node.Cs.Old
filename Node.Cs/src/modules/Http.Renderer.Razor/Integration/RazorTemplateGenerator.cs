@@ -17,11 +17,14 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Web.Routing;
+using CoroutinesLib.Shared;
 using GenericHelpers;
+using Http.Contexts;
 using Http.Renderer.Razor.Helpers;
 using Http.Renderer.Razor.Utils;
 using Http.Shared.Contexts;
@@ -90,10 +93,12 @@ namespace Http.Renderer.Razor.Integration
 			Compiler.Compile(_templateItems.Values);
 		}
 
-		private static object _locker = new object();
+		private static readonly object _locker = new object();
+
 		public IEnumerable<BufferItem> GenerateOutput(object model, string templateName, IHttpContext context,
-			ModelStateDictionary modelStateDictionary,object viewBag)
+			ModelStateDictionary modelStateDictionary,object viewBagPassed)
 		{
+			var viewBag = viewBagPassed as dynamic;
 			if (templateName == null)
 				throw new ArgumentNullException("templateName");
 
@@ -121,14 +126,41 @@ namespace Http.Renderer.Razor.Integration
 
 			template.ObjectModel = model;
 			template.Execute();
+			var layout = template.Layout;
+
+			if (!string.IsNullOrWhiteSpace(layout))
+			{
+				viewBag.ChildBuffer = string.Join("",template.Buffer.Select(a=>a.Value.ToString()));
+				return new List<BufferItem>{ RenderLayout(layout, context, viewBag)};
+			}
 
 			return template.Buffer;
+		}
+
+		public BufferItem RenderLayout(string name, IHttpContext mainContext, dynamic viewBag)
+		{
+			var http = ServiceLocator.Locator.Resolve<HttpModule>();
+
+			var context = new WrappedHttpContext(mainContext);
+
+			var newUrl = name.TrimStart('~');
+
+			((IHttpRequest)context.Request).SetUrl(new Uri(newUrl, UriKind.Relative));
+			((IHttpRequest)context.Request).SetQueryString(mainContext.Request.QueryString);
+			var internalCoroutine = http.SetupInternalRequestCoroutine(context, null, viewBag);
+			var task = CoroutineResult.WaitForCoroutine(internalCoroutine);
+			//task.Wait();
+			var stream = context.Response.OutputStream as MemoryStream;
+
+			// ReSharper disable once PossibleNullReferenceException
+			var result = Encoding.UTF8.GetString(stream.ToArray());
+			return new BufferItem{Value = result};
 		}
 
 		private void InjectData(RazorTemplateBase template, Type type, IHttpContext context, 
 			ModelStateDictionary modelStateDictionary, object viewBag)
 		{
-
+			string layout = null;
 			var routeHandler = ServiceLocator.Locator.Resolve<IRoutingHandler>();
 			var properties = type.GetProperties();
 			var model = properties.FirstOrDefault(p => p.Name == "Model");
@@ -173,7 +205,6 @@ namespace Http.Renderer.Razor.Integration
 						break;
 				}
 			}
-
 		}
 
 		public string GenerateOutputString(object model, string templateName, IHttpContext context, ModelStateDictionary modelStateDictionary,object viewBag)

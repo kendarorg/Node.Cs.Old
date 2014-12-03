@@ -1,7 +1,7 @@
 FOR SAMPLE
 =================================
 
-samples\IntranetWebApplicationMvc\Views\Home\Index.cshtml(4):@section featured {
+MISSING _ViewStart! from cshtml
 
 
 //Default file names

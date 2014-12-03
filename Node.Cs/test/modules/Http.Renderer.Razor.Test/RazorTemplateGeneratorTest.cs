@@ -144,7 +144,7 @@ namespace HttpRendererRazorTest
 					var ctx = CreateRequest("http://127.0.0.1/renderPage.cshtml");
 					result = generator.GenerateOutputString(null, "renderPage", ctx, new ModelStateDictionary(), new ExpandoObject());
 				});
-				Thread.Sleep(200);
+				Thread.Sleep(1000);
 
 				runner.Stop();
 				var year = DateTime.UtcNow.Year;
