@@ -16,6 +16,7 @@
 using CoroutinesLib.Shared;
 using CoroutinesLib.Shared.Enums;
 using GenericHelpers;
+using Http.Contexts;
 using Http.Shared;
 using Http.Shared.Contexts;
 using Http.Shared.Controllers;
@@ -294,6 +295,7 @@ namespace Http.Coroutines
 
 		public IEnumerable<ICoroutineResult> Execute()
 		{
+			_status = RunningStatus.Running;
 			foreach (var item in _coroutine.Execute())
 			{
 				_status = _coroutine.Status;
@@ -326,16 +328,16 @@ namespace Http.Coroutines
 
 		public void OnDestroy()
 		{
-			if (_context.Parent == null)
+			if (!(_context.Parent is WrappedHttpContext))
 			{
 				var filtersHandler = ServiceLocator.Locator.Resolve<IFilterHandler>();
 				filtersHandler.OnPostExecute(_context);
 				_context.Response.Close();
-			}
+			}/*
 			else
 			{
-				_context.Response.Close();
-			}
+				//_context.Response.Close();
+			}*/
 			_coroutine.OnDestroy();
 		}
 

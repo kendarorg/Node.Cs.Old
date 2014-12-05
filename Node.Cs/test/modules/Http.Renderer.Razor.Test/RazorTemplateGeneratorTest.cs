@@ -16,10 +16,13 @@
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CoroutinesLib;
+using CoroutinesLib.Shared;
 using CoroutinesLib.TestHelpers;
 using GenericHelpers;
 using Http;
@@ -40,6 +43,19 @@ namespace HttpRendererRazorTest
 		[TestClass]
 		public class RazorTemplateGeneratorTest
 		{
+			private string GetResult(IEnumerable<ICoroutineResult> res)
+			{
+				var ms = new MemoryStream();
+				foreach (var item in res)
+				{
+					var bytes = item.Result as byte[];
+					if (bytes != null)
+					{
+						ms.Write(bytes,0,bytes.Length);
+					}
+				}
+				return Encoding.UTF8.GetString(ms.ToArray());
+			}
 			[TestMethod]
 			public void ItShouldBePossibleToCreateSimpleTemplateWithNoModel()
 			{
@@ -48,7 +64,7 @@ namespace HttpRendererRazorTest
 				var generator = new RazorTemplateGenerator();
 				generator.RegisterTemplate(sourceText, "simpleTemplate");
 				generator.CompileTemplates();
-				var result = generator.GenerateOutputString(null, "simpleTemplate", null,new ModelStateDictionary(),new ExpandoObject());
+				var result = GetResult(generator.GenerateOutputString(null, "simpleTemplate", null, new ModelStateDictionary(), new ExpandoObject()));
 
 				var year = DateTime.UtcNow.Year;
 				Assert.IsTrue(result.Contains("Hello World"));
@@ -64,7 +80,7 @@ namespace HttpRendererRazorTest
 				generator.RegisterTemplate(sourceText, "simpleTemplateString");
 				generator.CompileTemplates();
 				var model = "This is the model";
-				var result = generator.GenerateOutputString(model, "simpleTemplateString", null, new ModelStateDictionary(), new ExpandoObject());
+				var result = GetResult(generator.GenerateOutputString(model, "simpleTemplateString", null, new ModelStateDictionary(), new ExpandoObject()));
 
 				var year = DateTime.UtcNow.Year;
 				Assert.IsTrue(result.Contains("Hello World"));
@@ -85,7 +101,7 @@ namespace HttpRendererRazorTest
 					"First",
 					"Second"
 				};
-				var result = generator.GenerateOutputString(model, "simpleTemplateGeneric", null, new ModelStateDictionary(), new ExpandoObject());
+				var result = GetResult(generator.GenerateOutputString(model, "simpleTemplateGeneric", null, new ModelStateDictionary(), new ExpandoObject()));
 
 				var year = DateTime.UtcNow.Year;
 				Assert.IsTrue(result.Contains("Hello World"));
@@ -104,7 +120,7 @@ namespace HttpRendererRazorTest
 				generator.RegisterTemplate(sourceText, "simpleTemplateGeneric");
 				generator.CompileTemplates();
 
-				var result = generator.GenerateOutputString(null, "simpleTemplateGeneric", null, new ModelStateDictionary(), new ExpandoObject());
+				var result = GetResult(generator.GenerateOutputString(null, "simpleTemplateGeneric", null, new ModelStateDictionary(), new ExpandoObject()));
 
 				var year = DateTime.UtcNow.Year;
 				Assert.IsTrue(result.Contains("Hello World"));
@@ -142,7 +158,7 @@ namespace HttpRendererRazorTest
 				Task.Run(() =>
 				{
 					var ctx = CreateRequest("http://127.0.0.1/renderPage.cshtml");
-					result = generator.GenerateOutputString(null, "renderPage", ctx, new ModelStateDictionary(), new ExpandoObject());
+					result = GetResult(generator.GenerateOutputString(null, "renderPage", ctx, new ModelStateDictionary(), new ExpandoObject()));
 				});
 				Thread.Sleep(1000);
 

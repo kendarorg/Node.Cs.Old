@@ -31,10 +31,12 @@ namespace Http.Contexts
 		public WrappedHttpResponse() { }
 		public object SourceObject { get { return _httpResponse; } }
 		private readonly IHttpResponse _httpResponse;
+		private readonly IHttpContext _context;
 
-		public WrappedHttpResponse(IHttpResponse httpResponse)
+		public WrappedHttpResponse(IHttpResponse httpResponse,IHttpContext context)
 		{
 			_httpResponse = httpResponse;
+			_context = context;
 			InitializeUnsettable();
 			SetOutputStream(new MemoryStream());
 		}
@@ -126,8 +128,15 @@ namespace Http.Contexts
 
 		public override void Close()
 		{
-			_httpResponse.Close();
-			ContextsManager.OnClose();
+			if (_context.Parent !=null)
+			{
+				
+				//_httpResponse.OutputStream.CopyToAsync(_context.Parent.Response.OutputStream);
+				/*_httpResponse.OutputStream.FlushAsync()
+					.ContinueWith((a)=>_httpResponse.Close());
+				//_httpResponse.Close();
+				ContextsManager.OnClose();*/
+			}
 		}
 
 		public override void DisableKernelCache()

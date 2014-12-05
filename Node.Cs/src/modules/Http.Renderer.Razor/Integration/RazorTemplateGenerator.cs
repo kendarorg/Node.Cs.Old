@@ -21,14 +21,17 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Web.Routing;
 using CoroutinesLib.Shared;
+using CoroutinesLib.Shared.Enums;
 using GenericHelpers;
 using Http.Contexts;
 using Http.Renderer.Razor.Helpers;
 using Http.Renderer.Razor.Utils;
 using Http.Shared.Contexts;
 using Http.Shared.Controllers;
+using Http.Shared.Optimizations;
 using Http.Shared.Routing;
 using HttpMvc.Controllers;
 using NodeCs.Shared;
@@ -94,9 +97,10 @@ namespace Http.Renderer.Razor.Integration
 		}
 
 		private static readonly object _locker = new object();
+		private static MethodInfo _createMethod;
 
-		public IEnumerable<BufferItem> GenerateOutput(object model, string templateName, IHttpContext context,
-			ModelStateDictionary modelStateDictionary,object viewBagPassed)
+		public IEnumerable<ICoroutineResult> GenerateOutput(object model, string templateName, IHttpContext context,
+			ModelStateDictionary modelStateDictionary, object viewBagPassed)
 		{
 			var viewBag = viewBagPassed as dynamic;
 			if (templateName == null)
@@ -128,16 +132,39 @@ namespace Http.Renderer.Razor.Integration
 			template.Execute();
 			var layout = template.Layout;
 
+
 			if (!string.IsNullOrWhiteSpace(layout))
 			{
-				viewBag.ChildBuffer = string.Join("",template.Buffer.Select(a=>a.Value.ToString()));
-				return new List<BufferItem>{ RenderLayout(layout, context, viewBag)};
+				var sb = new StringBuilder();
+				foreach (var item in template.Buffer)
+				{
+					sb.Append(item.Value);
+				}
+				viewBag.ChildItem = sb.ToString();
+				foreach (var item in RenderLayout(layout, context, viewBag))
+				{
+					yield return item;
+				}
 			}
-
-			return template.Buffer;
+			else
+			{
+				foreach (var item in template.Buffer)
+				{
+					var bytes = Encoding.UTF8.GetBytes(item.Value.ToString());
+					yield return CoroutineResult.YieldReturn(bytes);
+				}
+			}
 		}
 
-		public BufferItem RenderLayout(string name, IHttpContext mainContext, dynamic viewBag)
+		static RazorTemplateGenerator()
+		{
+			Type type = Type.GetType("CoroutinesLib.RunnerFactory,CoroutinesLib");
+			if (!(type != (Type)null))
+				return;
+			_createMethod = type.GetMethod("Create", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+		}
+
+		public IEnumerable<ICoroutineResult> RenderLayout(string name, IHttpContext mainContext, dynamic viewBag)
 		{
 			var http = ServiceLocator.Locator.Resolve<HttpModule>();
 
@@ -148,20 +175,39 @@ namespace Http.Renderer.Razor.Integration
 			((IHttpRequest)context.Request).SetUrl(new Uri(newUrl, UriKind.Relative));
 			((IHttpRequest)context.Request).SetQueryString(mainContext.Request.QueryString);
 			var internalCoroutine = http.SetupInternalRequestCoroutine(context, null, viewBag);
-			var task = CoroutineResult.WaitForCoroutine(internalCoroutine);
+
+
+			yield return CoroutineResult.RunCoroutine(internalCoroutine)
+				.WithTimeout(TimeSpan.FromMinutes(1))
+				.AndWait();
+			/*Exception problem = null;
+			Action<Exception> onError = (Action<Exception>)(ex => problem = ex);
+			((ICoroutinesManager)_createMethod.Invoke((object)null, new object[0])).StartCoroutine(internalCoroutine, onError);
+
+			ManualResetEventSlim waitSlim = new ManualResetEventSlim(false);
+			while (4L > (long)internalCoroutine.Status)
+				waitSlim.Wait(10);
+			while (!RunningStatusExtension.Is(internalCoroutine.Status, RunningStatus.NotRunning))
+				waitSlim.Wait(10);
+			if (problem != null)
+				throw new Exception("Error running subtask", problem);*/
 			//task.Wait();
 			var stream = context.Response.OutputStream as MemoryStream;
 
 			// ReSharper disable once PossibleNullReferenceException
-			var result = Encoding.UTF8.GetString(stream.ToArray());
-			return new BufferItem{Value = result};
+			//r result = Encoding.UTF8.GetString(stream.ToArray());
+			stream.Seek(0, SeekOrigin.Begin);
+			var bytes = stream.ToArray();
+			yield return CoroutineResult.Return(bytes);
+			//rn new BufferItem { Value = result };
 		}
 
-		private void InjectData(RazorTemplateBase template, Type type, IHttpContext context, 
+		private void InjectData(RazorTemplateBase template, Type type, IHttpContext context,
 			ModelStateDictionary modelStateDictionary, object viewBag)
 		{
 			string layout = null;
 			var routeHandler = ServiceLocator.Locator.Resolve<IRoutingHandler>();
+			var bundlesHandler = ServiceLocator.Locator.Resolve<IResourceBundles>(true);
 			var properties = type.GetProperties();
 			var model = properties.FirstOrDefault(p => p.Name == "Model");
 
@@ -175,6 +221,18 @@ namespace Http.Renderer.Razor.Integration
 				if (!property.CanWrite) continue;
 				switch (property.Name)
 				{
+					case ("Styles"):
+						if (bundlesHandler != null)
+						{
+							property.SetValue(template, bundlesHandler.GetStyles());
+						}
+						break;
+					case ("Scripts"):
+						if (bundlesHandler != null)
+						{
+							property.SetValue(template, bundlesHandler.GetScripts());
+						}
+						break;
 					case ("Html"):
 						var urlHelper = typeof(HtmlHelper<>).MakeGenericType(ga);
 						//public HtmlHelper(IHttpContext context, ViewContext viewContext,
@@ -194,10 +252,10 @@ namespace Http.Renderer.Razor.Integration
 						property.SetValue(template, context);
 						break;
 					case ("ViewBag"):
-						property.SetValue(template, viewBag??new ExpandoObject());
+						property.SetValue(template, viewBag ?? new ExpandoObject());
 						break;
 					default:
-						var value = ServiceLocator.Locator.Resolve(property.PropertyType);
+						var value = ServiceLocator.Locator.Resolve(property.PropertyType, true);
 						if (value != null)
 						{
 							property.SetValue(template, value);
@@ -207,14 +265,12 @@ namespace Http.Renderer.Razor.Integration
 			}
 		}
 
-		public string GenerateOutputString(object model, string templateName, IHttpContext context, ModelStateDictionary modelStateDictionary,object viewBag)
+		public IEnumerable<ICoroutineResult> GenerateOutputString(object model, string templateName, IHttpContext context, ModelStateDictionary modelStateDictionary, object viewBag)
 		{
-			var output = new StringBuilder();
-			foreach (var item in GenerateOutput(model, templateName, context, modelStateDictionary,viewBag))
+			foreach (var item in GenerateOutput(model, templateName, context, modelStateDictionary, viewBag))
 			{
-				output.Append(item.Value);
+				yield return item;
 			}
-			return output.ToString();
 		}
 
 	}

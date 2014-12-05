@@ -17,6 +17,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using CoroutinesLib.Shared;
+using CoroutinesLib.Shared.Enums;
 using CoroutinesLib.Shared.Logging;
 using GenericHelpers;
 using Http.Renderer.Razor.Integration;
@@ -82,11 +83,21 @@ namespace Http.Renderer.Razor
 					.AndWait();
 			}
 			context.Response.ContentType = MimeHelper.HTML_MIME;
-
-			var stringResult = _renderer.GenerateOutputString(model, itemPath, context, modelStateDictionary, viewBag);
-			var bytes = Encoding.UTF8.GetBytes(stringResult);
-
-			var newSoure = new MemoryStream(bytes);
+			
+			var newSoure = new MemoryStream();
+			foreach (ICoroutineResult result in _renderer.GenerateOutputString(model, itemPath, context, modelStateDictionary, viewBag))
+			{
+				if (result.ResultType == ResultType.YieldReturn || result.ResultType == ResultType.Return)
+				{
+					var bytes = (byte[]) result.Result;
+					newSoure.Write(bytes, 0, bytes.Length);
+				}
+				else
+				{
+					yield return result;
+				}
+			}
+			newSoure.Seek(0, SeekOrigin.Begin);
 			var target = context.Response.OutputStream;
 			yield return CoroutineResult.RunTask(newSoure.CopyToAsync(target),
 				string.Format("RazorRenderer::CopyStream '{0}'", context.Request.Url))

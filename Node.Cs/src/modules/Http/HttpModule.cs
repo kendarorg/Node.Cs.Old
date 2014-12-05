@@ -603,7 +603,7 @@ namespace Http
 				var initializer = (IFiltersInitializer)ServiceLocator.Locator.Resolve(type);
 				initializer.InitializeFilters(_filtersHandler);
 			}
-			var resourceBundler = new ResourceBundles();
+			var resourceBundler = new ResourceBundles(_virtualDir);
 			ServiceLocator.Locator.Register<IResourceBundles>(resourceBundler);
 			foreach (var type in AssembliesManager.LoadTypesInheritingFrom<IResourceBundleInitializer>())
 			{

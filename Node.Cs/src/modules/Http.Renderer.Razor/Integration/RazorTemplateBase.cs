@@ -15,12 +15,17 @@
 
 using System.Diagnostics;
 using System.Dynamic;
+using System.Reflection;
+using System.Threading;
 using System.Web.WebPages;
 using System.Web.WebPages.Instrumentation;
 using CoroutinesLib.Shared;
+using CoroutinesLib.Shared.Enums;
 using Http.Contexts;
 using Http.Renderer.Razor.Helpers;
+using Http.Renderer.Razor.Utils;
 using Http.Shared.Contexts;
+using Http.Shared.Optimizations;
 using HttpMvc.Controllers;
 using NodeCs.Shared;
 using System;
@@ -35,8 +40,16 @@ namespace Http.Renderer.Razor.Integration
 		public IHttpContext Context { get; set; }
 		public List<BufferItem> Buffer { get; private set; }
 		public string Layout { get; set; }
-		public dynamic ViewBag { get; set; }
+
+		public dynamic ViewBag
+		{
+			get { return _viewBag; }
+			set { _viewBag = value; }
+		}
+
 		public object ObjectModel { get; set; }
+		public StileHelper Styles { get; set; }
+		public ScriptHelper Scripts { get; set; }
 
 		public virtual string ResolveUrl(string path)
 		{
@@ -182,13 +195,23 @@ namespace Http.Renderer.Razor.Integration
 		}
 
 		protected Dictionary<string, Action> _sections = new Dictionary<string, Action>(StringComparer.InvariantCultureIgnoreCase);
+		private dynamic _viewBag;
+		private static MethodInfo _createMethod;
 
-		public string RenderBody()
+		public RawString RenderBody()
 		{
-			return ViewBag["ChildItem"] as string;
+			return new RawString(ViewBag.ChildItem as string);
 		}
 
-		public string RenderPage(string name, object model = null, bool skipLayout = false)
+		static RazorTemplateBase()
+    {
+      Type type = Type.GetType("CoroutinesLib.RunnerFactory,CoroutinesLib");
+      if (!(type != (Type) null))
+        return;
+     _createMethod = type.GetMethod("Create", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+    }
+
+		public RawString RenderPage(string name, object model = null, bool skipLayout = false)
 		{
 			var http = ServiceLocator.Locator.Resolve<HttpModule>();
 
@@ -199,22 +222,33 @@ namespace Http.Renderer.Razor.Integration
 			((IHttpRequest)context.Request).SetUrl(new Uri(newUrl, UriKind.Relative));
 			((IHttpRequest)context.Request).SetQueryString(Context.Request.QueryString);
 			var internalCoroutine = http.SetupInternalRequestCoroutine(context, model, ViewBag);
-			var task = CoroutineResult.WaitForCoroutine(internalCoroutine);
-			//task.Wait();
+			Exception problem = null;
+			Action<Exception> onError = (Action<Exception>)(ex => problem = ex);
+			((ICoroutinesManager)_createMethod.Invoke((object)null, new object[0])).StartCoroutine(internalCoroutine, onError);
+
+			ManualResetEventSlim waitSlim = new ManualResetEventSlim(false);
+			while (4L > (long)internalCoroutine.Status)
+				waitSlim.Wait(10);
+			while (!RunningStatusExtension.Is(internalCoroutine.Status, RunningStatus.NotRunning))
+				waitSlim.Wait(10);
+			if (problem != null)
+				throw new Exception("Error running subtask", problem);
+			/*var task = CoroutineResult.WaitForCoroutine(internalCoroutine);
+			//task.Wait();*/
 			var stream = context.Response.OutputStream as MemoryStream;
 
 			// ReSharper disable once PossibleNullReferenceException
 			var result = Encoding.UTF8.GetString(stream.ToArray());
-			return result;
+			return new RawString(result);
 		}
 
-		public string RenderSection(string sectionName, bool required = false)
+		public RawString RenderSection(string sectionName, bool required = false)
 		{
 			if (IsSectionDefined(sectionName))
 			{
 				_sections[sectionName]();
 			}
-			return string.Empty;
+			return new RawString(string.Empty);
 		}
 
 		public bool IsSectionDefined(string sectionName)

@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
+using Http.Renderer.Razor.Utils;
 
 namespace Http.Renderer.Razor.Integration
 {
@@ -27,13 +28,13 @@ namespace Http.Renderer.Razor.Integration
 		#region MVC complient
 		string Layout { get; set; }
 		dynamic ViewBag { get; }
-		string RenderBody();
+		RawString RenderBody();
 
 		// you may skip the layout using the parameter skipLayoutwhich can be handy 
 		// when rendering template partials (controls)
-		string RenderPage(string name, object model = null, bool skipLayout = false);
+		RawString RenderPage(string name, object model = null, bool skipLayout = false);
 
-		string RenderSection(string sectionName, bool required = false);
+		RawString RenderSection(string sectionName, bool required = false);
 		bool IsSectionDefined(string sectionName);
 		#endregion
 

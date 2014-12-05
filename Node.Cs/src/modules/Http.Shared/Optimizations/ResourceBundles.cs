@@ -14,14 +14,120 @@
 
 
 using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web.UI.WebControls;
 
 namespace Http.Shared.Optimizations
 {
 	public class ResourceBundles : IResourceBundles
 	{
+		private readonly string _virtualDir;
+
+		public ResourceBundles(string virtualDir)
+		{
+			_virtualDir = virtualDir.Trim('/');
+		}
+
+		private readonly Dictionary<string,IBundle> _script = new Dictionary<string, IBundle>(StringComparer.InvariantCultureIgnoreCase);
+		private readonly Dictionary<string, IBundle> _style = new Dictionary<string, IBundle>(StringComparer.InvariantCultureIgnoreCase);
+
 		public void Add(IBundle include)
 		{
-			Console.WriteLine("ResourceBundles.Add not implemented");
+			for (int index = 0; index < include.FisicalAddresses.Count; index++)
+			{
+				var item = include.FisicalAddresses[index].Trim('/');
+				if (item.StartsWith("~"))
+				{
+					item = item.Trim('~','/');
+					include.FisicalAddresses[index] = "/" + _virtualDir + "/" + item;
+				}
+			}
+			var script = include as ScriptBundle;
+			if (script != null)
+			{
+				_script[script.LogicalAddress] = script;
+			}
+			else
+			{
+				var style = include as StyleBundle;
+				if (style != null)
+				{
+					_style[style.LogicalAddress] = style;
+				}
+			}
+		}
+
+		public StileHelper GetStyles()
+		{
+			return new StileHelper(_style);
+		}
+
+		public ScriptHelper GetScripts()
+		{
+			return new ScriptHelper(_script);
+		}
+	}
+
+	public abstract class BundleHelper
+	{
+		private readonly Dictionary<string, IBundle> _data;
+
+		protected BundleHelper(Dictionary<string, IBundle> data)
+		{
+			_data = data;
+		}
+
+		public string Render(string index)
+		{
+			if (_data.ContainsKey(index))
+			{
+				return BuildData(_data[index]);
+			}
+			return string.Empty;
+		}
+
+		private string BuildData(IBundle bundle)
+		{
+			var sb = new StringBuilder();
+			foreach (var item in bundle.FisicalAddresses)
+			{
+				if (item.Contains("{") || item.Contains("*"))
+				{
+					sb.Append("NOTIMPLEMENTED " + item);
+				}
+				else
+				{
+					AddItem(sb, item);
+				}
+			}
+			return sb.ToString();
+		}
+
+		protected abstract void AddItem(StringBuilder sb, string item);
+	}
+
+	public class StileHelper : BundleHelper
+	{
+		public StileHelper(Dictionary<string, IBundle> data) : base(data)
+		{
+		}
+
+		protected override void AddItem(StringBuilder sb, string item)
+		{
+			sb.Append(string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}\">", item));
+		}
+	}
+
+	public class ScriptHelper : BundleHelper
+	{
+		public ScriptHelper(Dictionary<string, IBundle> data) : base(data)
+		{
+		}
+
+		protected override void AddItem(StringBuilder sb, string item)
+		{
+			sb.Append(string.Format("<script type=\"javascript\" src=\"{0}\">", item));
 		}
 	}
 }

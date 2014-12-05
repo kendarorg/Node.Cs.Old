@@ -132,7 +132,7 @@ namespace Http.Renderer.Razor.Helpers
 			{
 				//resulting = RazorEngine.Razor.Resolve(straight, model);
 			}
-
+			return new RawString("Partial NOT IMPLEMENTED");
 			/*var dwb = new DynamicViewBag();
 			dwb.AddValue("NodeCsContext", _context);
 			dwb.AddValue("NodeCsLocalPath", _localPath);
@@ -143,7 +143,6 @@ namespace Http.Renderer.Razor.Helpers
 			var resultContent = template.Run(context);
 			return new RawString(resultContent);
 			 */
-			throw new NotImplementedException();
 		}
 
 		public void RenderAction(string action, string controller)

@@ -402,7 +402,7 @@ namespace Http.Contexts
 			_server = _httpContext.Server;
 			_session = _httpContext.Session;
 			_request = new WrappedHttpRequest((IHttpRequest)_httpContext.Request);
-			_response = new WrappedHttpResponse((IHttpResponse)_httpContext.Response);
+			_response = new WrappedHttpResponse((IHttpResponse)_httpContext.Response,this);
 
 			_response.ContentEncoding = _request.ContentEncoding;
 		}
