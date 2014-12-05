@@ -14,6 +14,7 @@
 
 
 using System;
+using System.Text.RegularExpressions;
 using CoroutinesLib.Shared;
 using System.Collections.Generic;
 using Http.Shared.Contexts;
@@ -30,8 +31,29 @@ namespace Http.Shared.PathProviders
 		public DateTime LastModification { get; private set; }
 		public byte[] Result { get; private set; }
 	}
+
 	public interface IPathProvider
 	{
+		/// <summary>
+		/// Find all files inside the given dir
+		/// </summary>
+		/// <param name="dir"></param>
+		/// <returns></returns>
+		IEnumerable<string> FindFiles(string dir);
+
+		/// <summary>
+		/// Find all dirs inside the given dir
+		/// </summary>
+		/// <param name="dir"></param>
+		/// <returns></returns>
+		IEnumerable<string> FindDirs(string dir);
+
+		/// <summary>
+		/// Find if a path exists
+		/// </summary>
+		/// <param name="relativePath"></param>
+		/// <param name="isDir"></param>
+		/// <returns></returns>
 		bool Exists(string relativePath,out bool isDir);
 
 		/// <summary>

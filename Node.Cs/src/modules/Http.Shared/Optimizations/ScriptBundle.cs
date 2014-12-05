@@ -23,9 +23,15 @@ namespace Http.Shared.Optimizations
 		public string LogicalAddress { get; private set; }
 
 		public ScriptBundle(string logicalAddress)
+			:this(logicalAddress,null)
+		{
+			
+		}
+
+		internal ScriptBundle(string logicalAddress, List<string> fisAdd)
 		{
 			LogicalAddress = logicalAddress;
-			FisicalAddresses = new List<string>();
+			FisicalAddresses = fisAdd??new List<string>();
 		}
 
 		public ScriptBundle Include(params string[] fisicalAddresses)

@@ -41,6 +41,12 @@ namespace Http.Contexts
 			RouteParams = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 		}
 
+		public void ForceRootDir(string rootDir)
+		{
+			RootDir = rootDir;
+		}
+		public string RootDir { get; private set; }
+
 		public IHttpContext RootContext
 		{
 			get

@@ -39,6 +39,8 @@ namespace Http.Shared.Contexts
 	{
 		IHttpContext RootContext { get; }
 		IHttpContext Parent { get; }
+		string RootDir { get; }
+		void ForceRootDir(string rootDir);
 		void ForceHeader(string key, string value);
 		ISubscriptionToken AddOnRequestCompleted(Action<HttpContextBase> callback);
 		void AcceptWebSocketRequest(Func<AspNetWebSocketContext, Task> userFunc);

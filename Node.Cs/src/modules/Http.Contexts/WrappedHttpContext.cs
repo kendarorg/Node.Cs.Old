@@ -41,6 +41,16 @@ namespace Http.Contexts
 			RouteParams = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 		}
 
+		public void ForceRootDir(string rootDir)
+		{
+			throw new NotImplementedException();
+		}
+
+		public string RootDir
+		{
+			get { return Parent.RootDir; }
+		}
+
 		public IHttpContext RootContext
 		{
 			get
@@ -403,7 +413,6 @@ namespace Http.Contexts
 			_session = _httpContext.Session;
 			_request = new WrappedHttpRequest((IHttpRequest)_httpContext.Request);
 			_response = new WrappedHttpResponse((IHttpResponse)_httpContext.Response,this);
-
 			_response.ContentEncoding = _request.ContentEncoding;
 		}
 

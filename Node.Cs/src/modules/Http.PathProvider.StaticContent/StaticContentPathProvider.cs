@@ -207,5 +207,27 @@ namespace Http.PathProvider.StaticContent
 				}
 			}
 		}
+
+		public IEnumerable<string> FindFiles(string dir)
+		{
+			var oriDir = dir.Replace('/', Path.DirectorySeparatorChar).TrimStart(Path.DirectorySeparatorChar);
+
+			dir = Path.Combine(_root, oriDir);
+			if(!Directory.Exists(dir)) yield break;
+			foreach (var file in Directory.GetFiles(dir))
+			{
+				var res = "/" + oriDir.Trim('/') + "/" + Path.GetFileName(file);
+				yield return res;
+					;
+			}
+		}
+
+		public IEnumerable<string> FindDirs(string dir)
+		{
+			dir = dir.Replace('/', Path.DirectorySeparatorChar).TrimStart(Path.DirectorySeparatorChar);
+			dir = Path.Combine(_root, dir);
+			if (!Directory.Exists(dir)) yield break;
+			foreach (var file in Directory.GetFiles(dir)) yield return file;
+		}
 	}
 }

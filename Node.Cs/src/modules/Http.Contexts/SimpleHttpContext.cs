@@ -52,6 +52,12 @@ namespace Http.Contexts
 			get { return null; }
 		}
 
+		public void ForceRootDir(string rootDir)
+		{
+			RootDir = rootDir;
+		}
+		public string RootDir { get; private set; }
+
 		public void ForceHeader(string key, string value)
 		{
 			var nameValueCollection = _request.Headers;

@@ -66,6 +66,16 @@ namespace Http.Shared.PathProviders
 		}
 
 
+		public IEnumerable<string> FindFiles(string dir)
+		{
+			return new List<string>();
+		}
+
+		public IEnumerable<string> FindDirs(string dir)
+		{
+			return new List<string>();
+		}
+
 		public bool Exists(string relativePath,out bool isDir)
 		{
 			relativePath = relativePath.Replace('/', Path.DirectorySeparatorChar);

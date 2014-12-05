@@ -338,8 +338,9 @@ namespace Http.Routing
 			//var url = "/" + string.Join("/", routeSplitted);
 			if (routeMissing.Length > 0)
 			{
-				routeSplitted.Append("?");
-				routeSplitted.Append(routeMissing);
+				return null;
+				/*routeSplitted.Append("?");
+				routeSplitted.Append(routeMissing);*/
 			}
 			return routeSplitted.ToString();
 		}

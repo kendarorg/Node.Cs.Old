@@ -15,45 +15,92 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.UI.WebControls;
+using Http.Shared.PathProviders;
 
 namespace Http.Shared.Optimizations
 {
 	public class ResourceBundles : IResourceBundles
 	{
+		private readonly List<IPathProvider> _pathProviders;
 		private readonly string _virtualDir;
+		private readonly Dictionary<string, IBundle> _script = new Dictionary<string, IBundle>(StringComparer.InvariantCultureIgnoreCase);
+		private readonly Dictionary<string, IBundle> _style = new Dictionary<string, IBundle>(StringComparer.InvariantCultureIgnoreCase);
 
-		public ResourceBundles(string virtualDir)
+		public ResourceBundles(string virtualDir, List<IPathProvider> pathProviders)
 		{
+			_pathProviders = pathProviders;
 			_virtualDir = virtualDir.Trim('/');
 		}
 
-		private readonly Dictionary<string,IBundle> _script = new Dictionary<string, IBundle>(StringComparer.InvariantCultureIgnoreCase);
-		private readonly Dictionary<string, IBundle> _style = new Dictionary<string, IBundle>(StringComparer.InvariantCultureIgnoreCase);
-
 		public void Add(IBundle include)
 		{
+			var fisAdd = new List<string>();
 			for (int index = 0; index < include.FisicalAddresses.Count; index++)
 			{
 				var item = include.FisicalAddresses[index].Trim('/');
 				if (item.StartsWith("~"))
 				{
-					item = item.Trim('~','/');
-					include.FisicalAddresses[index] = "/" + _virtualDir + "/" + item;
+					item = item.Trim('~', '/');
+					item =  "/" + item;
 				}
+				if (item.Contains("{") || item.Contains("*"))
+				{
+					fisAdd.AddRange(FindRealPaths(item));
+				}
+				else
+				{
+					fisAdd.Add("/" + _virtualDir +item);
+				}
+
 			}
 			var script = include as ScriptBundle;
 			if (script != null)
 			{
-				_script[script.LogicalAddress] = script;
+				_script[script.LogicalAddress] = new ScriptBundle(script.LogicalAddress, fisAdd);
 			}
 			else
 			{
 				var style = include as StyleBundle;
 				if (style != null)
 				{
-					_style[style.LogicalAddress] = style;
+					_style[style.LogicalAddress] = new StyleBundle(style.LogicalAddress, fisAdd);
+				}
+			}
+		}
+
+		private IEnumerable<string> FindRealPaths(string item)
+		{
+			var splittedItems = item.Split(new string[]{"/"},StringSplitOptions.RemoveEmptyEntries);
+			var baseDir = string.Empty;
+			foreach (var splittedItem in splittedItems)
+			{
+				if (splittedItem.IndexOf("*", StringComparison.OrdinalIgnoreCase) > 0 ||
+					splittedItem.IndexOf("{version}", StringComparison.OrdinalIgnoreCase) > 0)
+				{
+					var re = splittedItem.Replace("*", "(.)*").Replace("{version}", "(.)*");
+					var regex = new Regex(re);
+					foreach (var pp in _pathProviders)
+					{
+						var ppr = pp;
+						foreach (var sf in ppr.FindFiles(baseDir))
+						{
+							var splittedSf = sf.Split('/');
+							var lastf = splittedSf.Last();
+							if (regex.IsMatch(lastf))
+							{
+								yield return "/" + _virtualDir + baseDir+ "/"+lastf;
+							}
+						}
+					}
+				}
+				else
+				{
+					baseDir = "/" + _virtualDir + baseDir + "/" + splittedItem;
 				}
 			}
 		}
@@ -92,14 +139,7 @@ namespace Http.Shared.Optimizations
 			var sb = new StringBuilder();
 			foreach (var item in bundle.FisicalAddresses)
 			{
-				if (item.Contains("{") || item.Contains("*"))
-				{
-					sb.Append("NOTIMPLEMENTED " + item);
-				}
-				else
-				{
-					AddItem(sb, item);
-				}
+				AddItem(sb, item);
 			}
 			return sb.ToString();
 		}
@@ -109,25 +149,27 @@ namespace Http.Shared.Optimizations
 
 	public class StileHelper : BundleHelper
 	{
-		public StileHelper(Dictionary<string, IBundle> data) : base(data)
+		public StileHelper(Dictionary<string, IBundle> data)
+			: base(data)
 		{
 		}
 
 		protected override void AddItem(StringBuilder sb, string item)
 		{
-			sb.Append(string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}\">", item));
+			sb.Append(string.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}\"></link>", item));
 		}
 	}
 
 	public class ScriptHelper : BundleHelper
 	{
-		public ScriptHelper(Dictionary<string, IBundle> data) : base(data)
+		public ScriptHelper(Dictionary<string, IBundle> data)
+			: base(data)
 		{
 		}
 
 		protected override void AddItem(StringBuilder sb, string item)
 		{
-			sb.Append(string.Format("<script type=\"javascript\" src=\"{0}\">", item));
+			sb.Append(string.Format("<script type=\"javascript\" src=\"{0}\"></script>", item));
 		}
 	}
 }

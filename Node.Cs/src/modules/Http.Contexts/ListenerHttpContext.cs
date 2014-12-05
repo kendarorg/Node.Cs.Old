@@ -42,6 +42,12 @@ namespace Http.Contexts
 			RouteParams = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 		}
 
+		public void ForceRootDir(string rootDir)
+		{
+			RootDir = rootDir;
+		}
+		public string RootDir { get; private set; }
+
 		public IHttpContext Parent
 		{
 			get { return null; }
@@ -426,6 +432,7 @@ namespace Http.Contexts
 			_request = new ListenerHttpRequest(_httpListenerContext.Request);
 			_response = new ListenerHttpResponse(_httpListenerContext.Response);
 			_response.ContentEncoding = _request.ContentEncoding;
+
 			//_allErrors=_httpListenerContext.AllErrors;
 			//_application=_httpListenerContext.Application;
 			//_cache=_httpListenerContext.Cache;
